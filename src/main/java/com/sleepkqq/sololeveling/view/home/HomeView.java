@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.view;
+package com.sleepkqq.sololeveling.view.home;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.dependency.Uses;
