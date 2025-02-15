@@ -1,0 +1,92 @@
+/* Общий стиль для контейнера */
+.swiped-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box
+}
+
+/* Стиль для каждого элемента списка */
+.swiped-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  cursor: pointer;
+  font-size: 16px; /* Увеличиваем размер текста */
+  color: #111827; /* Темно-серый цвет для лучшей видимости */
+}
+
+/* Активное состояние при наведении */
+.swiped-item:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* Активное состояние при свайпе */
+.swiped-item.open {
+  transform: translateX(-200px); /* Анимация свайпа */
+  background-color: #fee2e2; /* Красный фон при свайпе */
+  border-color: #fca5a5;
+  color: #b91c1c; /* Ярко-красный текст для контраста */
+}
+
+/* Эффект удаления */
+.swiped-item.delete {
+  transform: translateX(-250px); /* Полностью убираем элемент за пределы экрана */
+  opacity: 0; /* Плавное исчезновение */
+  pointer-events: none; /* Отключаем взаимодействие */
+}
+
+/* Кнопка "Удалить" */
+.swiped-item .delete-button {
+  position: absolute;
+  top: 0;
+  right: -80px; /* Начальная позиция за пределами видимости */
+  width: 80px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ef4444; /* Красный цвет */
+  color: white;
+  font-weight: bold;
+  border-radius: 0 8px 8px 0;
+  transition: right 0.3s ease-in-out;
+  cursor: pointer;
+  font-size: 14px; /* Размер текста кнопки */
+}
+
+/* Показываем кнопку при свайпе */
+.swiped-item.open .delete-button {
+  right: 0; /* Перемещаем кнопку в видимую область */
+}
+
+/* Для маленьких экранов */
+@media (max-width: 600px) {
+  .swiped-container {
+    padding: 12px;
+  }
+
+  .swiped-item {
+    padding: 10px 12px;
+    font-size: 14px; /* Уменьшаем размер текста для маленьких экранов */
+  }
+
+  .swiped-item .delete-button {
+    width: 60px;
+    right: -60px;
+    font-size: 12px; /* Уменьшаем размер текста кнопки */
+  }
+}
