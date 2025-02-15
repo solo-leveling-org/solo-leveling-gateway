@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.view;
+package com.sleepkqq.sololeveling.view.auth;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.dependency.Uses;
@@ -13,7 +13,7 @@ import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
 @PageTitle("Authentication")
 @Route("auth")
-@Menu(order = 0, icon = LineAwesomeIconUrl.SIGN_IN_ALT_SOLID)
+@Menu(order = 1, icon = LineAwesomeIconUrl.SIGN_IN_ALT_SOLID)
 @Uses(Icon.class)
 public class AuthView extends Composite<VerticalLayout> {
 
