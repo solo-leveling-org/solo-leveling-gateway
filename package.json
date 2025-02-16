@@ -21,7 +21,8 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "6.29.0",
-    "swiped": "^0.1.4"
+    "swiped": "^0.1.4",
+    "telegram-react-auth-button": "^0.4.0"
   },
   "devDependencies": {
     "@babel/preset-react": "7.26.3",
@@ -86,7 +87,7 @@
       "workbox-core": "7.3.0",
       "workbox-precaching": "7.3.0"
     },
-    "hash": "2f4da459bad8155a512819a23186c0298911bcf5bbe912636a185858d923ed58"
+    "hash": "43c3319354598b2179e76afb812413824f09242bd477a60ca328175b01b0835f"
   },
   "overrides": {
     "@vaadin/bundles": "$@vaadin/bundles",
@@ -107,6 +108,7 @@
     "@vaadin/vaadin-themable-mixin": "$@vaadin/vaadin-themable-mixin",
     "@vaadin/vaadin-lumo-styles": "$@vaadin/vaadin-lumo-styles",
     "@vaadin/vaadin-material-styles": "$@vaadin/vaadin-material-styles",
-    "swiped": "$swiped"
+    "swiped": "$swiped",
+    "telegram-react-auth-button": "$telegram-react-auth-button"
   }
 }

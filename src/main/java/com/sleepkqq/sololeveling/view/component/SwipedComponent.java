@@ -10,7 +10,7 @@ import com.vaadin.flow.component.html.Span;
 import java.util.List;
 
 @Tag("swiped-container")
-@JsModule("./imports/swiped.js")
+@JsModule("swiped")
 @CssImport(value = "./styles/swiped.css", themeFor = "swiped-container")
 public class SwipedComponent extends Div {
 
