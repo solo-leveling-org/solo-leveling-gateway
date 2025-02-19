@@ -1,6 +1,6 @@
-package com.sleepkqq.sololeveling.repository;
+package com.sleepkqq.sololeveling.repository.task;
 
-import com.sleepkqq.sololeveling.entity.task.Task;
+import com.sleepkqq.sololeveling.model.task.Task;
 import java.util.List;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 

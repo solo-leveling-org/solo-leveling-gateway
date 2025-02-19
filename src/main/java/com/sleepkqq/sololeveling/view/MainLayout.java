@@ -20,7 +20,7 @@ import java.util.Optional;
 @AnonymousAllowed
 public class MainLayout extends AppLayout {
 
-  private H1 viewTitle;
+  private final H1 viewTitle = new H1();
 
   public MainLayout() {
     setPrimarySection(Section.DRAWER);
@@ -32,10 +32,9 @@ public class MainLayout extends AppLayout {
     var toggle = new DrawerToggle();
     toggle.setAriaLabel("Menu toggle");
 
-    viewTitle = new H1();
     viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
 
-    addToNavbar(true, toggle, viewTitle);
+    addToNavbar(toggle, viewTitle);
   }
 
   private void addDrawerContent() {

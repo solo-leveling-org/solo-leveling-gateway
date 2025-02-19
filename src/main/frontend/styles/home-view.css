@@ -1,0 +1,52 @@
+/* Стили для карточки пользователя */
+.user-card {
+  background-color: var(--lumo-base-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.user-card-content {
+  align-items: center;
+}
+
+.user-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+.user-name {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--lumo-primary-text-color);
+}
+
+.user-username {
+  font-size: 0.875rem;
+  color: var(--lumo-secondary-text-color);
+  margin: 0;
+}
+
+/* Стили для кнопки выхода в темно-синей теме */
+.logout-button {
+  margin-top: 16px;
+  background-color: transparent; /* Прозрачный фон */
+  color: var(--lumo-primary-text-color); /* Цвет текста */
+  border: 2px solid var(--lumo-primary-color); /* Синяя рамка */
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s; /* Плавные переходы */
+}
+
+.logout-button:hover {
+  background-color: var(--lumo-primary-color); /* Синий фон при наведении */
+  color: var(--lumo-primary-contrast-color); /* Белый текст при наведении */
+}
+
+.logout-button:active {
+  background-color: var(--lumo-primary-color-50pct); /* Полупрозрачный синий при нажатии */
+}

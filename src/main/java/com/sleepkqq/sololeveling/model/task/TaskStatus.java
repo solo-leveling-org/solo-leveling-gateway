@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.entity.task;
+package com.sleepkqq.sololeveling.model.task;
 
 public enum TaskStatus {
   IN_PROGRESS,

@@ -73,6 +73,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
 
     <!-- utils -->
     <dependency>
@@ -93,6 +97,11 @@
       <groupId>one.util</groupId>
       <artifactId>streamex</artifactId>
       <version>0.8.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <version>1.70</version>
     </dependency>
 
     <!-- tests -->

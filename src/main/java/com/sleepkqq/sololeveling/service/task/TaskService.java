@@ -1,7 +1,7 @@
-package com.sleepkqq.sololeveling.service;
+package com.sleepkqq.sololeveling.service.task;
 
-import com.sleepkqq.sololeveling.entity.task.Task;
-import com.sleepkqq.sololeveling.repository.TaskRepository;
+import com.sleepkqq.sololeveling.model.task.Task;
+import com.sleepkqq.sololeveling.repository.task.TaskRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import one.util.streamex.StreamEx;
