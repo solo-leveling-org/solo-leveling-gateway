@@ -1,0 +1,22 @@
+name: Code Review
+
+on:
+  pull_request_target:
+    types:
+      - labeled     # Триггер при добавлении метки к PR
+
+# fix: GraphQL: Resource not accessible by integration (addComment) error
+permissions:
+  pull-requests: write
+
+jobs:
+  setup-deepseek-review:
+    runs-on: ubuntu-latest
+    name: Code Review
+    # Проверка, что PR имеет метку 'ai review'
+    if: contains(github.event.pull_request.labels.*.name, 'ai review')
+    steps:
+      - name: DeepSeek Code Review
+        uses: hustcer/deepseek-review@v1
+        with:
+          chat-token: ${{ secrets.CHAT_TOKEN }}

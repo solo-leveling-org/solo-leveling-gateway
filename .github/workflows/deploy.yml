@@ -3,7 +3,9 @@ name: Deploy with Dockerfile
 on:
   push:
     branches:
-      - '*'  # Триггер на push в любую ветку
+      - 'feature/**'  # Триггер на push в любую feature-ветку
+      - 'develop'
+      - 'master'
 
 jobs:
   deploy:
@@ -30,16 +32,16 @@ jobs:
       - name: Build and run Docker container
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
-            cd ${{ secrets.REMOTE_DIR }} &&
-            docker build -t solo-leveling . &&
-            docker stop solo-leveling-container || true &&
-            docker rm solo-leveling-container || true &&
-            docker run -d \
-              -p 8080:8080 \
-              --name solo-leveling-container \
-              -e ELASTICSEARCH_HOST=${{ secrets.ELASTICSEARCH_HOST }} \
-              -e TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} \
-              solo-leveling
+          cd ${{ secrets.REMOTE_DIR }} &&
+          docker stop solo-leveling-container || true &&  # Останавливаем контейнер, если он запущен
+          docker rm solo-leveling-container || true &&    # Удаляем контейнер, если он существует
+          docker build -t solo-leveling . &&
+          docker run -d \
+           -p 8080:8080 \
+           --name solo-leveling-container \
+           -e ELASTICSEARCH_HOST=${{ secrets.ELASTICSEARCH_HOST }} \
+           -e TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} \
+           solo-leveling
           "
 
       # Шаг 5: Очистка Docker-образов и контейнеров
