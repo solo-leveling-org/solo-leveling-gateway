@@ -3,6 +3,8 @@ FROM maven:3.9.8-eclipse-temurin-21 AS build
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs
 
+
+# build
 COPY . /app
 WORKDIR /app
 RUN mvn clean install -U -DskipTests=true
