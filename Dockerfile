@@ -22,7 +22,7 @@ FROM openjdk:21
 
 # Копируем собранный JAR-файл
 COPY --from=build /usr/src/app/target/*.jar /app/solo-leveling.jar
-COPY --from=build /usr/src/app/frontend /app/frontend
+COPY --from=build /usr/src/app/src/main/frontend /app/frontend
 
 # Создаем пользователя для безопасности
 RUN useradd -m myuser
