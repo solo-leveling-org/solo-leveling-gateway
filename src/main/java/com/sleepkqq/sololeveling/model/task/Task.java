@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.entity.task;
+package com.sleepkqq.sololeveling.model.task;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,26 +18,26 @@ public class Task {
   @Id
   private final String id;
 
-  @Field(type = FieldType.Text, name = "title")
+  @Field(type = FieldType.Text)
   private final String title;
 
-  @Field(type = FieldType.Text, name = "description")
+  @Field(type = FieldType.Text)
   private final String description;
 
-  @Field(type = FieldType.Integer, name = "experience")
+  @Field(type = FieldType.Integer)
   private final int experience;
 
   @Enumerated(EnumType.STRING)
-  @Field(type = FieldType.Keyword, name = "rarity")
+  @Field(type = FieldType.Keyword)
   private final Rarity rarity;
 
   @Enumerated(EnumType.STRING)
-  @Field(type = FieldType.Keyword, name = "status")
+  @Field(type = FieldType.Keyword)
   private final TaskStatus status;
 
-  @Field(type = FieldType.Date, name = "createAt")
+  @Field(type = FieldType.Date)
   private final LocalDateTime createdAt;
 
-  @Field(type = FieldType.Date, name = "updatedAt")
+  @Field(type = FieldType.Date)
   private final LocalDateTime updatedAt;
 }

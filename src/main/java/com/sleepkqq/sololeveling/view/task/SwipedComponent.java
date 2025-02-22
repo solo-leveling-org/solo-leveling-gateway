@@ -1,7 +1,7 @@
-package com.sleepkqq.sololeveling.view.component;
+package com.sleepkqq.sololeveling.view.task;
 
-import com.sleepkqq.sololeveling.entity.task.Rarity;
-import com.sleepkqq.sololeveling.entity.task.Task;
+import com.sleepkqq.sololeveling.model.task.Rarity;
+import com.sleepkqq.sololeveling.model.task.Task;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -10,7 +10,7 @@ import com.vaadin.flow.component.html.Span;
 import java.util.List;
 
 @Tag("swiped-container")
-@JsModule("./imports/swiped.js")
+@JsModule("swiped")
 @CssImport(value = "./styles/swiped.css", themeFor = "swiped-container")
 public class SwipedComponent extends Div {
 
