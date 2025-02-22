@@ -24,7 +24,7 @@ jobs:
       - name: Copy files to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "mkdir -p ${{ secrets.REMOTE_DIR }}"
-          scp -r -o StrictHostKeyChecking=no . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_DIR }}
+          rsync -avz --exclude='.git/' -e "ssh -o StrictHostKeyChecking=no" . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_DIR }}
 
       # Шаг 4: Запустить Docker Compose на сервере
       - name: Run Docker Compose
@@ -33,4 +33,19 @@ jobs:
             cd ${{ secrets.REMOTE_DIR }} &&
             docker-compose down &&
             docker-compose up -d
+          "
+
+      # Шаг 5: Очистка Docker-образов и контейнеров
+      - name: Clean up Docker
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
+            docker system prune -f &&  # Удаляет остановленные контейнеры, неиспользуемые сети и образы
+            docker image prune -f --filter 'until=24h'  # Удаляет образы старше 24 часов
+          "
+
+      # Шаг 6: Очистка кэша Maven/Gradle (опционально)
+      - name: Clean up Maven cache
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
+            rm -rf ~/.m2/repository  # Очистка кэша Maven
           "
