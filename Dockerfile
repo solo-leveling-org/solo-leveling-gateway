@@ -11,14 +11,8 @@ WORKDIR /usr/src/app
 RUN chown myuser:myuser /usr/src/app
 USER myuser
 
-# Копируем pom.xml и устанавливаем зависимости
-COPY --chown=myuser pom.xml ./
-RUN mvn dependency:go-offline -Pproduction
-
-# Копируем исходный код и фронтенд
-COPY --chown=myuser:myuser src src
-COPY --chown=myuser:myuser frontend frontend
-COPY --chown=myuser package.json package-lock.json vite.config.ts ./
+# Копируем все файлы проекта
+COPY --chown=myuser:myuser . .
 
 # Собираем приложение
 RUN mvn clean package -DskipTests -Pproduction
