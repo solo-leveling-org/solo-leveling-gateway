@@ -2,36 +2,22 @@ version: '3.8'
 
 services:
   elasticsearch:
-    image: dh-mirror.gitverse.ru/elasticsearch:8.17.2
+    image: dh-mirror.gitverse.ru/elasticsearch:8.17.2 # Актуальная версия
     container_name: elasticsearch
     environment:
-      - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-      - xpack.security.enabled=false
+      - discovery.type=single-node # Режим для одного узла
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m # Настройки памяти
+      - xpack.security.enabled=false # Отключение авторизации
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - esdata:/usr/share/elasticsearch/data # Сохраняем данные на хосте
     ports:
-      - "9200:9200"
-      - "9300:9300"
-    networks:
-      - elastic
-
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: solo-leveling-container
-    environment:
-      - SPRING_ELASTICSEARCH_URIS=http://elasticsearch:9200
-    ports:
-      - "8080:8080"
-    depends_on:
-      - elasticsearch
+      - "9200:9200" # Порт для REST API
+      - "9300:9300" # Порт для кластерного взаимодействия
     networks:
       - elastic
 
 volumes:
-  esdata:
+  esdata: # Том для данных Elasticsearch
 
 networks:
-  elastic:
+  elastic: # Сеть для связи между контейнерами

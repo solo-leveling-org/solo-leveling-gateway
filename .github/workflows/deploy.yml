@@ -1,4 +1,4 @@
-name: Deploy with Docker Compose
+name: Deploy with Dockerfile
 
 on:
   push:
@@ -26,13 +26,15 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "mkdir -p ${{ secrets.REMOTE_DIR }}"
           rsync -avz --exclude='.git/' -e "ssh -o StrictHostKeyChecking=no" . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_DIR }}
 
-      # Шаг 4: Запустить Docker Compose на сервере
-      - name: Run Docker Compose
+      # Шаг 4: Собрать Docker-образ и запустить контейнер
+      - name: Build and run Docker container
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
             cd ${{ secrets.REMOTE_DIR }} &&
-            docker-compose down &&
-            docker-compose up -d
+            docker build -t solo-leveling . &&
+            docker stop solo-leveling-container || true &&
+            docker rm solo-leveling-container || true &&
+            docker run -d -p 8080:8080 --name solo-leveling-container solo-leveling
           "
 
       # Шаг 5: Очистка Docker-образов и контейнеров
