@@ -10,15 +10,8 @@ logging:
 spring:
   mustache:
     check-template-location: false
-  data:
-    elasticsearch:
-      client:
-        reactive:
-          endpoints: ${ELASTICSEARCH_HOST}  # Указываем адрес Elasticsearch
-      repositories:
-        enabled: true  # Включаем репозитории Elasticsearch
-      rest:
-        uris: http://${ELASTICSEARCH_HOST}  # Указываем URI для REST-клиента
+  elasticsearch:
+    uris: http://${ELASTICSEARCH_HOST}
 vaadin:
   allowed-packages: com.vaadin,org.vaadin,com.example.application
 telegram:
