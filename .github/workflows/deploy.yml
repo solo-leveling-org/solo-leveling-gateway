@@ -1,0 +1,38 @@
+name: Deploy to Ubuntu Server
+
+on:
+  push:
+    branches:
+      - '*'  # Триггер на push в любую ветку
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Шаг 1: Получить код из репозитория
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Шаг 2: Установить SSH-ключ
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Шаг 3: Копировать код на сервер
+      - name: Copy files to server
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "mkdir -p ${{ secrets.REMOTE_DIR }}"
+          scp -r -o StrictHostKeyChecking=no . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_DIR }}
+
+      # Шаг 4: Собрать и запустить Docker-контейнер на сервере
+      - name: Build and run Docker container
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
+            cd ${{ secrets.REMOTE_DIR }} &&
+            docker build -t solo-leveling . &&
+            docker stop solo-leveling-container || true &&
+            docker rm solo-leveling-container || true &&
+            docker run -d -p 8080:8080 --name solo-leveling-container solo-leveling
+          "
