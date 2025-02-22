@@ -1,0 +1,38 @@
+name: SonarQube Analysis
+
+on:
+  push:
+    branches:
+      - main     # Анализ при пуше в main
+      - develop  # Анализ при пуше в develop
+      - feature/**  # Анализ для всех feature-веток
+  pull_request:
+    types: [opened, synchronize]  # Анализ при создании или обновлении PR
+    branches:
+      - main     # Анализ PR в main
+      - develop  # Анализ PR в develop
+      - feature/**  # Анализ для всех feature-веток
+
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Шаг 1: Получить код из репозитория
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Шаг 2: Настроить Java (если используется Java)
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'  # Укажите вашу версию Java
+          distribution: 'temurin'
+
+      # Шаг 3: Запустить анализ SonarQube
+      - name: Run SonarQube Analysis
+        uses: SonarSource/sonarqube-scan-action@master
+        with:
+          projectKey: ${{ secrets.SONAR_PROJECT_KEY }}  # Ключ проекта
+          organization: ${{ secrets.SONAR_ORGANIZATION }}  # Организация (для SonarCloud)
+          token: ${{ secrets.SONAR_TOKEN }}  # Токен SonarQube/SonarCloud
