@@ -8,7 +8,7 @@ WORKDIR /app
 RUN mvn clean install -U -DskipTests=true
 
 FROM openjdk:21
-COPY --from=build /app/target/solo-leveling-0.0.1-SNAPSHOT.jar /app/solo-leveling.jar
+COPY --from=build /app/target/solo-leveling-1.0.0.jar /app/solo-leveling.jar
 
 WORKDIR /app
 
