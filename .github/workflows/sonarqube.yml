@@ -11,15 +11,23 @@ jobs:
   sonarqube:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          # Disabling shallow clones is recommended for improving the relevancy of reporting
           fetch-depth: 0
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Compile project
+        run: mvn clean compile
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         with:
           args: >
             -Dsonar.organization=sleepkqq
             -Dsonar.projectKey=sleepkqq_solo-leveling
+            -Dsonar.java.binaries=target/classes
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
