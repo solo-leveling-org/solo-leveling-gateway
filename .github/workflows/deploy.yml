@@ -26,7 +26,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "mkdir -p ${{ secrets.REMOTE_DIR }}"
           rsync -avz --exclude='.git/' -e "ssh -o StrictHostKeyChecking=no" . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_DIR }}
 
-      # Шаг 4: Собрать Docker-образ и запустить контейнер
+      # Шаг 4: Собрать Docker-образ и запустить контейнер с переменными окружения
       - name: Build and run Docker container
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
@@ -34,7 +34,12 @@ jobs:
             docker build -t solo-leveling . &&
             docker stop solo-leveling-container || true &&
             docker rm solo-leveling-container || true &&
-            docker run -d -p 8080:8080 --name solo-leveling-container solo-leveling
+            docker run -d \
+              -p 8080:8080 \
+              --name solo-leveling-container \
+              -e ELASTICSEARCH_HOST=${{ secrets.ELASTICSEARCH_HOST }} \
+              -e TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} \
+              solo-leveling
           "
 
       # Шаг 5: Очистка Docker-образов и контейнеров
