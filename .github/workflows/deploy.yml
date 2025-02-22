@@ -1,9 +1,11 @@
-name: Deploy to Ubuntu Server
+name: Deploy with Dockerfile
 
 on:
   push:
     branches:
-      - '*'  # Триггер на push в любую ветку
+      - 'feature/**'  # Триггер на push в любую feature-ветку
+      - 'develop'
+      - 'master'
 
 jobs:
   deploy:
@@ -24,15 +26,28 @@ jobs:
       - name: Copy files to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "mkdir -p ${{ secrets.REMOTE_DIR }}"
-          scp -r -o StrictHostKeyChecking=no . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_DIR }}
+          rsync -avz --exclude='.git/' -e "ssh -o StrictHostKeyChecking=no" . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_DIR }}
 
-      # Шаг 4: Собрать и запустить Docker-контейнер на сервере
+      # Шаг 4: Собрать Docker-образ и запустить контейнер с переменными окружения
       - name: Build and run Docker container
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
-            cd ${{ secrets.REMOTE_DIR }} &&
-            docker build -t solo-leveling . &&
-            docker stop solo-leveling-container || true &&
-            docker rm solo-leveling-container || true &&
-            docker run -d -p 8080:8080 --name solo-leveling-container solo-leveling
+          cd ${{ secrets.REMOTE_DIR }} &&
+          docker stop solo-leveling-container || true &&  # Останавливаем контейнер, если он запущен
+          docker rm solo-leveling-container || true &&    # Удаляем контейнер, если он существует
+          docker build -t solo-leveling . &&
+          docker run -d \
+           -p 8080:8080 \
+           --name solo-leveling-container \
+           -e ELASTICSEARCH_HOST=${{ secrets.ELASTICSEARCH_HOST }} \
+           -e TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} \
+           solo-leveling
+          "
+
+      # Шаг 5: Очистка Docker-образов и контейнеров
+      - name: Clean up Docker
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
+            docker system prune -f &&  # Удаляет остановленные контейнеры, неиспользуемые сети и образы
+            docker image prune -f --filter 'until=24h'  # Удаляет образы старше 24 часов
           "
