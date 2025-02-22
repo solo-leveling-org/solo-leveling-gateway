@@ -20,4 +20,4 @@ drivers/
 error-screenshots/
 webpack.generated.js
 
-src/main/resources/application.yml
+env/.env

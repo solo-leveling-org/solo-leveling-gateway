@@ -1,0 +1,17 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    session:
+      timeout: 604800
+logging:
+  level:
+    org:
+      atmosphere: warn
+spring:
+  mustache:
+    check-template-location: false
+vaadin:
+  allowed-packages: com.vaadin,org.vaadin,com.example.application
+telegram:
+  bot:
+    token: ${TELEGRAM_BOT_TOKEN}
