@@ -1,4 +1,4 @@
-name: Deploy to Ubuntu Server
+name: Deploy with Docker Compose
 
 on:
   push:
@@ -26,13 +26,11 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "mkdir -p ${{ secrets.REMOTE_DIR }}"
           scp -r -o StrictHostKeyChecking=no . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_DIR }}
 
-      # Шаг 4: Собрать и запустить Docker-контейнер на сервере
-      - name: Build and run Docker container
+      # Шаг 4: Запустить Docker Compose на сервере
+      - name: Run Docker Compose
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
             cd ${{ secrets.REMOTE_DIR }} &&
-            docker build -t solo-leveling . &&
-            docker stop solo-leveling-container || true &&
-            docker rm solo-leveling-container || true &&
-            docker run -d -p 8080:8080 --name solo-leveling-container solo-leveling
+            docker-compose down &&
+            docker-compose up -d
           "
