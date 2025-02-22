@@ -3,7 +3,9 @@ name: Deploy with Dockerfile
 on:
   push:
     branches:
-      - '*'  # Триггер на push в любую ветку
+      - 'feature/**'  # Триггер на push в любую feature-ветку
+      - 'develop'
+      - 'master'
 
 jobs:
   deploy:
