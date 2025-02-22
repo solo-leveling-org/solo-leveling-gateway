@@ -4,6 +4,8 @@
   "type": "module",
   "dependencies": {
     "@polymer/polymer": "3.5.2",
+    "@telegram-apps/sdk": "^3.4.0",
+    "@telegram-apps/sdk-react": "^3.1.0",
     "@vaadin/bundles": "24.6.4",
     "@vaadin/common-frontend": "0.0.19",
     "@vaadin/polymer-legacy-adapter": "24.6.4",
@@ -21,6 +23,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "6.29.0",
+    "react-spinners": "^0.15.0",
     "swiped": "^0.1.4"
   },
   "devDependencies": {
@@ -86,7 +89,7 @@
       "workbox-core": "7.3.0",
       "workbox-precaching": "7.3.0"
     },
-    "hash": "2f4da459bad8155a512819a23186c0298911bcf5bbe912636a185858d923ed58"
+    "hash": "1112aed02c8fcee2323409ecce7d5a2c5834b150d7541909014b5268e0dcb5e5"
   },
   "overrides": {
     "@vaadin/bundles": "$@vaadin/bundles",
@@ -107,6 +110,9 @@
     "@vaadin/vaadin-themable-mixin": "$@vaadin/vaadin-themable-mixin",
     "@vaadin/vaadin-lumo-styles": "$@vaadin/vaadin-lumo-styles",
     "@vaadin/vaadin-material-styles": "$@vaadin/vaadin-material-styles",
-    "swiped": "$swiped"
+    "swiped": "$swiped",
+    "@telegram-apps/sdk": "$@telegram-apps/sdk",
+    "@telegram-apps/sdk-react": "$@telegram-apps/sdk-react",
+    "react-spinners": "$react-spinners"
   }
 }

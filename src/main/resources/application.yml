@@ -1,5 +1,8 @@
 server:
   port: ${PORT:8080}
+  servlet:
+    session:
+      timeout: 604800
 logging:
   level:
     org:
@@ -7,10 +10,8 @@ logging:
 spring:
   mustache:
     check-template-location: false
-
-# Launch the default browser when starting the application in development mode
 vaadin:
-  launch-browser: true
   allowed-packages: com.vaadin,org.vaadin,com.example.application
-# To improve the performance during development.
-# For more information https://vaadin.com/docs/latest/integrations/spring/configuration#special-configuration-parameters
+telegram:
+  bot:
+    token: ${TELEGRAM_BOT_TOKEN}
