@@ -1,5 +1,6 @@
 package com.sleepkqq.sololeveling.view.auth;
 
+import com.sleepkqq.sololeveling.dto.auth.TgAuthData;
 import com.sleepkqq.sololeveling.service.auth.TgAuthService;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;

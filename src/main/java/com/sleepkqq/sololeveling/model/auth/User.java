@@ -1,6 +1,6 @@
 package com.sleepkqq.sololeveling.model.auth;
 
-import com.sleepkqq.sololeveling.view.auth.TgUser;
+import com.sleepkqq.sololeveling.dto.auth.TgUser;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import java.util.Collection;

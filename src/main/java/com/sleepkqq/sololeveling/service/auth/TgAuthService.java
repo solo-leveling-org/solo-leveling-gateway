@@ -8,7 +8,7 @@ import static org.springframework.security.web.context.HttpSessionSecurityContex
 
 import com.sleepkqq.sololeveling.localization.LocalizationException;
 import com.sleepkqq.sololeveling.model.auth.User;
-import com.sleepkqq.sololeveling.view.auth.TgAuthData;
+import com.sleepkqq.sololeveling.dto.auth.TgAuthData;
 import com.sleepkqq.sololeveling.view.home.HomeView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinSession;

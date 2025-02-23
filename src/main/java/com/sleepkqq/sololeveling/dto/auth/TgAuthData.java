@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.view.auth;
+package com.sleepkqq.sololeveling.dto.auth;
 
 public record TgAuthData(
     TgWebAppData tgWebAppData,
