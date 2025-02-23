@@ -4,9 +4,11 @@ import com.sleepkqq.sololeveling.view.auth.TgUser;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import java.util.Collection;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -14,15 +16,13 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
-@Builder
+@RequiredArgsConstructor
 @Document(indexName = "users")
 public class User implements UserDetails {
 
   @Id
-  private String id;
-
   @Field(type = FieldType.Long)
-  private final long telegramId;
+  private final Long id;
 
   @Field(type = FieldType.Keyword)
   private final String username;
@@ -35,6 +35,10 @@ public class User implements UserDetails {
 
   @Field(type = FieldType.Keyword)
   private final String photoUrl;
+
+  @Enumerated(value = EnumType.STRING)
+  @Field(type = FieldType.Keyword)
+  private final Locale locale;
 
   @Enumerated(value = EnumType.STRING)
   @Field(type = FieldType.Keyword)
@@ -51,13 +55,17 @@ public class User implements UserDetails {
   }
 
   public static User fromTgUser(TgUser tgUser) {
-    return User.builder()
-        .telegramId(tgUser.id())
-        .username(tgUser.username())
-        .firstName(tgUser.firstName())
-        .lastName(tgUser.lastName())
-        .photoUrl(tgUser.photoUrl())
-        .roles(Set.of(Role.USER))
-        .build();
+    return new User(
+        tgUser.id(),
+        tgUser.username(),
+        tgUser.firstName(),
+        tgUser.lastName(),
+        tgUser.photoUrl(),
+        Optional.of(tgUser.languageCode())
+            .filter("ru"::equalsIgnoreCase)
+            .map(Locale::forLanguageTag)
+            .orElse(Locale.ENGLISH),
+        Set.of(Role.USER)
+    );
   }
 }

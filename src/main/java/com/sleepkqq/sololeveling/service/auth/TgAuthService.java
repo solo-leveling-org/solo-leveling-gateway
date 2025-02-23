@@ -1,15 +1,18 @@
 package com.sleepkqq.sololeveling.service.auth;
 
-import static java.lang.String.format;
+import static com.sleepkqq.sololeveling.localization.LocalizationMessage.ERROR_AUTH_HASH;
+import static com.sleepkqq.sololeveling.localization.LocalizationMessage.ERROR_AUTH_REQUIRED;
 import static java.util.Objects.nonNull;
 import static org.springframework.security.authentication.UsernamePasswordAuthenticationToken.authenticated;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
+import com.sleepkqq.sololeveling.localization.LocalizationException;
 import com.sleepkqq.sololeveling.model.auth.User;
 import com.sleepkqq.sololeveling.view.auth.TgAuthData;
 import com.sleepkqq.sololeveling.view.home.HomeView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinSession;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -33,19 +36,18 @@ public class TgAuthService {
 
     var tgWebAppData = tgAuthData.tgWebAppData();
     if (!tgHashService.checkHash(tgAuthData.initData(), tgWebAppData.hash())) {
-      throw new IllegalArgumentException(format("Invalid hash, received data: '%s'", tgWebAppData));
+      log.error("Invalid hash, received data: '{}'", tgWebAppData);
+      throw new LocalizationException(ERROR_AUTH_HASH);
     }
 
-    var tgUser = tgWebAppData.user();
-    var user = userService.findByUsername(tgUser.username())
-        .orElseGet(() -> userService.save(User.fromTgUser(tgUser)));
+    var user = userService.save(User.fromTgUser(tgWebAppData.user()));
 
     var authentication = authenticated(user, tgWebAppData.hash(), user.getAuthorities());
 
     setAuthentication(authentication);
     UI.getCurrent().getPage().reload();
 
-    log.info("User '{}' authenticated successfully", tgUser.username());
+    log.info("User '{}' authenticated successfully", user.getUsername());
   }
 
   public void logout() {
@@ -57,8 +59,15 @@ public class TgAuthService {
     return nonNull(getAuthentication());
   }
 
+  public Optional<User> findCurrentUser() {
+    return Optional.ofNullable(getAuthentication())
+        .map(Authentication::getPrincipal)
+        .filter(User.class::isInstance)
+        .map(User.class::cast);
+  }
+
   public User getCurrentUser() {
-    return (User) getAuthentication().getPrincipal();
+    return findCurrentUser().orElseThrow(() -> new LocalizationException(ERROR_AUTH_REQUIRED));
   }
 
   private static SecurityContext getContext() {

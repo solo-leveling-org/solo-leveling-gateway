@@ -12,6 +12,11 @@ spring:
     check-template-location: false
   elasticsearch:
     uris: http://${ELASTICSEARCH_HOST}
+  messages:
+    basename: messages
+    encoding: UTF-8
+    cache-duration: -1
+    fallback-to-system-locale: false
 vaadin:
   allowed-packages: com.vaadin,org.vaadin,com.example.application
 telegram:
