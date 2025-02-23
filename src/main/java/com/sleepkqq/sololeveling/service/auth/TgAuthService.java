@@ -32,11 +32,11 @@ public class TgAuthService {
     }
 
     var tgWebAppData = tgAuthData.tgWebAppData();
-    var tgUser = tgWebAppData.user();
-    if (!tgHashService.checkHash(tgAuthData)) {
+    if (!tgHashService.checkHash(tgAuthData.initData(), tgWebAppData.hash())) {
       throw new IllegalArgumentException(format("Invalid hash, received data: '%s'", tgWebAppData));
     }
 
+    var tgUser = tgWebAppData.user();
     var user = userService.findByUsername(tgUser.username())
         .orElseGet(() -> userService.save(User.fromTgUser(tgUser)));
 

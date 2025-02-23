@@ -2,10 +2,8 @@ package com.sleepkqq.sololeveling.service.auth;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.sleepkqq.sololeveling.view.auth.TgAuthData;
 import java.net.URLDecoder;
 import java.util.Map;
-import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.crypto.macs.HMac;
@@ -24,20 +22,13 @@ public class TgHashService {
   @Value("${telegram.bot.token}")
   private String tgBotToken;
 
-  public boolean checkHash(TgAuthData tgAuthData) {
-    var parsedQueryString = parseQueryString(tgAuthData.initData());
-    return validateTelegramAuth(parsedQueryString, parsedQueryString.get(HASH_FIELD));
+  public boolean checkHash(String initData, String hash) {
+    return validateHash(parseQuery(initData), hash);
   }
 
-  private boolean validateTelegramAuth(Map<String, String> paramMap, String receivedHash) {
-    var dataString = EntryStream.of(paramMap)
-        .filterKeys(k -> !HASH_FIELD.equals(k))
-        .sorted(Map.Entry.comparingByKey())
-        .mapKeyValue((k, v) -> k + "=" + v)
-        .joining("\n");
-
+  private boolean validateHash(String parsedQuery, String receivedHash) {
     var tgBotTokenHash = getHash(TG_SECRET_KEY.getBytes(UTF_8), tgBotToken);
-    var dataHash = getHash(tgBotTokenHash, dataString);
+    var dataHash = getHash(tgBotTokenHash, parsedQuery);
 
     var calculatedHash = Hex.toHexString(dataHash);
     return calculatedHash.equals(receivedHash);
@@ -53,15 +44,16 @@ public class TgHashService {
     return hashBytes;
   }
 
-  private Map<String, String> parseQueryString(String queryString) {
+  private String parseQuery(String queryString) {
     return StreamEx.of(queryString.split("&"))
         .map(pair -> pair.split("=", 2))
         .mapToEntry(
             keyValue -> URLDecoder.decode(keyValue[0], UTF_8),
-            keyValue -> URLDecoder.decode(
-                keyValue.length > 1 ? keyValue[1] : "", UTF_8
-            )
+            keyValue -> URLDecoder.decode(keyValue.length > 1 ? keyValue[1] : "", UTF_8)
         )
-        .toMap();
+        .removeKeys(HASH_FIELD::equals)
+        .sorted(Map.Entry.comparingByKey())
+        .mapKeyValue((k, v) -> k + "=" + v)
+        .joining("\n");
   }
 }
