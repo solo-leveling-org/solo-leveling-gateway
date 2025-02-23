@@ -22,8 +22,8 @@ public class UserService implements UserDetailsService {
         .orElseThrow(() -> new UsernameNotFoundException(format("User '%s' not found", username)));
   }
 
-  public Optional<User> findByUsername(String username) {
-    return userRepository.findByUsername(username);
+  public Optional<User> findById(long id) {
+    return userRepository.findById(id);
   }
 
   public User save(User user) {
