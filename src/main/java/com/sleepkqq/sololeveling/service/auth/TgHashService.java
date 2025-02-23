@@ -4,24 +4,20 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.sleepkqq.sololeveling.view.auth.TgAuthData;
 import java.net.URLDecoder;
-import java.security.GeneralSecurityException;
 import java.util.Map;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import lombok.extern.slf4j.Slf4j;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
+import org.bouncycastle.crypto.digests.SHA256Digest;
+import org.bouncycastle.crypto.macs.HMac;
+import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 public class TgHashService {
 
   private static final String TG_SECRET_KEY = "WebAppData";
-
-  private static final String HMAC_SHA256 = "HmacSHA256";
 
   private static final String HASH_FIELD = "hash";
 
@@ -30,41 +26,31 @@ public class TgHashService {
 
   public boolean checkHash(TgAuthData tgAuthData) {
     var parsedQueryString = parseQueryString(tgAuthData.initData());
-    try {
-      return validateTelegramAuth(parsedQueryString, parsedQueryString.get(HASH_FIELD));
-    } catch (GeneralSecurityException e) {
-      log.error("Hash check algorithm error", e);
-      return false;
-    }
+    return validateTelegramAuth(parsedQueryString, parsedQueryString.get(HASH_FIELD));
   }
 
-  private boolean validateTelegramAuth(
-      Map<String, String> paramMap,
-      String receivedHash
-  ) throws GeneralSecurityException {
+  private boolean validateTelegramAuth(Map<String, String> paramMap, String receivedHash) {
     var dataString = EntryStream.of(paramMap)
         .filterKeys(k -> !HASH_FIELD.equals(k))
         .sorted(Map.Entry.comparingByKey())
         .mapKeyValue((k, v) -> k + "=" + v)
         .joining("\n");
 
-    var sha256HMAC = Mac.getInstance(HMAC_SHA256);
-    var secretKeySpec = new SecretKeySpec(getSecretHashByInitData(), HMAC_SHA256);
-    sha256HMAC.init(secretKeySpec);
+    var tgBotTokenHash = getHash(TG_SECRET_KEY.getBytes(UTF_8), tgBotToken);
+    var dataHash = getHash(tgBotTokenHash, dataString);
 
-    var hash2 = sha256HMAC.doFinal(dataString.getBytes());
-
-    var calculatedHash = Hex.toHexString(hash2);
-
+    var calculatedHash = Hex.toHexString(dataHash);
     return calculatedHash.equals(receivedHash);
   }
 
-  private byte[] getSecretHashByInitData() throws GeneralSecurityException {
-    var sha256HMAC = Mac.getInstance(HMAC_SHA256);
-    var secretKeySpec = new SecretKeySpec(TG_SECRET_KEY.getBytes(), HMAC_SHA256);
-    sha256HMAC.init(secretKeySpec);
+  private byte[] getHash(byte[] keyBytes, String data) {
+    var hmac = new HMac(new SHA256Digest());
+    hmac.init(new KeyParameter(keyBytes));
+    var hashBytes = new byte[hmac.getMacSize()];
+    hmac.update(data.getBytes(UTF_8), 0, data.length());
+    hmac.doFinal(hashBytes, 0);
 
-    return sha256HMAC.doFinal(tgBotToken.getBytes());
+    return hashBytes;
   }
 
   private Map<String, String> parseQueryString(String queryString) {
