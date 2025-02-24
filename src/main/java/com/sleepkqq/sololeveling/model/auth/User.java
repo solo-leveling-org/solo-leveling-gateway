@@ -1,52 +1,46 @@
 package com.sleepkqq.sololeveling.model.auth;
 
 import com.sleepkqq.sololeveling.dto.auth.TgUser;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
-@RequiredArgsConstructor
-@Document(indexName = "users")
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "users")
 public class User implements UserDetails {
 
   @Id
-  @Field(type = FieldType.Long)
-  private final Long id;
+  private Long id;
 
-  @Field(type = FieldType.Keyword)
-  private final String username;
+  private String username;
 
-  @Field(type = FieldType.Keyword)
-  private final String firstName;
+  private String firstName;
 
-  @Field(type = FieldType.Keyword)
-  private final String lastName;
+  private String lastName;
 
-  @Field(type = FieldType.Keyword)
-  private final String photoUrl;
+  private String photoUrl;
+
+  private Locale locale;
 
   @Enumerated(value = EnumType.STRING)
-  @Field(type = FieldType.Keyword)
-  private final Locale locale;
-
-  @Enumerated(value = EnumType.STRING)
-  @Field(type = FieldType.Keyword)
-  private final Set<Role> roles;
+  private Role role;
 
   @Override
   public Collection<Role> getAuthorities() {
-    return roles;
+    return Set.of(role);
   }
 
   @Override
@@ -65,7 +59,7 @@ public class User implements UserDetails {
             .filter("ru"::equalsIgnoreCase)
             .map(Locale::forLanguageTag)
             .orElse(Locale.ENGLISH),
-        Set.of(Role.USER)
+        Role.USER
     );
   }
 }

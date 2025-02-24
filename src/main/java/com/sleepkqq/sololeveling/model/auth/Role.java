@@ -10,4 +10,12 @@ public enum Role implements GrantedAuthority {
   public String getAuthority() {
     return name();
   }
+
+  public boolean isUser() {
+    return this == USER || isAdmin();
+  }
+
+  public boolean isAdmin() {
+    return this == ADMIN;
+  }
 }

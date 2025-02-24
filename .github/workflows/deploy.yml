@@ -39,8 +39,10 @@ jobs:
           docker run -d \
            -p 8080:8080 \
            --name solo-leveling-container \
-           -e ELASTICSEARCH_HOST=${{ secrets.ELASTICSEARCH_HOST }} \
            -e TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} \
+           -e SERVER_HOST=${{ secrets.SERVER_HOST }} \
+           -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+           -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
            solo-leveling
           "
 

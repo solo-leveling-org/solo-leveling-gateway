@@ -1,23 +1,18 @@
 version: '3.8'
 
 services:
-  elasticsearch:
-    image: dh-mirror.gitverse.ru/elasticsearch:8.17.2 # Актуальная версия
-    container_name: elasticsearch
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db
     environment:
-      - discovery.type=single-node # Режим для одного узла
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m # Настройки памяти
-      - xpack.security.enabled=false # Отключение авторизации
-    volumes:
-      - esdata:/usr/share/elasticsearch/data # Сохраняем данные на хосте
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: solo_leveling
     ports:
-      - "9200:9200" # Порт для REST API
-      - "9300:9300" # Порт для кластерного взаимодействия
-    networks:
-      - elastic
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
 volumes:
-  esdata: # Том для данных Elasticsearch
-
-networks:
-  elastic: # Сеть для связи между контейнерами
+  postgres_data:

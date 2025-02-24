@@ -2,9 +2,9 @@ package com.sleepkqq.sololeveling.repository.auth;
 
 import com.sleepkqq.sololeveling.model.auth.User;
 import java.util.Optional;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends ElasticsearchRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
   Optional<User> findByUsername(String username);
 }
