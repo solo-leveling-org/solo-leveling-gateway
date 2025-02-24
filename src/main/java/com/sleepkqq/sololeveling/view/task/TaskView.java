@@ -31,11 +31,11 @@ public class TaskView extends Composite<VerticalLayout> {
   }
 
   private Task task(Rarity rarity) {
-    return Task.builder()
-        .title("Таска")
-        .description("Описание")
-        .experience(30)
-        .rarity(rarity)
-        .build();
+    return new Task(
+        "Таска",
+        "Описание",
+        30,
+        rarity
+    );
   }
 }

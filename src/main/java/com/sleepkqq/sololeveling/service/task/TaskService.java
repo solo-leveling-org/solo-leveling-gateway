@@ -3,6 +3,7 @@ package com.sleepkqq.sololeveling.service.task;
 import com.sleepkqq.sololeveling.model.task.Task;
 import com.sleepkqq.sololeveling.repository.task.TaskRepository;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import one.util.streamex.StreamEx;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class TaskService {
     return StreamEx.of(taskRepository.findAll().spliterator()).toList();
   }
 
-  public void deleteTask(String id) {
+  public void deleteTask(UUID id) {
     taskRepository.deleteById(id);
   }
 }

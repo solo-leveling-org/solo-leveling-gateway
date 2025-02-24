@@ -1,43 +1,63 @@
 package com.sleepkqq.sololeveling.model.task;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import lombok.Builder;
+import java.util.UUID;
 import lombok.Getter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 
 @Getter
-@Builder
-@Document(indexName = "tasks")
+@NoArgsConstructor
+@Entity
+@Table(name = "tasks")
 public class Task {
 
   @Id
-  private final String id;
+  @GeneratedValue(generator = "UUID")
+  @Column(updatable = false, nullable = false)
+  private UUID id;
 
-  @Field(type = FieldType.Text)
-  private final String title;
+  private String title;
 
-  @Field(type = FieldType.Text)
-  private final String description;
+  private String description;
 
-  @Field(type = FieldType.Integer)
-  private final int experience;
-
-  @Enumerated(EnumType.STRING)
-  @Field(type = FieldType.Keyword)
-  private final Rarity rarity;
+  private int experience;
 
   @Enumerated(EnumType.STRING)
-  @Field(type = FieldType.Keyword)
-  private final TaskStatus status;
+  private Rarity rarity;
 
-  @Field(type = FieldType.Date)
-  private final LocalDateTime createdAt;
+  @Enumerated(EnumType.STRING)
+  private TaskStatus status;
 
-  @Field(type = FieldType.Date)
-  private final LocalDateTime updatedAt;
+  @Column(updatable = false)
+  @CreationTimestamp
+  private LocalDateTime createdAt;
+
+  @UpdateTimestamp
+  private LocalDateTime updatedAt;
+
+  public Task(String title, String description, int experience, Rarity rarity) {
+    this.title = title;
+    this.description = description;
+    this.experience = experience;
+    this.rarity = rarity;
+    this.status = TaskStatus.IN_PROGRESS;
+  }
+
+  public void complete() {
+    this.status = TaskStatus.COMPLETED;
+  }
+
+  public void skip() {
+    this.status = TaskStatus.SKIPPED;
+  }
 }
