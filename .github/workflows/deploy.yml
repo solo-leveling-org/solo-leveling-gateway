@@ -41,8 +41,6 @@ jobs:
            --name solo-leveling-container \
            -e TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} \
            -e SERVER_HOST=${{ secrets.SERVER_HOST }} \
-           -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
-           -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
            solo-leveling
           "
 
