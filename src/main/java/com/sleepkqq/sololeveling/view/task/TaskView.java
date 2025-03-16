@@ -1,14 +1,14 @@
 package com.sleepkqq.sololeveling.view.task;
 
-import com.sleepkqq.sololeveling.model.task.Rarity;
-import com.sleepkqq.sololeveling.model.task.Task;
+import com.sleepkqq.sololeveling.api.TaskApi;
+import com.sleepkqq.sololeveling.api.UserApi;
+import com.sleepkqq.sololeveling.service.auth.TgAuthService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
-import java.util.List;
 import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
 @PageTitle("Tasks")
@@ -17,25 +17,18 @@ import org.vaadin.lineawesome.LineAwesomeIconUrl;
 @PermitAll
 public class TaskView extends Composite<VerticalLayout> {
 
-  public TaskView() {
+  public TaskView(
+      TaskApi taskApi,
+      UserApi userApi,
+      TgAuthService tgAuthService
+  ) {
     getContent().setWidth("100%");
     getContent().getStyle().set("flex-grow", "1");
 
-    getContent().add(new SwipedComponent(List.of(
-        task(Rarity.COMMON),
-        task(Rarity.UNCOMMON),
-        task(Rarity.RARE),
-        task(Rarity.EPIC),
-        task(Rarity.LEGENDARY)
-    )));
-  }
+    var userId = tgAuthService.getCurrentUser().getId();
+    var userTasks = userApi.getUserTasks(userId);
 
-  private Task task(Rarity rarity) {
-    return new Task(
-        "Таска",
-        "Описание",
-        30,
-        rarity
-    );
+    var tasks = taskApi.getTasks(userTasks.getCurrentTasksList());
+    getContent().add(new SwipedComponent(tasks));
   }
 }

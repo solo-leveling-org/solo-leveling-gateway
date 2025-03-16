@@ -3,7 +3,7 @@ package com.sleepkqq.sololeveling.exception;
 import static com.sleepkqq.sololeveling.localization.LocalizationMessage.ERROR_UNEXPECTED;
 
 import com.sleepkqq.sololeveling.localization.LocalizationException;
-import com.sleepkqq.sololeveling.model.auth.User;
+import com.sleepkqq.sololeveling.model.UserData;
 import com.sleepkqq.sololeveling.service.auth.TgAuthService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.notification.Notification;
@@ -22,7 +22,7 @@ public class CustomErrorHandler implements ErrorHandler {
 
   @Override
   public void error(ErrorEvent errorEvent) {
-    var locale = tgAuthService.findCurrentUser().map(User::getLocale).orElse(Locale.ENGLISH);
+    var locale = tgAuthService.findCurrentUser().map(UserData::getLocale).orElse(Locale.ENGLISH);
     Optional.ofNullable(UI.getCurrent())
         .ifPresent(c -> c.access(() -> Notification.show(messageSource.getMessage(
             errorEvent.getThrowable() instanceof LocalizationException l

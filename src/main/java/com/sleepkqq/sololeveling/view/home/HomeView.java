@@ -1,6 +1,6 @@
 package com.sleepkqq.sololeveling.view.home;
 
-import com.sleepkqq.sololeveling.model.auth.User;
+import com.sleepkqq.sololeveling.model.UserData;
 import com.sleepkqq.sololeveling.service.auth.TgAuthService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
@@ -47,7 +47,7 @@ public class HomeView extends Composite<VerticalLayout> {
     getContent().add(logoutButton);
   }
 
-  private VerticalLayout createUserCard(User user) {
+  private VerticalLayout createUserCard(UserData user) {
     var avatar = new Image(user.getPhotoUrl(), "User Avatar");
     avatar.addClassName("user-avatar");
 

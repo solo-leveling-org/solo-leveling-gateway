@@ -1,8 +1,8 @@
-package com.sleepkqq.sololeveling.model.auth;
+package com.sleepkqq.sololeveling.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public enum Role implements GrantedAuthority {
+public enum UserRole implements GrantedAuthority {
   USER,
   ADMIN;
 
