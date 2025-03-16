@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.dto.auth;
+package com.sleepkqq.sololeveling.model;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -11,7 +11,7 @@ public record TgWebAppData(
     String chatInstance,
     String hash,
     String signature,
-    TgUser user
+    TgUserData user
 ) {
 
 }

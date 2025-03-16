@@ -6,9 +6,10 @@ import static java.util.Objects.nonNull;
 import static org.springframework.security.authentication.UsernamePasswordAuthenticationToken.authenticated;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
+import com.sleepkqq.sololeveling.api.UserApi;
 import com.sleepkqq.sololeveling.localization.LocalizationException;
-import com.sleepkqq.sololeveling.model.auth.User;
-import com.sleepkqq.sololeveling.dto.auth.TgAuthData;
+import com.sleepkqq.sololeveling.model.TgAuthData;
+import com.sleepkqq.sololeveling.model.UserData;
 import com.sleepkqq.sololeveling.view.home.HomeView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinSession;
@@ -25,7 +26,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TgAuthService {
 
-  private final UserService userService;
+  private final UserApi userApi;
   private final TgHashService tgHashService;
 
   public void authenticate(TgAuthData tgAuthData) {
@@ -40,14 +41,15 @@ public class TgAuthService {
       throw new LocalizationException(ERROR_AUTH_HASH);
     }
 
-    var user = userService.save(User.fromTgUser(tgWebAppData.user()));
+    var userData = UserData.fromTgUser(tgWebAppData.user());
+    userApi.saveUserInfo(userData);
 
-    var authentication = authenticated(user, tgWebAppData.hash(), user.getAuthorities());
+    var authentication = authenticated(userData, tgWebAppData.hash(), userData.getAuthorities());
 
     setAuthentication(authentication);
     UI.getCurrent().getPage().reload();
 
-    log.info("User '{}' authenticated successfully", user.getUsername());
+    log.info("User '{}' authenticated successfully", userData.getUsername());
   }
 
   public void logout() {
@@ -59,14 +61,14 @@ public class TgAuthService {
     return nonNull(getAuthentication());
   }
 
-  public Optional<User> findCurrentUser() {
+  public Optional<UserData> findCurrentUser() {
     return Optional.ofNullable(getAuthentication())
         .map(Authentication::getPrincipal)
-        .filter(User.class::isInstance)
-        .map(User.class::cast);
+        .filter(UserData.class::isInstance)
+        .map(UserData.class::cast);
   }
 
-  public User getCurrentUser() {
+  public UserData getCurrentUser() {
     return findCurrentUser().orElseThrow(() -> new LocalizationException(ERROR_AUTH_REQUIRED));
   }
 

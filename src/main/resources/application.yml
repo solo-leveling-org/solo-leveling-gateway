@@ -1,5 +1,4 @@
 server:
-  port: ${PORT:8080}
   servlet:
     session:
       timeout: 604800
@@ -10,20 +9,6 @@ logging:
 spring:
   mustache:
     check-template-location: false
-  datasource:
-    url: jdbc:postgresql://${SERVER_HOST}:5432/solo_leveling
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    open-in-view: false
-    properties:
-      hibernate:
-        transaction:
-          jta:
-            platform: none
   messages:
     basename: messages
     encoding: UTF-8
@@ -34,3 +19,13 @@ vaadin:
 telegram:
   bot:
     token: ${TELEGRAM_BOT_TOKEN}
+app:
+  host: localhost
+  grpc:
+    services:
+      user:
+        port: 9091
+      task:
+        port: 9092
+      ai:
+        port: 9093
