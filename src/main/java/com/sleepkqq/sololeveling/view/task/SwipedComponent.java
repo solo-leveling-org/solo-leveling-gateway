@@ -1,7 +1,7 @@
 package com.sleepkqq.sololeveling.view.task;
 
-import com.sleepkqq.sololeveling.model.task.Rarity;
-import com.sleepkqq.sololeveling.model.task.Task;
+import com.sleepkqq.sololeveling.proto.task.Task;
+import com.sleepkqq.sololeveling.proto.task.TaskRarity;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -63,7 +63,7 @@ public class SwipedComponent extends Div {
     footer.add(experienceSpan);
   }
 
-  private void resolveRarity(Div listItem, Rarity rarity) {
+  private void resolveRarity(Div listItem, TaskRarity rarity) {
     listItem.addClassName(rarity.name().toLowerCase());
   }
 }

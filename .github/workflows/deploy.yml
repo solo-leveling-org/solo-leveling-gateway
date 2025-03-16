@@ -39,8 +39,8 @@ jobs:
           docker run -d \
            -p 8080:8080 \
            --name solo-leveling-container \
-           -e ELASTICSEARCH_HOST=${{ secrets.ELASTICSEARCH_HOST }} \
            -e TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} \
+           -e SERVER_HOST=${{ secrets.SERVER_HOST }} \
            solo-leveling
           "
 
@@ -51,3 +51,8 @@ jobs:
             docker system prune -f &&  # Удаляет остановленные контейнеры, неиспользуемые сети и образы
             docker image prune -f --filter 'until=24h'  # Удаляет образы старше 24 часов
           "
+
+      # Шаг 6: Удаление REMOTE_DIR после завершения
+      - name: Clean up remote directory
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "rm -rf ${{ secrets.REMOTE_DIR }}"

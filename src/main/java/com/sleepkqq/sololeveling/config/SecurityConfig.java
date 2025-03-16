@@ -23,8 +23,8 @@ public class SecurityConfig extends VaadinWebSecurity {
             .maximumSessions(1)
             .expiredUrl("/login?expired")
         )
-        .authorizeHttpRequests(auth -> auth.
-            requestMatchers(
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(
                 new AntPathRequestMatcher("/public/**")
             )
             .permitAll()

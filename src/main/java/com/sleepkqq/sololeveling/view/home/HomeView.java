@@ -1,7 +1,7 @@
 package com.sleepkqq.sololeveling.view.home;
 
-import com.sleepkqq.sololeveling.model.auth.User;
-import com.sleepkqq.sololeveling.service.auth.AuthService;
+import com.sleepkqq.sololeveling.model.UserData;
+import com.sleepkqq.sololeveling.service.auth.TgAuthService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -28,12 +28,12 @@ import org.vaadin.lineawesome.LineAwesomeIconUrl;
 @PermitAll
 public class HomeView extends Composite<VerticalLayout> {
 
-  public HomeView(AuthService authService) {
+  public HomeView(TgAuthService tgAuthService) {
     getContent().setWidth("100%");
     getContent().getStyle().set("flex-grow", "1");
     getContent().setAlignItems(FlexComponent.Alignment.CENTER);
 
-    var currentUser = authService.getCurrentUser();
+    var currentUser = tgAuthService.getCurrentUser();
 
     var userCard = createUserCard(currentUser);
     getContent().add(userCard);
@@ -41,13 +41,13 @@ public class HomeView extends Composite<VerticalLayout> {
     var logoutButton = new Button(
         "Logout",
         VaadinIcon.SIGN_OUT.create(),
-        event -> authService.logout()
+        event -> tgAuthService.logout()
     );
     logoutButton.addClassName("logout-button");
     getContent().add(logoutButton);
   }
 
-  private VerticalLayout createUserCard(User user) {
+  private VerticalLayout createUserCard(UserData user) {
     var avatar = new Image(user.getPhotoUrl(), "User Avatar");
     avatar.addClassName("user-avatar");
 

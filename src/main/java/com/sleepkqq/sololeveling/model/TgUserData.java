@@ -1,10 +1,10 @@
-package com.sleepkqq.sololeveling.view.auth;
+package com.sleepkqq.sololeveling.model;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record TgUser(
+public record TgUserData(
     long id,
     String username,
     String firstName,

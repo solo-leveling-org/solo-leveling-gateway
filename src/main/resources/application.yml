@@ -1,5 +1,4 @@
 server:
-  port: ${PORT:8080}
   servlet:
     session:
       timeout: 604800
@@ -10,10 +9,23 @@ logging:
 spring:
   mustache:
     check-template-location: false
-  elasticsearch:
-    uris: http://${ELASTICSEARCH_HOST}
+  messages:
+    basename: messages
+    encoding: UTF-8
+    cache-duration: -1
+    fallback-to-system-locale: false
 vaadin:
   allowed-packages: com.vaadin,org.vaadin,com.example.application
 telegram:
   bot:
     token: ${TELEGRAM_BOT_TOKEN}
+app:
+  host: localhost
+  grpc:
+    services:
+      user:
+        port: 9091
+      task:
+        port: 9092
+      ai:
+        port: 9093
