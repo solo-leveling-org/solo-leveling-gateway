@@ -2,12 +2,15 @@ package com.sleepkqq.sololeveling.api;
 
 import com.sleepkqq.sololeveling.mapper.DtoMapper;
 import com.sleepkqq.sololeveling.model.UserData;
+import com.sleepkqq.sololeveling.proto.user.GetCurrentTasksRequest;
 import com.sleepkqq.sololeveling.proto.user.GetUserInfoRequest;
 import com.sleepkqq.sololeveling.proto.user.GetUserTasksRequest;
 import com.sleepkqq.sololeveling.proto.user.SaveUserRequest;
 import com.sleepkqq.sololeveling.proto.user.UserInfo;
 import com.sleepkqq.sololeveling.proto.user.UserServiceGrpc.UserServiceBlockingStub;
+import com.sleepkqq.sololeveling.proto.user.UserTaskInfo;
 import com.sleepkqq.sololeveling.proto.user.UserTasks;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -56,5 +59,18 @@ public class UserApi {
     }
 
     return response.getUserTasks();
+  }
+
+  public List<UserTaskInfo> getCurrentTasks(long userId) {
+    var response = userStub.getCurrentTasks(GetCurrentTasksRequest.newBuilder()
+        .setId(userId)
+        .build()
+    );
+
+    if (!response.getSuccess()) {
+      throw new IllegalArgumentException("Failed to get UserTasks, userId=" + userId);
+    }
+
+    return response.getCurrentTaskList();
   }
 }
