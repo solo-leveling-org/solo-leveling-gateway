@@ -23,9 +23,5 @@ app:
   host: localhost
   grpc:
     services:
-      user:
+      player:
         port: 9091
-      task:
-        port: 9092
-      ai:
-        port: 9093

@@ -3,10 +3,9 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <!-- Project from https://start.vaadin.com/project/a83c0f35-cb2d-4035-ba23-24bb4282070f -->
-  <groupId>com.sleepkqq.sololeveling</groupId>
-  <artifactId>solo-leveling</artifactId>
-  <name>solo-leveling</name>
+
+  <groupId>com.sleepkqq</groupId>
+  <artifactId>solo-leveling-ui</artifactId>
   <version>1.0.0</version>
   <packaging>jar</packaging>
 
@@ -19,7 +18,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.4.2</version>
+    <version>3.4.3</version>
   </parent>
 
   <repositories>

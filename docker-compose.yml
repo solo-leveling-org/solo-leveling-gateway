@@ -87,20 +87,17 @@ services:
       retries: 5
     restart: unless-stopped
 
-  elasticsearch:
-    image: dh-mirror.gitverse.ru/elasticsearch:8.17.2
-    container_name: elasticsearch
+  hazelcast:
+    image: hazelcast/hazelcast:5.3.6
+    container_name: hazelcast
     environment:
-      - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms256m -Xmx256m
-      - xpack.security.enabled=false
+      JAVA_OPTS: -Dhazelcast.local.publicAddress=${SERVER_HOST}:5701
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "5701:5701"
     volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
+      - hazelcast_data:/data
     healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:5701/hazelcast/health" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -111,4 +108,4 @@ volumes:
   zookeeper_data:
   zookeeper_logs:
   kafka_data:
-  elasticsearch_data:
+  hazelcast_data:
