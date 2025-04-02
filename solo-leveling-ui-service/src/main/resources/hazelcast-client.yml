@@ -1,0 +1,7 @@
+hazelcast-client:
+  network:
+    cluster-members:
+      - 185.50.203.57:5701
+    connection-timeout: 5000
+    smart-routing: true
+  instance-name: hazelcast-client-instance

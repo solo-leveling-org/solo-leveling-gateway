@@ -6,7 +6,7 @@ import com.sleepkqq.sololeveling.proto.player.PlayerTaskInfo;
 import com.sleepkqq.sololeveling.proto.player.TaskTopic;
 import com.sleepkqq.sololeveling.ui.api.PlayerApi;
 import com.sleepkqq.sololeveling.ui.controller.TestScheduler;
-import com.sleepkqq.sololeveling.ui.service.auth.TgAuthService;
+import com.sleepkqq.sololeveling.ui.service.TgAuthService;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
@@ -25,7 +25,7 @@ import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
 @PageTitle("Tasks")
 @Route("tasks")
-@Menu(order = 2, icon = LineAwesomeIconUrl.TASKS_SOLID)
+@Menu(order = 1, icon = LineAwesomeIconUrl.TASKS_SOLID)
 @PermitAll
 public class TaskView extends Composite<VerticalLayout> {
 

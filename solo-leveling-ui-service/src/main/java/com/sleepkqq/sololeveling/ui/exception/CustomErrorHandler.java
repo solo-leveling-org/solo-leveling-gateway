@@ -4,7 +4,7 @@ import static com.sleepkqq.sololeveling.ui.localization.LocalizationMessage.ERRO
 
 import com.sleepkqq.sololeveling.ui.localization.LocalizationException;
 import com.sleepkqq.sololeveling.ui.model.UserData;
-import com.sleepkqq.sololeveling.ui.service.auth.TgAuthService;
+import com.sleepkqq.sololeveling.ui.service.TgAuthService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.server.ErrorEvent;

@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.ui.service.auth;
+package com.sleepkqq.sololeveling.ui.service;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 

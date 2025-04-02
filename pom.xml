@@ -4,263 +4,28 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.sleepkqq</groupId>
-  <artifactId>solo-leveling-ui</artifactId>
-  <version>1.0.0</version>
-  <packaging>jar</packaging>
-
-  <properties>
-    <java.version>21</java.version>
-    <vaadin.version>24.6.5</vaadin.version>
-    <grpc-spring-boot-starter.version>3.1.0.RELEASE</grpc-spring-boot-starter.version>
-  </properties>
-
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.4.3</version>
   </parent>
 
-  <repositories>
-    <repository>
-      <id>Vaadin Directory</id>
-      <url>https://maven.vaadin.com/vaadin-addons</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
+  <groupId>com.sleepkqq</groupId>
+  <artifactId>solo-leveling-ui</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-bom</artifactId>
-        <version>${vaadin.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+  <modules>
+    <module>solo-leveling-ui-service</module>
+  </modules>
 
-  <dependencies>
-    <!-- vaadin -->
-    <dependency>
-      <groupId>com.vaadin</groupId>
-      <artifactId>vaadin</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.vaadin</groupId>
-      <artifactId>vaadin-spring-boot-starter</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.parttio</groupId>
-      <artifactId>line-awesome</artifactId>
-      <version>2.1.0</version>
-    </dependency>
-
-    <!-- spring boot -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-validation</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-aop</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>net.devh</groupId>
-      <artifactId>grpc-spring-boot-starter</artifactId>
-      <version>${grpc-spring-boot-starter.version}</version>
-    </dependency>
-
-    <!-- solo leveling -->
-    <dependency>
-      <groupId>com.sleepkqq</groupId>
-      <artifactId>solo-leveling-proto</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-
-    <!-- grpc -->
-
-    <!-- utils -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.18.2</version>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.persistence</groupId>
-      <artifactId>jakarta.persistence-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>one.util</groupId>
-      <artifactId>streamex</artifactId>
-      <version>0.8.3</version>
-    </dependency>
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <version>1.70</version>
-    </dependency>
-
-    <!-- tests -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.vaadin</groupId>
-      <artifactId>vaadin-testbench-junit5</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
-  <build>
-    <defaultGoal>spring-boot:run</defaultGoal>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-        <version>2.43.0</version>
-        <configuration>
-          <java>
-            <eclipse>
-              <version>4.33</version>
-              <file>${project.basedir}/eclipse-formatter.xml</file>
-            </eclipse>
-          </java>
-          <!-- Uncomment to format TypeScript files
-              <typescript>
-              <includes>
-                  <include>src/main/frontend/**/*.ts</include>
-                  <include>src/main/frontend/**/*.tsx</include>
-              </includes>
-              <excludes>
-                  <exclude>src/main/frontend/generated/**</exclude>
-              </excludes>
-              <prettier>
-                  <prettierVersion>3.3.3</prettierVersion>
-                  <configFile>.prettierrc.json</configFile>
-              </prettier>
-          </typescript>
-      -->
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-maven-plugin</artifactId>
-        <version>${vaadin.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-frontend</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-
-  <profiles>
-    <profile>
-      <!-- Production mode is activated using -Pproduction -->
-      <id>production</id>
-      <dependencies>
-        <!-- Exclude development dependencies from production -->
-        <dependency>
-          <groupId>com.vaadin</groupId>
-          <artifactId>vaadin-core</artifactId>
-          <exclusions>
-            <exclusion>
-              <groupId>com.vaadin</groupId>
-              <artifactId>vaadin-dev</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-maven-plugin</artifactId>
-            <version>${vaadin.version}</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>build-frontend</goal>
-                </goals>
-                <phase>compile</phase>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>it</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>start-spring-boot</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>start</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>stop-spring-boot</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>stop</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-
-          <!-- Runs the integration tests (*IT) after the server is started -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>integration-test</goal>
-                  <goal>verify</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <trimStackTrace>false</trimStackTrace>
-              <enableAssertions>true</enableAssertions>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-  </profiles>
+  <properties>
+    <java.version>21</java.version>
+    <vaadin.version>24.6.5</vaadin.version>
+    <grpc-spring-boot-starter.version>3.1.0.RELEASE</grpc-spring-boot-starter.version>
+    <line-awesome.version>2.1.0</line-awesome.version>
+    <jackson-databind.version>2.18.2</jackson-databind.version>
+    <streamex.version>0.8.3</streamex.version>
+    <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
+  </properties>
 </project>

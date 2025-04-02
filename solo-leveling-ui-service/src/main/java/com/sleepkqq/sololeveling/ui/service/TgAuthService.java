@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.ui.service.auth;
+package com.sleepkqq.sololeveling.ui.service;
 
 import static com.sleepkqq.sololeveling.ui.localization.LocalizationMessage.ERROR_AUTH_HASH;
 import static com.sleepkqq.sololeveling.ui.localization.LocalizationMessage.ERROR_AUTH_REQUIRED;

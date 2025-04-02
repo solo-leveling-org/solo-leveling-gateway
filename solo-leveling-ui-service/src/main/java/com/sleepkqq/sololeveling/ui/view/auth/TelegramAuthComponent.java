@@ -1,7 +1,7 @@
 package com.sleepkqq.sololeveling.ui.view.auth;
 
 import com.sleepkqq.sololeveling.ui.model.TgAuthData;
-import com.sleepkqq.sololeveling.ui.service.auth.TgAuthService;
+import com.sleepkqq.sololeveling.ui.service.TgAuthService;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.react.ReactAdapterComponent;

@@ -14,8 +14,10 @@ spring:
     encoding: UTF-8
     cache-duration: -1
     fallback-to-system-locale: false
+  #hazelcast:
+  # config: classpath:hazelcast-client.yml
 vaadin:
-  allowed-packages: com.vaadin,org.vaadin,com.example.application
+  allowed-packages: com.vaadin
 telegram:
   bot:
     token: ${TELEGRAM_BOT_TOKEN}

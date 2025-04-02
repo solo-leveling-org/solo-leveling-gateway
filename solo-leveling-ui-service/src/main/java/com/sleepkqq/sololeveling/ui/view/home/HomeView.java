@@ -1,7 +1,7 @@
 package com.sleepkqq.sololeveling.ui.view.home;
 
 import com.sleepkqq.sololeveling.ui.model.UserData;
-import com.sleepkqq.sololeveling.ui.service.auth.TgAuthService;
+import com.sleepkqq.sololeveling.ui.service.TgAuthService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;

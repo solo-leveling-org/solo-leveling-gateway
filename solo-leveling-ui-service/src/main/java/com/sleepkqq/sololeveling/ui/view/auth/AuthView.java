@@ -1,7 +1,7 @@
 package com.sleepkqq.sololeveling.ui.view.auth;
 
 import com.sleepkqq.sololeveling.ui.exception.CustomErrorHandler;
-import com.sleepkqq.sololeveling.ui.service.auth.TgAuthService;
+import com.sleepkqq.sololeveling.ui.service.TgAuthService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.icon.Icon;
