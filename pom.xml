@@ -20,12 +20,15 @@
   </modules>
 
   <properties>
-    <java.version>21</java.version>
+    <java.version>24</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
     <vaadin.version>24.6.5</vaadin.version>
     <grpc-spring-boot-starter.version>3.1.0.RELEASE</grpc-spring-boot-starter.version>
     <line-awesome.version>2.1.0</line-awesome.version>
     <jackson-databind.version>2.18.2</jackson-databind.version>
     <streamex.version>0.8.3</streamex.version>
     <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
+    <lombok.version>1.18.38</lombok.version>
   </properties>
 </project>
