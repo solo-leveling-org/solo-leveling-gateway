@@ -7,38 +7,11 @@
   <parent>
     <groupId>com.sleepkqq</groupId>
     <artifactId>solo-leveling-ui</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
   </parent>
 
   <artifactId>solo-leveling-ui-service</artifactId>
-  <version>1.0.0</version>
-
-  <repositories>
-    <repository>
-      <id>Vaadin Directory</id>
-      <url>https://maven.vaadin.com/vaadin-addons</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>github</id>
-      <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/solo-leveling-org/solo-leveling-proto</url>
-    </repository>
-  </repositories>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-bom</artifactId>
-        <version>${vaadin.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+  <version>2.0.0</version>
 
   <dependencies>
     <!-- vaadin -->
@@ -75,14 +48,13 @@
       <artifactId>spring-boot-starter-aop</artifactId>
     </dependency>
     <dependency>
-      <groupId>net.devh</groupId>
-      <artifactId>grpc-spring-boot-starter</artifactId>
-      <version>${grpc-spring-boot-starter.version}</version>
+      <groupId>org.springframework.grpc</groupId>
+      <artifactId>spring-grpc-server-web-spring-boot-starter</artifactId>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>org.springframework.integration</groupId>
       <artifactId>spring-integration-hazelcast</artifactId>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.springframework.kafka</groupId>
       <artifactId>spring-kafka</artifactId>
@@ -92,12 +64,12 @@
     <dependency>
       <groupId>com.sleepkqq</groupId>
       <artifactId>solo-leveling-proto</artifactId>
-      <version>1.0.0</version>
+      <version>${solo-leveling-proto.version}</version>
     </dependency>
     <dependency>
       <groupId>com.sleepkqq</groupId>
       <artifactId>solo-leveling-avro</artifactId>
-      <version>1.0.0</version>
+      <version>${solo-leveling-avro.version}</version>
     </dependency>
 
     <!-- utils -->
@@ -107,17 +79,12 @@
       <version>${jackson-databind.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.fasterxml.jackson.module</groupId>
+      <artifactId>jackson-module-kotlin</artifactId>
+    </dependency>
+    <dependency>
       <groupId>jakarta.persistence</groupId>
       <artifactId>jakarta.persistence-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>one.util</groupId>
-      <artifactId>streamex</artifactId>
-      <version>${streamex.version}</version>
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
@@ -140,7 +107,47 @@
 
   <build>
     <defaultGoal>spring-boot:run</defaultGoal>
+    <sourceDirectory>src/main/kotlin</sourceDirectory>
+    <testSourceDirectory>src/test/kotlin</testSourceDirectory>
     <plugins>
+      <plugin>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-plugin</artifactId>
+        <version>${kotlin.version}</version>
+        <executions>
+          <execution>
+            <id>compile</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>test-compile</id>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>test-compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <args>
+            <arg>-Xjsr305=strict</arg>
+            <arg>-Xannotation-default-target=param-property</arg>
+          </args>
+          <compilerPlugins>
+            <plugin>spring</plugin>
+          </compilerPlugins>
+          <jvmTarget>${java.version}</jvmTarget>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-allopen</artifactId>
+            <version>${kotlin.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -156,21 +163,6 @@
               <file>${project.basedir}/eclipse-formatter.xml</file>
             </eclipse>
           </java>
-          <!-- Uncomment to format TypeScript files
-              <typescript>
-              <includes>
-                  <include>src/main/frontend/**/*.ts</include>
-                  <include>src/main/frontend/**/*.tsx</include>
-              </includes>
-              <excludes>
-                  <exclude>src/main/frontend/generated/**</exclude>
-              </excludes>
-              <prettier>
-                  <prettierVersion>3.3.3</prettierVersion>
-                  <configFile>.prettierrc.json</configFile>
-              </prettier>
-          </typescript>
-      -->
         </configuration>
       </plugin>
       <plugin>
@@ -192,13 +184,6 @@
         <configuration>
           <source>${maven.compiler.source}</source>
           <target>${maven.compiler.target}</target>
-          <annotationProcessorPaths>
-            <path>
-              <groupId>org.projectlombok</groupId>
-              <artifactId>lombok</artifactId>
-              <version>${lombok.version}</version>
-            </path>
-          </annotationProcessorPaths>
         </configuration>
       </plugin>
     </plugins>
@@ -206,10 +191,8 @@
 
   <profiles>
     <profile>
-      <!-- Production mode is activated using -Pproduction -->
       <id>production</id>
       <dependencies>
-        <!-- Exclude development dependencies from production -->
         <dependency>
           <groupId>com.vaadin</groupId>
           <artifactId>vaadin-core</artifactId>
@@ -265,7 +248,6 @@
             </executions>
           </plugin>
 
-          <!-- Runs the integration tests (*IT) after the server is started -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
@@ -285,7 +267,5 @@
         </plugins>
       </build>
     </profile>
-
   </profiles>
-
 </project>

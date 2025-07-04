@@ -7,28 +7,88 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.4.3</version>
+    <version>3.5.0</version>
   </parent>
 
   <groupId>com.sleepkqq</groupId>
   <artifactId>solo-leveling-ui</artifactId>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
   <packaging>pom</packaging>
 
   <modules>
     <module>solo-leveling-ui-service</module>
   </modules>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-bom</artifactId>
+        <version>${vaadin.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.grpc</groupId>
+        <artifactId>spring-grpc-dependencies</artifactId>
+        <version>${spring-grpc.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <properties>
     <java.version>24</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <kotlin.version>2.2.0</kotlin.version>
+    <kotlin.code.style>official</kotlin.code.style>
+
+    <!-- vaadin -->
     <vaadin.version>24.6.5</vaadin.version>
-    <grpc-spring-boot-starter.version>3.1.0.RELEASE</grpc-spring-boot-starter.version>
     <line-awesome.version>2.1.0</line-awesome.version>
+
+    <!-- grpc -->
+    <spring-grpc.version>0.10.0-SNAPSHOT</spring-grpc.version>
+
+    <!-- utils -->
     <jackson-databind.version>2.18.2</jackson-databind.version>
-    <streamex.version>0.8.3</streamex.version>
     <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
-    <lombok.version>1.18.38</lombok.version>
+
+    <!-- solo leveling -->
+    <solo-leveling-avro.version>2.0.1</solo-leveling-avro.version>
+    <solo-leveling-proto.version>2.1.0</solo-leveling-proto.version>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>Vaadin Directory</id>
+      <url>https://maven.vaadin.com/vaadin-addons</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/solo-leveling-org/solo-leveling-proto</url>
+    </repository>
+    <repository>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>https://repo.spring.io/milestone</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>spring-snapshots</id>
+      <name>Spring Snapshots</name>
+      <url>https://repo.spring.io/snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
 </project>
