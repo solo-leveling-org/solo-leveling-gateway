@@ -49,7 +49,17 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.grpc</groupId>
-      <artifactId>spring-grpc-server-web-spring-boot-starter</artifactId>
+      <artifactId>spring-grpc-spring-boot-starter</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>io.grpc</groupId>
+          <artifactId>grpc-netty</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.grpc</groupId>
+      <artifactId>grpc-netty-shaded</artifactId>
     </dependency>
     <!--<dependency>
       <groupId>org.springframework.integration</groupId>

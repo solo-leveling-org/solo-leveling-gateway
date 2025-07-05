@@ -7,7 +7,6 @@ import com.sleepkqq.sololeveling.ui.broadcast.TaskUpdatesTopic
 import com.sleepkqq.sololeveling.ui.mapper.DtoMapper
 import com.sleepkqq.sololeveling.ui.service.TgAuthService
 import com.vaadin.flow.component.AttachEvent
-import com.vaadin.flow.component.ClientCallable
 import com.vaadin.flow.component.Composite
 import com.vaadin.flow.component.DetachEvent
 import com.vaadin.flow.component.button.Button
@@ -35,7 +34,6 @@ class TaskView(
 
 	private var broadcasterRegistration: Registration? = null
 	private var currentTasks: MutableList<PlayerTaskInfo>
-	private var isSwipeMode = true
 
 	init {
 		content.width = "100%"
@@ -65,13 +63,6 @@ class TaskView(
 	private fun showTasks(tasks: MutableList<PlayerTaskInfo>) {
 		content.removeAll()
 		this.currentTasks = tasks
-
-		val toggleMode = Button(if (isSwipeMode) "Режим кнопок" else "Режим свайпа") {
-			isSwipeMode = !isSwipeMode
-			refreshTasksDisplay()
-		}
-
-		content.add(toggleMode)
 		refreshTasksDisplay()
 	}
 
@@ -80,24 +71,13 @@ class TaskView(
 			.filter { it !is Button }
 			.forEach { content.remove(it) }
 
-		if (isSwipeMode) {
-			content.add(SwipedComponent(currentTasks, this))
-		} else {
-			content.add(ButtonedTasksComponent(currentTasks, this))
-		}
-
-		content.children
-			.filter { Button::class.java.isInstance(it) }
-			.findFirst()
-			.ifPresent { (it as Button).text = if (isSwipeMode) "Режим кнопок" else "Режим свайпа" }
+		content.add(ButtonedTasksComponent(currentTasks, this))
 	}
 
-	@ClientCallable
 	fun completeTask(playerTaskId: String) {
 		handleTaskCompletion(playerTaskId, true)
 	}
 
-	@ClientCallable
 	fun skipTask(playerTaskId: String) {
 		handleTaskCompletion(playerTaskId, false)
 	}

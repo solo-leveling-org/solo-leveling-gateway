@@ -12,4 +12,7 @@ data class TgWebAppData(
 	val hash: String,
 	val signature: String?,
 	val user: TgUserData
-)
+) {
+
+	constructor() : this(LocalDateTime.now(), null, null, "", null, TgUserData())
+}

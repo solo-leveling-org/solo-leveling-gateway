@@ -15,4 +15,7 @@ data class TgUserData(
 	val allowsWriteToPm: Boolean?,
 	val isBot: Boolean?,
 	val isPremium: Boolean?
-)
+) {
+
+	constructor() : this(1, null, null, null, null, null, false, false, false, false)
+}

@@ -1,6 +1,9 @@
 package com.sleepkqq.sololeveling.ui.model
 
-data class TgAuthData (
+data class TgAuthData(
 	val tgWebAppData: TgWebAppData,
 	val initData: String
-)
+) {
+
+	constructor() : this(TgWebAppData(), "")
+}
