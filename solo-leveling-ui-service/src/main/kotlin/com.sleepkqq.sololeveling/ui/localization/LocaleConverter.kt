@@ -2,7 +2,7 @@ package com.sleepkqq.sololeveling.ui.localization
 
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter
-import java.util.*
+import java.util.Locale
 
 @Converter(autoApply = true)
 class LocaleConverter : AttributeConverter<Locale, String> {
