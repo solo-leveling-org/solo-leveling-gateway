@@ -4,8 +4,11 @@ server:
       timeout: 604800
 logging:
   level:
-    org:
-      atmosphere: warn
+    org.atmosphere: WARN
+    org.apache.kafka.clients.consumer.ConsumerConfig: WARN
+    org.apache.kafka.clients.producer.ProducerConfig: WARN
+    io.confluent.kafka.serializers.KafkaAvroDeserializerConfig: WARN
+    io.confluent.kafka.serializers.KafkaAvroSerializerConfig: WARN
 spring:
   mustache:
     check-template-location: false

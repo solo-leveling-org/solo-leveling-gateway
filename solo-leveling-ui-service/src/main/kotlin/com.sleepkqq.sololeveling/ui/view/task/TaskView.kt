@@ -84,14 +84,13 @@ class TaskView(
 
 	private fun handleTaskCompletion(playerTaskId: String, completed: Boolean) {
 		currentTasks.removeIf { it.taskInfo.id == playerTaskId }
-		val uuidPlayerTaskId = dtoMapper.map(playerTaskId)
+		val id = dtoMapper.map(playerTaskId)
 		if (completed) {
-			playerApi.completeTask(uuidPlayerTaskId)
+			playerApi.completeTask(id)
 		} else {
-			playerApi.skipTask(uuidPlayerTaskId)
+			playerApi.skipTask(id)
 		}
 
-		refreshTasksDisplay()
 		Notification.show(if (completed) "Задача завершена!" else "Задача пропущена")
 	}
 

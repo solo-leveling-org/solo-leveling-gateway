@@ -31,13 +31,13 @@ class ButtonedTasksComponent(
 		footer.className = "task-footer"
 
 		val completeBtn = Button("✓") {
-			animateCardRemoval(card, true)
+			card.removeFromParent()
 			parentView.completeTask(task.taskInfo.id)
 		}
 		completeBtn.addClassName("complete-btn")
 
 		val skipBtn = Button("←") {
-			animateCardRemoval(card, false)
+			card.removeFromParent()
 			parentView.skipTask(task.taskInfo.id)
 		}
 		skipBtn.addClassName("skip-btn")
@@ -45,22 +45,5 @@ class ButtonedTasksComponent(
 		footer.add(completeBtn, skipBtn)
 		card.add(header, description, footer)
 		add(card)
-	}
-
-	private fun animateCardRemoval(card: Div, isComplete: Boolean) {
-		card.element.executeJs(
-			"""
-            anime({
-                targets: this,
-                translateX: $0,
-                opacity: 0,
-                rotate: $1,
-                duration: 500,
-                complete: () => this.remove()
-            });
-        
-        """.trimIndent(),
-			if (isComplete) 500 else -500, if (isComplete) 20 else -20
-		)
 	}
 }
