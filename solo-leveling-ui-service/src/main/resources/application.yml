@@ -34,3 +34,8 @@ app:
     services:
       player:
         port: 9091
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

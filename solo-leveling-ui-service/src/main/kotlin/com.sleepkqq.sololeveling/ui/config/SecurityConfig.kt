@@ -23,7 +23,8 @@ class SecurityConfig : VaadinWebSecurity() {
 			}
 			.authorizeHttpRequests {
 				it.requestMatchers(
-					PathPatternRequestMatcher.withDefaults().matcher("/public/**")
+					PathPatternRequestMatcher.withDefaults().matcher("/public/**"),
+					PathPatternRequestMatcher.withDefaults().matcher("/actuator/**")
 				)
 					.permitAll()
 			}

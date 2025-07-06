@@ -1,10 +1,10 @@
-name: Build and Push Docker Image to Docker Hub
+name: Build, Push and Deploy to Kubernetes
 
 on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -54,5 +54,42 @@ jobs:
             ${{ secrets.DOCKERHUB_USER }}/solo-leveling-ui:latest
             ${{ secrets.DOCKERHUB_USER }}/solo-leveling-ui:${{ github.sha }}
 
-      - name: Clean up settings.xml (for security)
-        run: rm -f ./settings.xml
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/ $(curl -L -s https://dl.k8s.io/release/stable.txt )/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      - name: Set environment variables for deployment
+        run: |
+          echo "SERVER_HOST=${{ secrets.SERVER_HOST }}" >> $GITHUB_ENV
+          echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> $GITHUB_ENV
+
+      - name: Install gettext for envsubst
+        run: |
+          sudo apt-get update && sudo apt-get install -y gettext-base
+
+      - name: Generate final deployment.yml with env vars
+        run: |
+          envsubst < k8s/deployment.yml > k8s/deployment-rendered.yml
+          cat k8s/deployment-rendered.yml
+
+      - name: Setup kubeconfig
+        env:
+          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+        run: |
+          mkdir -p ~/.kube
+          echo "$KUBECONFIG" > ~/.kube/config
+
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f k8s/deployment-rendered.yml
+
+      - name: Wait for deployment rollout
+        run: |
+          kubectl rollout status deployment/solo-leveling-ui --timeout=60s
+
+      - name: Clean up temporary files (security)
+        run: |
+          rm -f ./settings.xml
+          rm -f k8s/deployment-rendered.yml
