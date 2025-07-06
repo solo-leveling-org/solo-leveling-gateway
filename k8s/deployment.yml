@@ -11,10 +11,12 @@ spec:
     metadata:
       labels:
         app: solo-leveling-ui
+      annotations:
+        commit.sha: "${GIT_COMMIT_SHA}"
     spec:
       containers:
         - name: app
-          image: sleepkqq/solo-leveling-ui:latest
+          image: $DOCKERHUB_USER/solo-leveling-ui:$GIT_COMMIT_SHA
           ports:
             - containerPort: 8080
           env:

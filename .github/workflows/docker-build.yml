@@ -61,6 +61,8 @@ jobs:
         run: |
           echo "SERVER_HOST=${{ secrets.SERVER_HOST }}" >> $GITHUB_ENV
           echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> $GITHUB_ENV
+          echo "GIT_COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
+          echo "DOCKERHUB_USER=${{ secrets.DOCKERHUB_USER }}" >> $GITHUB_ENV
 
       - name: Install gettext for envsubst
         run: |
