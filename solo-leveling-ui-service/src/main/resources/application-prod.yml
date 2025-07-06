@@ -8,7 +8,9 @@ app:
     services:
       player:
         host: solo-leveling-player
-        port: 9090
+        port: 90
   telegram:
     bot:
       token: ${TELEGRAM_BOT_TOKEN_APP}
+server:
+  port: 8080
