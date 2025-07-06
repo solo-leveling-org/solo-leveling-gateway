@@ -59,7 +59,7 @@
 
     <!-- solo leveling -->
     <solo-leveling-avro.version>2.0.1</solo-leveling-avro.version>
-    <solo-leveling-proto.version>2.1.0</solo-leveling-proto.version>
+    <solo-leveling-proto.version>2.2.1</solo-leveling-proto.version>
   </properties>
 
   <repositories>

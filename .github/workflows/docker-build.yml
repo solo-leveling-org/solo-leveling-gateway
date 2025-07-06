@@ -13,12 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '24'
-          distribution: 'temurin'
-
       - name: Generate settings.xml in project root
         run: |
           cat <<EOF > ./settings.xml
@@ -60,7 +54,7 @@ jobs:
       - name: Set environment variables for deployment
         run: |
           echo "SERVER_HOST=${{ secrets.SERVER_HOST }}" >> $GITHUB_ENV
-          echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> $GITHUB_ENV
+          echo "TELEGRAM_BOT_TOKEN_APP=${{ secrets.TELEGRAM_BOT_TOKEN_APP }}" >> $GITHUB_ENV
           echo "GIT_COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
           echo "DOCKERHUB_USER=${{ secrets.DOCKERHUB_USER }}" >> $GITHUB_ENV
 
@@ -83,6 +77,7 @@ jobs:
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f k8s/deployment-rendered.yml
+          kubectl apply -f k8s/service.yml
 
       - name: Wait for deployment rollout
         run: |
@@ -90,5 +85,5 @@ jobs:
 
       - name: Clean up temporary files (security)
         run: |
-          rm -f ./settings.xml
+          rm -f settings.xml
           rm -f k8s/deployment-rendered.yml

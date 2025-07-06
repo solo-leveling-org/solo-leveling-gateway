@@ -11,8 +11,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @Push
 @SpringBootApplication
 @Theme(value = "my-app", variant = Lumo.DARK)
-class Application : SpringBootServletInitializer(), AppShellConfigurator
+class Application : SpringBootServletInitializer(), AppShellConfigurator {
 
-fun main(args: Array<String>) {
-	SpringApplication.run(Application::class.java, *args)
+	companion object {
+		@JvmStatic
+		fun main(args: Array<String>) {
+			SpringApplication.run(Application::class.java, *args)
+		}
+	}
 }

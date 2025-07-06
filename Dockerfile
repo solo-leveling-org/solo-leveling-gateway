@@ -40,4 +40,5 @@ EXPOSE 8080
 CMD ["java", \
     "--enable-native-access=ALL-UNNAMED", \
     "--add-opens", "java.base/java.lang=ALL-UNNAMED", \
+     "-Dspring.profiles.active=prod", \
     "-jar", "solo-leveling-ui.jar"]

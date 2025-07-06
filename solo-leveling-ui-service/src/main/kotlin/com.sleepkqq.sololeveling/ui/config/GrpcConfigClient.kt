@@ -6,18 +6,19 @@ import com.sleepkqq.sololeveling.proto.player.PlayerServiceGrpc.PlayerServiceBlo
 import com.sleepkqq.sololeveling.proto.user.UserServiceGrpc
 import com.sleepkqq.sololeveling.proto.user.UserServiceGrpc.UserServiceBlockingStub
 import io.grpc.ManagedChannel
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
+@Suppress("unused")
+@EnableConfigurationProperties(GrpcPlayerServiceProperties::class)
 class GrpcConfigClient(
-	@Value("\${app.host}") host: String
-) : DefaultGrpcClientConfig(host) {
+	private val properties: GrpcPlayerServiceProperties
+) : DefaultGrpcClientConfig() {
 
 	@Bean
-	fun playerManagedChannel(@Value("\${app.grpc.services.player.port}") port: Int): ManagedChannel =
-		createManagedChannel(port)
+	fun playerManagedChannel(): ManagedChannel = createManagedChannel(properties)
 
 	@Bean
 	fun userServiceBlockingStub(

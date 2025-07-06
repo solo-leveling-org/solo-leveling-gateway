@@ -1,3 +1,35 @@
+spring:
+  application:
+    name: solo-leveling-ui
+  mustache:
+    check-template-location: false
+  messages:
+    basename: messages
+    encoding: UTF-8
+    cache-duration: -1
+    fallback-to-system-locale: false
+  #hazelcast:
+  # config: classpath:hazelcast-client.yml
+  kafka:
+    bootstrap-servers: localhost:9092
+    properties:
+      schema.registry.url: http://localhost:8081
+vaadin:
+  allowed-packages: com.vaadin
+app:
+  grpc:
+    services:
+      player:
+        host: localhost
+        port: 9090
+  telegram:
+    bot:
+      token: ${TELEGRAM_BOT_TOKEN_DEV}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 server:
   servlet:
     session:
@@ -9,33 +41,3 @@ logging:
     org.apache.kafka.clients.producer.ProducerConfig: WARN
     io.confluent.kafka.serializers.KafkaAvroDeserializerConfig: WARN
     io.confluent.kafka.serializers.KafkaAvroSerializerConfig: WARN
-spring:
-  mustache:
-    check-template-location: false
-  messages:
-    basename: messages
-    encoding: UTF-8
-    cache-duration: -1
-    fallback-to-system-locale: false
-  #hazelcast:
-  # config: classpath:hazelcast-client.yml
-  kafka:
-    bootstrap-servers: ${SERVER_HOST}:9092
-    properties:
-      schema.registry.url: http://${SERVER_HOST}:8081
-vaadin:
-  allowed-packages: com.vaadin
-telegram:
-  bot:
-    token: ${TELEGRAM_BOT_TOKEN}
-app:
-  host: localhost
-  grpc:
-    services:
-      player:
-        port: 9091
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"

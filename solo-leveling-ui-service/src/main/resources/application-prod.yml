@@ -1,0 +1,14 @@
+spring:
+  kafka:
+    bootstrap-servers: ${SERVER_HOST}:9092
+    properties:
+      schema.registry.url: http://${SERVER_HOST}:8081
+app:
+  grpc:
+    services:
+      player:
+        host: solo-leveling-player
+        port: 9090
+  telegram:
+    bot:
+      token: ${TELEGRAM_BOT_TOKEN_APP}

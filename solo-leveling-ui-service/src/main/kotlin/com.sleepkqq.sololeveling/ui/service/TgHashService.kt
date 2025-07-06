@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets
 
 @Service
 class TgHashService(
-	@Value("\${telegram.bot.token}") private val tgBotToken: String
+	@Value($$"${app.telegram.bot.token}") private val tgBotToken: String
 ) {
 
 	companion object {
