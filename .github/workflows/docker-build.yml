@@ -56,9 +56,11 @@ jobs:
 
       - name: Install kubectl
         run: |
-          curl -LO "https://dl.k8s.io/release/ $(curl -L -s https://dl.k8s.io/release/stable.txt )/bin/linux/amd64/kubectl"
-          chmod +x kubectl
-          sudo mv kubectl /usr/local/bin/
+          K8S_VERSION=$(curl -sSL https://dl.k8s.io/release/stable.txt )
+          echo "Detected stable version: $K8S_VERSION"
+          curl -LO "https://dl.k8s.io/release/ ${K8S_VERSION}/bin/linux/amd64/kubectl"
+          chmod +x ./kubectl
+          sudo mv ./kubectl /usr/local/bin/
 
       - name: Set environment variables for deployment
         run: |
