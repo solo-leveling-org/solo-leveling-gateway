@@ -22,8 +22,8 @@ spec:
           env:
             - name: SERVER_HOST
               value: "${SERVER_HOST}"
-            - name: TELEGRAM_BOT_TOKEN
-              value: "${TELEGRAM_BOT_TOKEN}"
+            - name: TELEGRAM_BOT_TOKEN_APP
+              value: "${TELEGRAM_BOT_TOKEN_APP}"
           livenessProbe:
             httpGet:
               path: /actuator/health
