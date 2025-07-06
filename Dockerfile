@@ -22,7 +22,7 @@ RUN mvn clean package -DskipTests -Pproduction --settings settings.xml
 FROM amazoncorretto:24-alpine3.21-jdk
 
 # Копируем собранный JAR и frontend
-COPY --from=build /usr/src/app/solo-leveling-ui-service/target/*.jar /app/solo-leveling.jar
+COPY --from=build /usr/src/app/solo-leveling-ui-service/target/*.jar /app/solo-leveling-ui.jar
 COPY --from=build /usr/src/app/solo-leveling-ui-service/src/main/frontend /app/frontend
 
 # Безопасность: создаём пользователя
@@ -37,4 +37,7 @@ WORKDIR /app
 EXPOSE 8080
 
 # Запускаем приложение
-CMD ["java", "-jar", "solo-leveling.jar"]
+CMD ["java", \
+    "--enable-native-access=ALL-UNNAMED", \
+    "--add-opens", "java.base/java.lang=ALL-UNNAMED", \
+    "-jar", "solo-leveling-ui.jar"]
