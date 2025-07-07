@@ -32,7 +32,7 @@ class TgAuthService(
 
 		val tgWebAppData = tgAuthData.tgWebAppData
 		if (!tgHashService.checkHash(tgAuthData.initData, tgWebAppData.hash)) {
-			log.error("Invalid hash, received data: '{}'", tgWebAppData)
+			log.error("Invalid hash, received data: '{}'", tgAuthData)
 			throw LocalizationException(LocalizationMessage.ERROR_AUTH_HASH)
 		}
 

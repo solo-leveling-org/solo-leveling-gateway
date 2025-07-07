@@ -6,7 +6,6 @@ import org.bouncycastle.crypto.params.KeyParameter
 import org.bouncycastle.util.encoders.Hex
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
 @Service
@@ -15,7 +14,6 @@ class TgHashService(
 ) {
 
 	companion object {
-
 		private const val TG_SECRET_KEY = "WebAppData"
 		private const val HASH_FIELD = "hash"
 	}
@@ -44,12 +42,7 @@ class TgHashService(
 
 	private fun parseQuery(queryString: String): String = queryString.split("&")
 		.map { it.split("=", limit = 2) }
-		.map {
-			URLDecoder.decode(it[0], StandardCharsets.UTF_8) to URLDecoder.decode(
-				if (it.size > 1) it[1] else "",
-				StandardCharsets.UTF_8
-			)
-		}
+		.map { it[0] to if (it.size > 1) it[1] else "" }
 		.filterNot { (key, _) -> key == HASH_FIELD }
 		.sortedBy { it.first }
 		.joinToString("\n") { "${it.first}=${it.second}" }
