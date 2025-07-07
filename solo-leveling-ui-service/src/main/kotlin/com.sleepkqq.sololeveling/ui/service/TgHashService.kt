@@ -6,6 +6,7 @@ import org.bouncycastle.crypto.params.KeyParameter
 import org.bouncycastle.util.encoders.Hex
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
 @Service
@@ -33,8 +34,11 @@ class TgHashService(
 	private fun getHash(keyBytes: ByteArray, data: String): ByteArray {
 		val hmac = HMac(SHA256Digest())
 		hmac.init(KeyParameter(keyBytes))
+
+		val dataBytes = data.toByteArray(StandardCharsets.UTF_8)
+		hmac.update(dataBytes, 0, dataBytes.size)
+
 		val hashBytes = ByteArray(hmac.macSize)
-		hmac.update(data.toByteArray(StandardCharsets.UTF_8), 0, data.length)
 		hmac.doFinal(hashBytes, 0)
 
 		return hashBytes
@@ -42,7 +46,11 @@ class TgHashService(
 
 	private fun parseQuery(queryString: String): String = queryString.split("&")
 		.map { it.split("=", limit = 2) }
-		.map { it[0] to if (it.size > 1) it[1] else "" }
+		.map {
+			val key = URLDecoder.decode(it[0], StandardCharsets.UTF_8)
+			val value = if (it.size > 1) URLDecoder.decode(it[1], StandardCharsets.UTF_8) else ""
+			key to value
+		}
 		.filterNot { (key, _) -> key == HASH_FIELD }
 		.sortedBy { it.first }
 		.joinToString("\n") { "${it.first}=${it.second}" }
