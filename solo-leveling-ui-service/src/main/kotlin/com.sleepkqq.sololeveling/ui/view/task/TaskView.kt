@@ -85,7 +85,7 @@ class TaskView(
 	}
 
 	private fun handleTaskCompletion(playerTaskId: String, completed: Boolean) {
-		currentTasks.removeIf { it.taskInfo.id == playerTaskId }
+		currentTasks.removeIf { it.id == playerTaskId }
 		val id = dtoMapper.map(playerTaskId)
 		if (completed) {
 			playerApi.completeTask(id)

@@ -32,13 +32,13 @@ class ButtonedTasksComponent(
 
 		val completeBtn = Button("✓") {
 			card.removeFromParent()
-			parentView.completeTask(task.taskInfo.id)
+			parentView.completeTask(task.id)
 		}
 		completeBtn.addClassName("complete-btn")
 
 		val skipBtn = Button("←") {
 			card.removeFromParent()
-			parentView.skipTask(task.taskInfo.id)
+			parentView.skipTask(task.id)
 		}
 		skipBtn.addClassName("skip-btn")
 
