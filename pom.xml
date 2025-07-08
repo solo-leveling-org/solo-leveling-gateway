@@ -60,6 +60,9 @@
     <!-- solo leveling -->
     <solo-leveling-avro.version>2.0.1</solo-leveling-avro.version>
     <solo-leveling-proto.version>2.2.1</solo-leveling-proto.version>
+
+    <!-- tests -->
+    <test-containers.version>1.21.3</test-containers.version>
   </properties>
 
   <repositories>
