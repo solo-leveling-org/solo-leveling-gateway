@@ -1,0 +1,4 @@
+app:
+  telegram:
+    bot:
+      token: test
