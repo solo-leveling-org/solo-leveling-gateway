@@ -1,3 +1,4 @@
 {
-  "lumoImports" : [ "typography", "color", "spacing", "badge", "utility" ]
+  "primaryColor": "#2563eb",
+  "borderRadius": "16px"
 }
