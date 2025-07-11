@@ -14,6 +14,7 @@ jobs:
       packages: read
       actions: read
       contents: read
+      statuses: write
 
     strategy:
       fail-fast: false
@@ -27,6 +28,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Generate settings.xml in project root
         run: |
@@ -72,6 +75,11 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"
+
+      - name: Super-linter
+        uses: super-linter/super-linter@v7.4.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Clean up temporary files (security)
         if: matrix.language == 'java-kotlin'
