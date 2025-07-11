@@ -32,6 +32,7 @@ jobs:
           fetch-depth: 0
 
       - name: Generate settings.xml in project root
+        if: matrix.language == 'java-kotlin'
         run: |
           cat <<EOF > ./settings.xml
           <?xml version="1.0" encoding="UTF-8"?>
@@ -55,9 +56,11 @@ jobs:
           distribution: 'temurin'
 
       - name: Setup NodeJS
+        if: matrix.language == 'java-kotlin'
         uses: actions/setup-node@v4
 
       - name: Set up Docker
+        if: matrix.language == 'java-kotlin'
         uses: docker/setup-docker-action@v4
 
       - name: Initialize CodeQL
@@ -66,8 +69,8 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
 
-      - if: matrix.build-mode == 'manual'
-        name: Build project with Maven
+      - name: Build project with Maven
+        if: matrix.language == 'java-kotlin'
         run: |
           mvn clean install -s ./settings.xml
 
@@ -76,8 +79,8 @@ jobs:
         with:
           category: "/language:${{matrix.language}}"
 
-      - if: matrix.build-mode == 'manual'
-        name: Super-linter
+      - name: Super-linter
+        if: matrix.language == 'java-kotlin'
         uses: super-linter/super-linter@v7.4.0
         env:
           DISABLE_ERRORS: true
