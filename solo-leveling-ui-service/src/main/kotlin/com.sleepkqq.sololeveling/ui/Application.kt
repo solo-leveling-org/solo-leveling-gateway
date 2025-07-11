@@ -10,7 +10,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @Push
 @SpringBootApplication
-@Theme(value = "my-app", variant = Lumo.DARK)
+@Theme(value = "solo-leveling", variant = Lumo.LIGHT)
 class Application : SpringBootServletInitializer(), AppShellConfigurator {
 
 	companion object {
