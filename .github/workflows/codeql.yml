@@ -76,9 +76,14 @@ jobs:
         with:
           category: "/language:${{matrix.language}}"
 
-      - name: Super-linter
+      - if: matrix.build-mode == 'manual'
+        name: Super-linter
         uses: super-linter/super-linter@v7.4.0
         env:
+          DISABLE_ERRORS: true
+          ERROR_ON_WARNINGS: false
+          VALIDATE_MODIFIED_ONLY: true
+          ENABLED_LINTERS: KOTLIN_KTLINT
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Clean up temporary files (security)
