@@ -8,8 +8,6 @@ spring:
     encoding: UTF-8
     cache-duration: -1
     fallback-to-system-locale: false
-  #hazelcast:
-  # config: classpath:hazelcast-client.yml
   kafka:
     bootstrap-servers: localhost:9092
     properties:
