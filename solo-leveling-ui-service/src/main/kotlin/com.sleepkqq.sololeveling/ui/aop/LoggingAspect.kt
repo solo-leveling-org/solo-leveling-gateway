@@ -1,6 +1,5 @@
 package com.sleepkqq.sololeveling.ui.aop
 
-import com.sleepkqq.sololeveling.ui.service.TgAuthService
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -11,9 +10,7 @@ import org.springframework.util.StopWatch
 
 @Aspect
 @Component
-class LoggingAspect(
-	private val tgAuthService: TgAuthService
-) {
+class LoggingAspect {
 
 	private val log = LoggerFactory.getLogger(LoggingAspect::class.java)
 
@@ -25,19 +22,14 @@ class LoggingAspect(
 	@Around("apiMethods()")
 	@Throws(Throwable::class)
 	fun logExecutionTime(joinPoint: ProceedingJoinPoint): Any {
-		val username = tgAuthService.findCurrentUser()
-			?.username
-			?: "anon"
-
 		val stopWatch = StopWatch()
 		stopWatch.start()
 		val result = joinPoint.proceed()
 		stopWatch.stop()
 
 		log.info(
-			">> api '{}' executed by '{}' in {} ms",
+			">> api '{}' executed by in {} ms",
 			joinPoint.signature.name,
-			username,
 			stopWatch.totalTimeMillis
 		)
 

@@ -22,13 +22,6 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-bom</artifactId>
-        <version>${vaadin.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
         <groupId>org.springframework.grpc</groupId>
         <artifactId>spring-grpc-dependencies</artifactId>
         <version>${spring-grpc.version}</version>
@@ -46,10 +39,6 @@
     <kotlin.version>2.2.0</kotlin.version>
     <kotlin.code.style>official</kotlin.code.style>
 
-    <!-- vaadin -->
-    <vaadin.version>24.6.5</vaadin.version>
-    <line-awesome.version>2.1.0</line-awesome.version>
-
     <!-- grpc -->
     <spring-grpc.version>0.10.0-SNAPSHOT</spring-grpc.version>
 
@@ -66,13 +55,6 @@
   </properties>
 
   <repositories>
-    <repository>
-      <id>Vaadin Directory</id>
-      <url>https://maven.vaadin.com/vaadin-addons</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
     <repository>
       <id>github</id>
       <url>https://maven.pkg.github.com/solo-leveling-org/solo-leveling-proto</url>
