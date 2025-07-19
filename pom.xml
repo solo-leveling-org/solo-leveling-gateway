@@ -11,12 +11,12 @@
   </parent>
 
   <groupId>com.sleepkqq</groupId>
-  <artifactId>solo-leveling-ui</artifactId>
+  <artifactId>solo-leveling-gateway</artifactId>
   <version>2.0.0</version>
   <packaging>pom</packaging>
 
   <modules>
-    <module>solo-leveling-ui-service</module>
+    <module>solo-leveling-gateway-service</module>
   </modules>
 
   <dependencyManagement>
@@ -45,6 +45,7 @@
     <!-- utils -->
     <jackson-databind.version>2.18.2</jackson-databind.version>
     <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
+    <jjwt.version>0.12.6</jjwt.version>
 
     <!-- solo leveling -->
     <solo-leveling-avro.version>2.0.1</solo-leveling-avro.version>
