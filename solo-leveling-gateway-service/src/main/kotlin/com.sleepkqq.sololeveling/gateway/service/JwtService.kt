@@ -1,10 +1,10 @@
 package com.sleepkqq.sololeveling.gateway.service
 
 import com.sleepkqq.sololeveling.gateway.config.JwtProperties
+import com.sleepkqq.sololeveling.gateway.extensions.toTgUser
 import com.sleepkqq.sololeveling.gateway.model.JwtResponse
 import com.sleepkqq.sololeveling.gateway.model.JwtToken
 import com.sleepkqq.sololeveling.gateway.model.JwtTokenType
-import com.sleepkqq.sololeveling.gateway.model.TgAuthData
 import com.sleepkqq.sololeveling.gateway.model.TgUserData
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
@@ -28,6 +28,10 @@ class JwtService {
 		const val LAST_NAME_CLAIM = "lastName"
 		const val PHOTO_URL_CLAIM = "photoUrl"
 		const val LANGUAGE_CODE_CLAIM = "languageCode"
+		const val ADDED_TO_ATTACHMENT_MENU_CLAIM = "addedToAttachmentMenu"
+		const val ALLOWS_WRITE_TO_PM_CLAIM = "allowsWriteToPm"
+		const val IS_BOT_CLAIM = "isBot"
+		const val IS_PREMIUM_CLAIM = "isPremium"
 	}
 
 	private val jwtProperties: JwtProperties
@@ -38,8 +42,7 @@ class JwtService {
 		this.secretKey = Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray())
 	}
 
-	fun generateToken(tgAuthData: TgAuthData): JwtResponse {
-		val user = tgAuthData.tgWebAppData.user
+	fun generateToken(user: TgUserData): JwtResponse {
 		val currentMillis = currentTimeMillis()
 		val accessToken = buildToken(user, currentMillis, JwtTokenType.ACCESS)
 		val refreshToken = buildToken(user, currentMillis, JwtTokenType.REFRESH)
@@ -69,6 +72,10 @@ class JwtService {
 			.claim(LAST_NAME_CLAIM, user.lastName)
 			.claim(PHOTO_URL_CLAIM, user.photoUrl)
 			.claim(LANGUAGE_CODE_CLAIM, user.languageCode)
+			.claim(ADDED_TO_ATTACHMENT_MENU_CLAIM, user.addedToAttachmentMenu)
+			.claim(ALLOWS_WRITE_TO_PM_CLAIM, user.allowsWriteToPm)
+			.claim(IS_BOT_CLAIM, user.isBot)
+			.claim(IS_PREMIUM_CLAIM, user.isPremium)
 			.issuedAt(Date(currentMillis))
 			.expiration(Date(expirationMillis))
 			.signWith(secretKey)
@@ -82,4 +89,11 @@ class JwtService {
 		.build()
 		.parseSignedClaims(token)
 		.payload
+
+	fun generateAccessTokenFromRefreshToken(refreshToken: String): JwtToken =
+		buildToken(
+			extractClaims(refreshToken).toTgUser(),
+			currentTimeMillis(),
+			JwtTokenType.ACCESS
+		)
 }

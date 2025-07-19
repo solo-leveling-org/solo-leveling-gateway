@@ -1,5 +1,6 @@
 package com.sleepkqq.sololeveling.gateway.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 
@@ -13,7 +14,9 @@ data class TgUserData(
 	val languageCode: String?,
 	val addedToAttachmentMenu: Boolean?,
 	val allowsWriteToPm: Boolean?,
+	@JsonProperty("is_bot")
 	val isBot: Boolean?,
+	@JsonProperty("is_premium")
 	val isPremium: Boolean?
 ) {
 

@@ -2,3 +2,5 @@ app:
   telegram:
     bot:
       token: test
+  jwt:
+    secret: test_secret
