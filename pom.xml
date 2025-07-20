@@ -17,6 +17,7 @@
 
   <modules>
     <module>solo-leveling-gateway-service</module>
+    <module>solo-leveling-gateway-api</module>
   </modules>
 
   <dependencyManagement>

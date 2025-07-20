@@ -1,5 +1,6 @@
 package com.sleepkqq.sololeveling.gateway.config
 
+import com.sleepkqq.sololeveling.gateway.config.properties.GrpcPlayerServiceProperties
 import com.sleepkqq.sololeveling.proto.config.DefaultGrpcClientConfig
 import com.sleepkqq.sololeveling.proto.player.PlayerServiceGrpc
 import com.sleepkqq.sololeveling.proto.player.PlayerServiceGrpc.PlayerServiceBlockingStub

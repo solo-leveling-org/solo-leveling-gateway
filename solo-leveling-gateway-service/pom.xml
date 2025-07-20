@@ -65,6 +65,11 @@
       <artifactId>solo-leveling-avro</artifactId>
       <version>${solo-leveling-avro.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.sleepkqq</groupId>
+      <artifactId>solo-leveling-gateway-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <!-- utils -->
     <dependency>

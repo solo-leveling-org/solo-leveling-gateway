@@ -1,11 +1,11 @@
 package com.sleepkqq.sololeveling.gateway.service
 
-import com.sleepkqq.sololeveling.gateway.config.JwtProperties
+import com.sleepkqq.sololeveling.gateway.config.properties.JwtProperties
+import com.sleepkqq.sololeveling.gateway.dto.JwtResponse
+import com.sleepkqq.sololeveling.gateway.dto.JwtToken
+import com.sleepkqq.sololeveling.gateway.dto.JwtTokenType
+import com.sleepkqq.sololeveling.gateway.dto.TgUserData
 import com.sleepkqq.sololeveling.gateway.extensions.toTgUser
-import com.sleepkqq.sololeveling.gateway.model.JwtResponse
-import com.sleepkqq.sololeveling.gateway.model.JwtToken
-import com.sleepkqq.sololeveling.gateway.model.JwtTokenType
-import com.sleepkqq.sololeveling.gateway.model.TgUserData
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service
 import java.lang.System.currentTimeMillis
 import java.time.Instant
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.util.Date
 import javax.crypto.SecretKey
@@ -60,7 +60,7 @@ class JwtService {
 			JwtTokenType.REFRESH -> jwtProperties.refreshLifetime
 		}
 
-		val expiresAt = LocalDateTime.ofInstant(
+		val expiresAt = OffsetDateTime.ofInstant(
 			Instant.ofEpochMilli(expirationMillis),
 			ZoneId.systemDefault()
 		)

@@ -1,12 +1,13 @@
 package com.sleepkqq.sololeveling.gateway.model
 
+import com.sleepkqq.sololeveling.gateway.dto.TgUserData
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.Locale
 
 
 class UserData(
 	val id: Long,
-	private val username: String?,
+	val tag: String?,
 	val firstName: String?,
 	val lastName: String?,
 	val photoUrl: String?,
@@ -18,7 +19,7 @@ class UserData(
 
 	override fun getPassword(): String? = null
 
-	override fun getUsername(): String? = username
+	override fun getUsername(): String = "$id"
 
 	companion object {
 
