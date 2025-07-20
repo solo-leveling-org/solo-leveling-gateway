@@ -39,6 +39,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kotlin.version>2.2.0</kotlin.version>
     <kotlin.code.style>official</kotlin.code.style>
+    <maven-compliler.version>3.14.0</maven-compliler.version>
 
     <!-- grpc -->
     <spring-grpc.version>0.10.0-SNAPSHOT</spring-grpc.version>
@@ -47,6 +48,11 @@
     <jackson-databind.version>2.18.2</jackson-databind.version>
     <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
     <jjwt.version>0.12.6</jjwt.version>
+
+    <!-- openapi generator -->
+    <openapi-generator-plugin.version>7.14.0</openapi-generator-plugin.version>
+    <swagger-annotations.version>2.2.34</swagger-annotations.version>
+    <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
 
     <!-- solo leveling -->
     <solo-leveling-avro.version>2.0.1</solo-leveling-avro.version>

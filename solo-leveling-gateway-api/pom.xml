@@ -24,24 +24,19 @@
       <artifactId>spring-boot-starter-web</artifactId>
       <scope>provided</scope>
     </dependency>
-
     <dependency>
       <groupId>jakarta.validation</groupId>
       <artifactId>jakarta.validation-api</artifactId>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.openapitools</groupId>
       <artifactId>jackson-databind-nullable</artifactId>
-      <version>0.2.6</version>
-      <scope>provided</scope>
+      <version>${jackson-databind-nullable.version}</version>
     </dependency>
-
     <dependency>
       <groupId>io.swagger.core.v3</groupId>
       <artifactId>swagger-annotations</artifactId>
-      <version>2.2.34</version>
-      <scope>provided</scope>
+      <version>${swagger-annotations.version}</version>
     </dependency>
   </dependencies>
 
@@ -50,7 +45,7 @@
       <plugin>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-maven-plugin</artifactId>
-        <version>7.14.0</version>
+        <version>${openapi-generator-plugin.version}</version>
         <executions>
           <execution>
             <id>generate-api</id>
