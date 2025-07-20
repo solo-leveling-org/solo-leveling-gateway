@@ -22,6 +22,8 @@ spec:
           env:
             - name: TELEGRAM_BOT_TOKEN_APP
               value: "${TELEGRAM_BOT_TOKEN_APP}"
+            - name: JWT_SECRET
+              value: "${JWT_SECRET}"
           livenessProbe:
             httpGet:
               path: /actuator/health
