@@ -12,9 +12,9 @@ import org.springframework.util.StopWatch
 @Component
 class LoggingAspect {
 
-	private val log = LoggerFactory.getLogger(LoggingAspect::class.java)
+	private val log = LoggerFactory.getLogger(javaClass)
 
-	@Pointcut("within(com.sleepkqq.sololeveling.ui.api..*)")
+	@Pointcut("within(com.sleepkqq.sololeveling.gateway.api..*)")
 	fun apiMethods() {
 
 	}

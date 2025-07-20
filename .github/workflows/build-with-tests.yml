@@ -1,0 +1,46 @@
+name: "Build project with tests"
+
+on:
+  pull_request:
+    branches-ignore: [ ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build project with tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate settings.xml in project root
+        run: |
+          cat <<EOF > ./settings.xml
+          <?xml version="1.0" encoding="UTF-8"?>
+          <settings>
+            <servers>
+              <server>
+                <id>github</id>
+                <username>${GITHUB_USER}</username>
+                <password>${GITHUB_TOKEN}</password>
+              </server>
+            </servers>
+          </settings>
+        env:
+          GITHUB_USER: ${{ secrets.GITHUB_USER }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '24'
+          distribution: 'temurin'
+
+      - name: Build project with Maven
+        run: |
+          mvn clean install -s ./settings.xml
+
+      - name: Clean up temporary files (security)
+        run: |
+          rm -f settings.xml

@@ -12,7 +12,7 @@ class DtoMapper {
 
 	fun map(user: UserData): UserInfo = UserInfo.newBuilder()
 		.setId(user.id)
-		.setUsername(user.username)
+		.setUsername(user.tag)
 		.setFirstName(user.firstName)
 		.setLastName(user.lastName)
 		.setPhotoUrl(user.photoUrl)

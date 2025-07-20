@@ -22,7 +22,7 @@ RUN mvn clean package -DskipTests -Pproduction --settings settings.xml
 FROM amazoncorretto:24-alpine3.21-jdk
 
 # Копируем собранный JAR и frontend
-COPY --from=build /usr/src/app/solo-leveling-ui-service/target/*.jar /app/solo-leveling-ui.jar
+COPY --from=build /usr/src/app/solo-leveling-gateway-service/target/*.jar /app/solo-leveling-gateway.jar
 
 # Безопасность: создаём пользователя
 RUN adduser -D myuser && \
@@ -40,4 +40,4 @@ CMD ["java", \
     "--enable-native-access=ALL-UNNAMED", \
     "--add-opens", "java.base/java.lang=ALL-UNNAMED", \
      "-Dspring.profiles.active=prod", \
-    "-jar", "solo-leveling-ui.jar"]
+    "-jar", "solo-leveling-gateway.jar"]

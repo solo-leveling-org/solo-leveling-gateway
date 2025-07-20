@@ -1,10 +1,10 @@
-name: Build, Push and Deploy to Kubernetes
+name: Docker build, Push and Deploy to Kubernetes
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  docker-and-deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -45,8 +45,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USER }}/solo-leveling-ui:latest
-            ${{ secrets.DOCKERHUB_USER }}/solo-leveling-ui:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:latest
+            ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:${{ github.sha }}
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v4
@@ -81,7 +81,7 @@ jobs:
 
       - name: Wait for deployment rollout
         run: |
-          kubectl rollout status deployment/solo-leveling-ui --timeout=90s
+          kubectl rollout status deployment/solo-leveling-gateway --timeout=90s
 
       - name: Clean up temporary files (security)
         run: |

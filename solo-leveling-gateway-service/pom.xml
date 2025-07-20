@@ -65,12 +65,16 @@
       <artifactId>solo-leveling-avro</artifactId>
       <version>${solo-leveling-avro.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.sleepkqq</groupId>
+      <artifactId>solo-leveling-gateway-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <!-- utils -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>${jackson-databind.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.module</groupId>
@@ -94,6 +98,13 @@
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt</artifactId>
       <version>${jjwt.version}</version>
+    </dependency>
+
+    <!-- swagger -->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>${springdoc-openapi.version}</version>
     </dependency>
 
     <!-- tests -->
@@ -181,7 +192,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.14.0</version>
+        <version>${maven-compliler.version}</version>
         <configuration>
           <source>${maven.compiler.source}</source>
           <target>${maven.compiler.target}</target>

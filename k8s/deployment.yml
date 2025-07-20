@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: solo-leveling-ui
+  name: solo-leveling-gateway
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: solo-leveling-ui
+      app: solo-leveling-gateway
   template:
     metadata:
       labels:
-        app: solo-leveling-ui
+        app: solo-leveling-gateway
       annotations:
         commit.sha: "${GIT_COMMIT_SHA}"
     spec:
       containers:
         - name: app
-          image: $DOCKERHUB_USER/solo-leveling-ui:$GIT_COMMIT_SHA
+          image: $DOCKERHUB_USER/solo-leveling-gateway:$GIT_COMMIT_SHA
           ports:
             - containerPort: 8080
           env:

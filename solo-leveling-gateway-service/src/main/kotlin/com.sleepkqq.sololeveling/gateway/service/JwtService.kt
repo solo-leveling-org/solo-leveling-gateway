@@ -1,11 +1,11 @@
 package com.sleepkqq.sololeveling.gateway.service
 
-import com.sleepkqq.sololeveling.gateway.config.JwtProperties
+import com.sleepkqq.sololeveling.gateway.config.properties.JwtProperties
+import com.sleepkqq.sololeveling.gateway.dto.JwtResponse
+import com.sleepkqq.sololeveling.gateway.dto.JwtToken
+import com.sleepkqq.sololeveling.gateway.dto.JwtTokenType
+import com.sleepkqq.sololeveling.gateway.dto.TgUserData
 import com.sleepkqq.sololeveling.gateway.extensions.toTgUser
-import com.sleepkqq.sololeveling.gateway.model.JwtResponse
-import com.sleepkqq.sololeveling.gateway.model.JwtToken
-import com.sleepkqq.sololeveling.gateway.model.JwtTokenType
-import com.sleepkqq.sololeveling.gateway.model.TgUserData
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
