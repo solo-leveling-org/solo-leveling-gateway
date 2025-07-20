@@ -1,0 +1,6 @@
+app:
+  telegram:
+    bot:
+      token: test
+  jwt:
+    secret: test_secret_l/lVAQDyUDP+ntj34gn/WcyTBbiroe67O1qPSPJ/QVw=

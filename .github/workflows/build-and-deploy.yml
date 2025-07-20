@@ -53,10 +53,10 @@ jobs:
 
       - name: Set environment variables for deployment
         run: |
-          echo "SERVER_HOST=${{ secrets.SERVER_HOST }}" >> $GITHUB_ENV
           echo "TELEGRAM_BOT_TOKEN_APP=${{ secrets.TELEGRAM_BOT_TOKEN_APP }}" >> $GITHUB_ENV
           echo "GIT_COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
           echo "DOCKERHUB_USER=${{ secrets.DOCKERHUB_USER }}" >> $GITHUB_ENV
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
 
       - name: Install gettext for envsubst
         run: |
@@ -81,7 +81,7 @@ jobs:
 
       - name: Wait for deployment rollout
         run: |
-          kubectl rollout status deployment/solo-leveling-ui --timeout=60s
+          kubectl rollout status deployment/solo-leveling-ui --timeout=90s
 
       - name: Clean up temporary files (security)
         run: |

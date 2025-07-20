@@ -23,7 +23,6 @@ FROM amazoncorretto:24-alpine3.21-jdk
 
 # Копируем собранный JAR и frontend
 COPY --from=build /usr/src/app/solo-leveling-ui-service/target/*.jar /app/solo-leveling-ui.jar
-COPY --from=build /usr/src/app/solo-leveling-ui-service/src/main/frontend /app/frontend
 
 # Безопасность: создаём пользователя
 RUN adduser -D myuser && \
