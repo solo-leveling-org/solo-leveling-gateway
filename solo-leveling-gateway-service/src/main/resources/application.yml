@@ -1,6 +1,6 @@
 spring:
   application:
-    name: solo-leveling-ui
+    name: solo-leveling-gateway
   mustache:
     check-template-location: false
   messages:

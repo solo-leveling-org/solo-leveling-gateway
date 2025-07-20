@@ -14,7 +14,7 @@ class AuthService(
 ) {
 
 	fun login(tgAuthData: TgAuthData): JwtResponse {
-		if (!tgHashService.checkHash(tgAuthData.initData, tgAuthData.tgWebAppData.hash)) {
+		if (!tgHashService.checkHash(tgAuthData)) {
 			throw LocalizationException(LocalizationMessage.ERROR_AUTH_HASH)
 		}
 

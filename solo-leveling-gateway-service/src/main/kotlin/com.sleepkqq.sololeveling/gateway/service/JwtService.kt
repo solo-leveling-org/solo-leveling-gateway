@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service
 import java.lang.System.currentTimeMillis
 import java.time.Instant
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Date
 import javax.crypto.SecretKey
@@ -60,7 +60,7 @@ class JwtService {
 			JwtTokenType.REFRESH -> jwtProperties.refreshLifetime
 		}
 
-		val expiresAt = OffsetDateTime.ofInstant(
+		val expiresAt = LocalDateTime.ofInstant(
 			Instant.ofEpochMilli(expirationMillis),
 			ZoneId.systemDefault()
 		)
