@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.gateway.config
+package com.sleepkqq.sololeveling.gateway.config.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

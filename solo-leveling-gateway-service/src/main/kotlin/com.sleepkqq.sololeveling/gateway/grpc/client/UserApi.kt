@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.gateway.api.grpc
+package com.sleepkqq.sololeveling.gateway.grpc.client
 
 import com.sleepkqq.sololeveling.proto.user.AuthUserRequest
 import com.sleepkqq.sololeveling.proto.user.GetUserInfoRequest
