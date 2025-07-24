@@ -53,7 +53,7 @@ class JwtAuthenticationFilter(
 
 			filterChain.doFilter(request, response)
 		} catch (e: Exception) {
-			log.error(e.message)
+			log.error("JWT authentication failed", e)
 			response.status = HttpServletResponse.SC_UNAUTHORIZED
 			response.contentType = APPLICATION_JSON_VALUE
 			response.writer.write(e.toString())
