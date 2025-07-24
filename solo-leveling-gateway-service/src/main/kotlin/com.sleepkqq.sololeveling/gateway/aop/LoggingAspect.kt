@@ -19,7 +19,7 @@ class LoggingAspect {
 
 	}
 
-	@Around("controllerMethods()")
+	@Around("controllersMethods()")
 	@Throws(Throwable::class)
 	fun controllersMethodsLogger(joinPoint: ProceedingJoinPoint): Any =
 		logExecutionTime(joinPoint, ExecutionType.REST_API)

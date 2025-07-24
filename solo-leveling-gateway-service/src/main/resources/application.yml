@@ -12,6 +12,8 @@ spring:
     bootstrap-servers: localhost:9092
     properties:
       schema.registry.url: http://localhost:8081
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 app:
   grpc:
     services:
