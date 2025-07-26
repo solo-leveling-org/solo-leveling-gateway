@@ -1,11 +1,11 @@
 package com.sleepkqq.sololeveling.gateway.config.security
 
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
@@ -37,15 +37,18 @@ class SecurityConfiguration(
 				}
 			}
 		}
-		.authorizeHttpRequests { it.anyRequest().authenticated() }
+		.authorizeHttpRequests {
+			it.requestMatchers("/actuator/**").permitAll()
+				.requestMatchers("/api/v1/auth/**").permitAll()
+				.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
+				.anyRequest().authenticated()
+		}
+		.exceptionHandling {
+			it.authenticationEntryPoint { request, response, authException ->
+				response.status = HttpServletResponse.SC_UNAUTHORIZED
+			}
+		}
 		.sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
 		.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
 		.build()
-
-	@Bean
-	fun webSecurityCustomizer(): WebSecurityCustomizer = WebSecurityCustomizer {
-		it.ignoring()
-			.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**")
-			.requestMatchers("/actuator/**", "/api/v1/auth/*")
-	}
 }
