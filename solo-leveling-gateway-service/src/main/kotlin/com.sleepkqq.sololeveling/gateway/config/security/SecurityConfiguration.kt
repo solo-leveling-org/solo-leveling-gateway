@@ -1,9 +1,10 @@
 package com.sleepkqq.sololeveling.gateway.config.security
 
+import com.sleepkqq.sololeveling.gateway.config.properties.CorsProperties
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -14,8 +15,10 @@ import org.springframework.web.cors.CorsConfiguration
 @Suppress("unused")
 @Configuration
 @EnableWebSecurity
+@EnableConfigurationProperties(CorsProperties::class)
 class SecurityConfiguration(
-	private val jwtAuthenticationFilter: JwtAuthenticationFilter
+	private val jwtAuthenticationFilter: JwtAuthenticationFilter,
+	private val corsProperties: CorsProperties
 ) {
 
 	@Bean
@@ -25,23 +28,23 @@ class SecurityConfiguration(
 		.cors {
 			it.configurationSource {
 				CorsConfiguration().apply {
-					allowedOriginPatterns = listOf("*")
-					allowedMethods = listOf(
-						HttpMethod.GET.name(),
-						HttpMethod.POST.name(),
-						HttpMethod.PUT.name(),
-						HttpMethod.DELETE.name(),
-						HttpMethod.OPTIONS.name()
-					)
+					allowedOriginPatterns = corsProperties.hosts
+					allowedMethods = corsProperties.methods
 					allowedHeaders = listOf("*")
 					allowCredentials = true
 				}
 			}
 		}
 		.authorizeHttpRequests {
-			it.requestMatchers("/actuator/**").permitAll()
+
+			it
+				// metrics
+				.requestMatchers("/actuator/**").permitAll()
+				// auth
 				.requestMatchers("/api/v1/auth/**").permitAll()
+				// swagger
 				.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
+				// other
 				.anyRequest().authenticated()
 		}
 		.exceptionHandling {

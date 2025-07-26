@@ -27,6 +27,16 @@ app:
     secret: ${JWT_SECRET}
     access-lifetime: 1_200_000
     refresh-lifetime: 18_000_000
+  cors:
+    hosts:
+      - https://solo-leveling.online
+      - https://solo-leveling.ru.tuna.am
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
 management:
   endpoints:
     web:
