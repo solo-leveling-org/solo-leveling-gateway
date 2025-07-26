@@ -24,10 +24,7 @@ class SecurityConfiguration(
 		.cors {
 			it.configurationSource {
 				CorsConfiguration().apply {
-					allowedOriginPatterns = listOf(
-						"https://solo-leveling.online",
-						"https://solo-leveling.ru.tuna.am"
-					)
+					allowedOriginPatterns = listOf("*")
 					allowedMethods = listOf(
 						HttpMethod.GET.name(),
 						HttpMethod.POST.name(),
@@ -46,11 +43,9 @@ class SecurityConfiguration(
 		.build()
 
 	@Bean
-	fun webSecurityCustomizer(): WebSecurityCustomizer {
-		return WebSecurityCustomizer {
-			it.ignoring()
-				.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**")
-				.requestMatchers("/actuator/**", "/api/v1/auth/*")
-		}
+	fun webSecurityCustomizer(): WebSecurityCustomizer = WebSecurityCustomizer {
+		it.ignoring()
+			.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**")
+			.requestMatchers("/actuator/**", "/api/v1/auth/*")
 	}
 }
