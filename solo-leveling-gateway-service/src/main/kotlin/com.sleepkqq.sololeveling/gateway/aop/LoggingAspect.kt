@@ -14,21 +14,39 @@ class LoggingAspect {
 
 	private val log = LoggerFactory.getLogger(javaClass)
 
-	@Pointcut("within(com.sleepkqq.sololeveling.gateway.api..*)")
-	fun apiMethods() {
+	@Pointcut("within(com.sleepkqq.sololeveling.gateway.controller..*)")
+	fun controllersMethods() {
 
 	}
 
-	@Around("apiMethods()")
+	@Around("controllersMethods()")
 	@Throws(Throwable::class)
-	fun logExecutionTime(joinPoint: ProceedingJoinPoint): Any {
+	fun controllersMethodsLogger(joinPoint: ProceedingJoinPoint): Any =
+		logExecutionTime(joinPoint, ExecutionType.REST_API)
+
+	@Pointcut("within(com.sleepkqq.sololeveling.gateway.grpc.client..*)")
+	fun grpcClientsMethods() {
+
+	}
+
+	@Around("grpcClientsMethods()")
+	@Throws(Throwable::class)
+	fun grpcClientsMethodsLogger(joinPoint: ProceedingJoinPoint): Any =
+		logExecutionTime(joinPoint, ExecutionType.GRPC_CALL)
+
+	private fun logExecutionTime(
+		joinPoint: ProceedingJoinPoint,
+		executionType: ExecutionType
+	): Any {
 		val stopWatch = StopWatch()
+
 		stopWatch.start()
 		val result = joinPoint.proceed()
 		stopWatch.stop()
 
 		log.info(
-			">> api '{}' executed by in {} ms",
+			">> {} '{}' executed by in {} ms",
+			executionType.value,
 			joinPoint.signature.name,
 			stopWatch.totalTimeMillis
 		)

@@ -6,7 +6,6 @@ import com.sleepkqq.sololeveling.gateway.dto.JwtToken
 import com.sleepkqq.sololeveling.gateway.dto.JwtTokenType
 import com.sleepkqq.sololeveling.gateway.dto.TgUserData
 import com.sleepkqq.sololeveling.gateway.extensions.toTgUser
-import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -84,15 +83,16 @@ class JwtService {
 		return JwtToken(token, expiresAt, tokenType)
 	}
 
-	fun extractClaims(token: String): Claims = Jwts.parser()
+	fun extractTgUser(token: String): TgUserData = Jwts.parser()
 		.verifyWith(secretKey)
 		.build()
 		.parseSignedClaims(token)
 		.payload
+		.toTgUser()
 
 	fun generateAccessTokenFromRefreshToken(refreshToken: String): JwtToken =
 		buildToken(
-			extractClaims(refreshToken).toTgUser(),
+			extractTgUser(refreshToken),
 			currentTimeMillis(),
 			JwtTokenType.ACCESS
 		)

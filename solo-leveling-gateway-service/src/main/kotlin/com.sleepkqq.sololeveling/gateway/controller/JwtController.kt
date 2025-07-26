@@ -1,7 +1,7 @@
-package com.sleepkqq.sololeveling.gateway.api.rest
+package com.sleepkqq.sololeveling.gateway.controller
 
 import com.sleepkqq.sololeveling.gateway.api.JwtApi
-import com.sleepkqq.sololeveling.gateway.api.grpc.UserApi
+import com.sleepkqq.sololeveling.gateway.grpc.client.UserApi
 import com.sleepkqq.sololeveling.gateway.dto.JwtResponse
 import com.sleepkqq.sololeveling.gateway.dto.JwtToken
 import com.sleepkqq.sololeveling.gateway.dto.RefreshRequest
@@ -19,7 +19,7 @@ class JwtController(
 ) : JwtApi {
 
 	override fun login(tgAuthData: @Valid TgAuthData): ResponseEntity<JwtResponse> {
-		userApi.authUser(UserData.fromTgUser(tgAuthData.tgWebAppData.user))
+		userApi.authUser(UserData.Companion.fromTgUser(tgAuthData.tgWebAppData.user))
 		return ResponseEntity.ok(authService.login(tgAuthData))
 	}
 
