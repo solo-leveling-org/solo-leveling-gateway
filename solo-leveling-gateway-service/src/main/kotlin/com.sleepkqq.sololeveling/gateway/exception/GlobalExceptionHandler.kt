@@ -20,7 +20,7 @@ class GlobalExceptionHandler {
 				ApiException(
 					status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					error = HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase,
-					message = "Internal server error",
+					message = ex.toString(),
 					path = request.getDescription(false).removePrefix("uri=")
 				)
 			)
