@@ -2,8 +2,10 @@ package com.sleepkqq.sololeveling.gateway.config.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
@@ -22,20 +24,33 @@ class SecurityConfiguration(
 		.cors {
 			it.configurationSource {
 				CorsConfiguration().apply {
-					allowedOriginPatterns = listOf("*")
-					allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+					allowedOriginPatterns = listOf(
+						"https://solo-leveling.online",
+						"https://solo-leveling.ru.tuna.am"
+					)
+					allowedMethods = listOf(
+						HttpMethod.GET.name(),
+						HttpMethod.POST.name(),
+						HttpMethod.PUT.name(),
+						HttpMethod.DELETE.name(),
+						HttpMethod.OPTIONS.name()
+					)
 					allowedHeaders = listOf("*")
 					allowCredentials = true
 				}
 			}
 		}
-		.authorizeHttpRequests {
-			it.requestMatchers("/api/v1/auth/**").permitAll()
-				.requestMatchers("/actuator/**").permitAll()
-				.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/api-docs/**").permitAll()
-				.anyRequest().authenticated()
-		}
+		.authorizeHttpRequests { it.anyRequest().authenticated() }
 		.sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
 		.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
 		.build()
+
+	@Bean
+	fun webSecurityCustomizer(): WebSecurityCustomizer {
+		return WebSecurityCustomizer {
+			it.ignoring()
+				.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**")
+				.requestMatchers("/actuator/**", "/api/v1/auth/*")
+		}
+	}
 }

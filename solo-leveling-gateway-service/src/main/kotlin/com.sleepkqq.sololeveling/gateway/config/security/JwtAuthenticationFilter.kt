@@ -41,7 +41,7 @@ class JwtAuthenticationFilter(
 		}
 
 		try {
-			val jwt: String = authHeader.substring(BEARER_PREFIX.length)
+			val jwt = authHeader.substring(BEARER_PREFIX.length)
 
 			val user = UserData.fromTgUser(jwtService.extractTgUser(jwt))
 
@@ -52,6 +52,7 @@ class JwtAuthenticationFilter(
 			}
 
 			filterChain.doFilter(request, response)
+
 		} catch (e: Exception) {
 			log.error("JWT authentication failed", e)
 			response.status = HttpServletResponse.SC_UNAUTHORIZED
