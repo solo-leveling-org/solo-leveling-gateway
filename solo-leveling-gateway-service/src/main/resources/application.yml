@@ -26,7 +26,7 @@ app:
   jwt:
     secret: ${JWT_SECRET}
     access-lifetime: 1_200_000
-    refresh-lifetime: 604_800_000
+    refresh-lifetime: 18_000_000
 management:
   endpoints:
     web:

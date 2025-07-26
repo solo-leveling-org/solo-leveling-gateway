@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class ReceiveNotificationConsumer {
 
-	private val log = LoggerFactory.getLogger(ReceiveNotificationConsumer::class.java)
+	private val log = LoggerFactory.getLogger(javaClass)
 
 	@KafkaListener(
 		topics = [KafkaTaskTopics.UI_NOTIFICATION_TOPIC],

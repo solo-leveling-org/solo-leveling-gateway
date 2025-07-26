@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
 
+@Suppress("unused")
 @Configuration
 @EnableWebSecurity
 class SecurityConfiguration(

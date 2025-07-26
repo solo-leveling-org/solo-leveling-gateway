@@ -10,12 +10,12 @@ import org.springframework.kafka.annotation.EnableKafka
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.ConsumerFactory
 
+@Suppress("unused")
 @EnableKafka
 @Configuration
-@Suppress("unused")
 class KafkaConfig(
-	@Value("\${spring.kafka.bootstrap-servers}") bootstrapServers: String,
-	@Value("\${spring.kafka.properties.schema.registry.url}") schemaRegistryUrl: String
+	@Value($$"${spring.kafka.bootstrap-servers}") bootstrapServers: String,
+	@Value($$"${spring.kafka.properties.schema.registry.url}") schemaRegistryUrl: String
 ) : DefaultKafkaConfig(bootstrapServers, schemaRegistryUrl) {
 
 	@Bean

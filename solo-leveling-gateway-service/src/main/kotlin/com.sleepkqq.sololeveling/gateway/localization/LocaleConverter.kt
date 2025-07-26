@@ -4,6 +4,7 @@ import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter
 import java.util.Locale
 
+@Suppress("unused")
 @Converter(autoApply = true)
 class LocaleConverter : AttributeConverter<Locale, String> {
 
