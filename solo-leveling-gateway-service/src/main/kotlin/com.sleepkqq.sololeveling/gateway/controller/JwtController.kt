@@ -12,6 +12,7 @@ import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 
+@Suppress("unused")
 @RestController
 class JwtController(
 	private val authService: AuthService,
@@ -19,7 +20,7 @@ class JwtController(
 ) : JwtApi {
 
 	override fun login(tgAuthData: @Valid TgAuthData): ResponseEntity<JwtResponse> {
-		userApi.authUser(UserData.Companion.fromTgUser(tgAuthData.tgWebAppData.user))
+		userApi.authUser(UserData.fromTgUser(tgAuthData.tgWebAppData.user))
 		return ResponseEntity.ok(authService.login(tgAuthData))
 	}
 
