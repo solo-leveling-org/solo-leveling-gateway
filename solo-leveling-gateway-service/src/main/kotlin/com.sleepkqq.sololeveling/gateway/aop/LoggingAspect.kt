@@ -51,7 +51,8 @@ class LoggingAspect {
 				executionType.value,
 				joinPoint.signature.name,
 				principal,
-				stopWatch.totalTimeMillis
+				stopWatch.totalTimeMillis,
+				e
 			)
 			throw e
 		} finally {
