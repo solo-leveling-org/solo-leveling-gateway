@@ -32,7 +32,7 @@ class UserData(
 				tgUser.photoUrl,
 				tgUser.languageCode
 					?.takeIf { "ru".equals(it, ignoreCase = true) }
-					.let { Locale.forLanguageTag(it) }
+					?.let { Locale.forLanguageTag(it) }
 					?: Locale.ENGLISH,
 				listOf(UserRole.USER)
 			)
