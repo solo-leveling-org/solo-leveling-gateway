@@ -22,6 +22,8 @@ class UserData(
 	override fun getUsername(): String = "$id"
 
 	companion object {
+		private const val RU_LANGUAGE_TAG = "ru"
+		private val SUPPORTED_LANGUAGE_TAGS = setOf(RU_LANGUAGE_TAG)
 
 		fun fromTgUser(tgUser: TgUserData): UserData {
 			return UserData(
@@ -31,7 +33,7 @@ class UserData(
 				tgUser.lastName,
 				tgUser.photoUrl,
 				tgUser.languageCode
-					?.takeIf { "ru".equals(it, ignoreCase = true) }
+					?.takeIf { it in SUPPORTED_LANGUAGE_TAGS }
 					?.let { Locale.forLanguageTag(it) }
 					?: Locale.ENGLISH,
 				listOf(UserRole.USER)
