@@ -28,7 +28,9 @@ app:
     access-lifetime: 1_200_000
     refresh-lifetime: 18_000_000
   cors:
-    hosts: "*"
+    hosts:
+      - https://solo-leveling.online
+      - https://solo-leveling.ru.tuna.am
     methods:
       - GET
       - POST
