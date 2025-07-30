@@ -55,7 +55,11 @@ class TgHashService(
 		.map { it.split(KEY_VALUE_DELIMITER, limit = 2) }
 		.map {
 			val key = URLDecoder.decode(it[0], StandardCharsets.UTF_8)
-			val value = if (it.size > 1) URLDecoder.decode(it[1], StandardCharsets.UTF_8) else ""
+			val value = if (it.size > 1) {
+				URLDecoder.decode(it[1], StandardCharsets.UTF_8)
+			} else {
+				""
+			}
 			key to value
 		}
 		.filterNot { (key, _) -> key == HASH_FIELD }

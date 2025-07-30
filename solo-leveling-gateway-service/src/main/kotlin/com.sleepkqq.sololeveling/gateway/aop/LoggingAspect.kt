@@ -45,7 +45,10 @@ class LoggingAspect {
 		stopWatch.start()
 		val result = try {
 			joinPoint.proceed()
+
 		} catch (e: Throwable) {
+			stopWatch.stop()
+
 			log.error(
 				">> {} '{}' failed for user '{}' in {} ms",
 				executionType.value,
@@ -56,7 +59,9 @@ class LoggingAspect {
 			)
 			throw e
 		} finally {
-			if (stopWatch.isRunning) stopWatch.stop()
+			if (stopWatch.isRunning) {
+				stopWatch.stop()
+			}
 		}
 
 		log.info(
@@ -71,9 +76,14 @@ class LoggingAspect {
 	}
 
 	private fun getCurrentUser(): String {
-		val authentication =
-			SecurityContextHolder.getContext().authentication ?: return "unauthenticated"
+		val authentication = SecurityContextHolder.getContext().authentication
+			?: return "unauthenticated"
 		val principal = authentication.principal
-		return if (principal is UserData) principal.id.toString() else "anonymous"
+
+		return if (principal is UserData) {
+			principal.id.toString()
+		} else {
+			"anonymous"
+		}
 	}
 }

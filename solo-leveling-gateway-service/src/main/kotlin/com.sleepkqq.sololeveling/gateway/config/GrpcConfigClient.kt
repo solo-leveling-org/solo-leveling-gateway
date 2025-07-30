@@ -22,12 +22,10 @@ class GrpcConfigClient(
 	fun playerManagedChannel(): ManagedChannel = createManagedChannel(properties)
 
 	@Bean
-	fun userServiceBlockingStub(
-		playerManagedChannel: ManagedChannel
-	): UserServiceBlockingStub = UserServiceGrpc.newBlockingStub(playerManagedChannel)
+	fun userServiceBlockingStub(): UserServiceBlockingStub =
+		UserServiceGrpc.newBlockingStub(playerManagedChannel())
 
 	@Bean
-	fun playerServiceBlockingStub(
-		playerManagedChannel: ManagedChannel
-	): PlayerServiceBlockingStub = PlayerServiceGrpc.newBlockingStub(playerManagedChannel)
+	fun playerServiceBlockingStub(): PlayerServiceBlockingStub =
+		PlayerServiceGrpc.newBlockingStub(playerManagedChannel())
 }
