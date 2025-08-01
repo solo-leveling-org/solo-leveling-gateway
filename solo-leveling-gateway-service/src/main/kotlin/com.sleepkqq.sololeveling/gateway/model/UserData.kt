@@ -1,6 +1,6 @@
 package com.sleepkqq.sololeveling.gateway.model
 
-import com.sleepkqq.sololeveling.gateway.dto.TgUserData
+import com.sleepkqq.sololeveling.gateway.dto.RestTgUserData
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.Locale
 
@@ -25,7 +25,7 @@ class UserData(
 		private const val RU_LANGUAGE_TAG = "ru"
 		private val SUPPORTED_LANGUAGE_TAGS = setOf(RU_LANGUAGE_TAG)
 
-		fun fromTgUser(tgUser: TgUserData): UserData {
+		fun fromTgUser(tgUser: RestTgUserData): UserData {
 			return UserData(
 				tgUser.id,
 				tgUser.username,

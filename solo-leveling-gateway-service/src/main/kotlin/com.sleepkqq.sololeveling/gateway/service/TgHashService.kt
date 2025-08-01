@@ -1,6 +1,6 @@
 package com.sleepkqq.sololeveling.gateway.service
 
-import com.sleepkqq.sololeveling.gateway.dto.TgAuthData
+import com.sleepkqq.sololeveling.gateway.dto.RestTgAuthData
 import org.bouncycastle.crypto.digests.SHA256Digest
 import org.bouncycastle.crypto.macs.HMac
 import org.bouncycastle.crypto.params.KeyParameter
@@ -24,8 +24,10 @@ class TgHashService(
 		const val KEY_VALUE_DELIMITER = "="
 	}
 
-	fun checkHash(tgAuthData: TgAuthData): Boolean =
-		validateHash(parseQuery(tgAuthData.initData), tgAuthData.tgWebAppData.hash)
+	fun checkHash(tgAuthData: RestTgAuthData): Boolean {
+		val parsedQuery = parseQuery(tgAuthData.initData)
+		return validateHash(parsedQuery, tgAuthData.tgWebAppData.hash)
+	}
 
 	private fun validateHash(parsedQuery: String, receivedHash: String): Boolean {
 		val tgBotTokenHash = getHash(
