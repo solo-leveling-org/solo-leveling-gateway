@@ -1,6 +1,6 @@
 package com.sleepkqq.sololeveling.gateway.extensions
 
-import com.sleepkqq.sololeveling.gateway.dto.TgUserData
+import com.sleepkqq.sololeveling.gateway.dto.RestTgUserData
 import com.sleepkqq.sololeveling.gateway.service.JwtService
 import io.jsonwebtoken.Claims
 
@@ -18,7 +18,7 @@ fun Claims.extractAllowsWriteToPm(): Boolean? =
 fun Claims.extractIsBot(): Boolean? = get(JwtService.IS_BOT_CLAIM, Boolean::class.java)
 fun Claims.extractIsPremium(): Boolean? = get(JwtService.IS_PREMIUM_CLAIM, Boolean::class.java)
 
-fun Claims.toTgUser(): TgUserData = TgUserData(subject.toLong())
+fun Claims.toTgUser(): RestTgUserData = RestTgUserData(subject.toLong())
 	.apply {
 		username = extractUsername()
 		firstName = extractFirstName()
