@@ -17,7 +17,6 @@ class UserGrpcApi(
 	)
 		.user
 
-	fun authUser(userInput: UserInput) {
+	fun authUser(userInput: UserInput) =
 		userStub.authUser(AuthUserRequest.newBuilder().setUser(userInput).build())
-	}
 }
