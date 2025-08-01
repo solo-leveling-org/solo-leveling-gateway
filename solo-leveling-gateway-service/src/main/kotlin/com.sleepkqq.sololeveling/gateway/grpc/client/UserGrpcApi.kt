@@ -24,4 +24,3 @@ class UserGrpcApi(
 		userStub.authUser(AuthUserRequest.newBuilder().setUser(userInput).build())
 	}
 }
-
