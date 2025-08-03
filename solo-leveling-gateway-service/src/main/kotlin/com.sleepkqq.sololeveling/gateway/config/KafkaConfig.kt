@@ -19,9 +19,8 @@ class KafkaConfig(
 ) : DefaultKafkaConfig(bootstrapServers, schemaRegistryUrl) {
 
 	@Bean
-	fun consumerFactoryReceiveNotificationEvent(): ConsumerFactory<String, ReceiveNotificationEvent> {
-		return createConsumerFactory(KafkaGroupIds.UI_GROUP_ID)
-	}
+	fun consumerFactoryReceiveNotificationEvent(): ConsumerFactory<String, ReceiveNotificationEvent> =
+		createConsumerFactory(KafkaGroupIds.UI_GROUP_ID)
 
 	@Bean
 	fun kafkaListenerContainerFactory(

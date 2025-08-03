@@ -46,7 +46,7 @@ server:
   port: 8089
   servlet:
     session:
-      timeout: 604800
+      timeout: 604_800
 logging:
   level:
     org.atmosphere: WARN

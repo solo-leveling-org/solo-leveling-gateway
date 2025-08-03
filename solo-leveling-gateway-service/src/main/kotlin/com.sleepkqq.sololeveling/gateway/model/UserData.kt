@@ -1,6 +1,6 @@
 package com.sleepkqq.sololeveling.gateway.model
 
-import com.sleepkqq.sololeveling.gateway.dto.TgUserData
+import com.sleepkqq.sololeveling.gateway.dto.RestTgUserData
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.Locale
 
@@ -22,8 +22,10 @@ class UserData(
 	override fun getUsername(): String = "$id"
 
 	companion object {
+		private const val RU_LANGUAGE_TAG = "ru"
+		private val SUPPORTED_LANGUAGE_TAGS = setOf(RU_LANGUAGE_TAG)
 
-		fun fromTgUser(tgUser: TgUserData): UserData {
+		fun fromTgUser(tgUser: RestTgUserData): UserData {
 			return UserData(
 				tgUser.id,
 				tgUser.username,
@@ -31,8 +33,8 @@ class UserData(
 				tgUser.lastName,
 				tgUser.photoUrl,
 				tgUser.languageCode
-					?.takeIf { "ru".equals(it, ignoreCase = true) }
-					.let { Locale.forLanguageTag(it) }
+					?.takeIf { it in SUPPORTED_LANGUAGE_TAGS }
+					?.let { Locale.forLanguageTag(it) }
 					?: Locale.ENGLISH,
 				listOf(UserRole.USER)
 			)
