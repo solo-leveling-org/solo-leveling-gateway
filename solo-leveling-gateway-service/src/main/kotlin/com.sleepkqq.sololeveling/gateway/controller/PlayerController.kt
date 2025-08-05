@@ -45,13 +45,15 @@ class PlayerController(
 	}
 
 	override fun savePlayerTopics(request: @Valid RestSavePlayerTopicsRequest): ResponseEntity<Void> {
-		playerGrpcApi.savePlayerTopics(protoMapper.map(request))
+		val currentUser = authService.getCurrentUser()
+		playerGrpcApi.savePlayerTopics(protoMapper.map(currentUser.id, request))
 
 		return ResponseEntity.noContent().build()
 	}
 
 	override fun skipTask(request: @Valid RestSkipTaskRequest): ResponseEntity<Void> {
-		playerGrpcApi.skipTask(protoMapper.map(request))
+		val currentUser = authService.getCurrentUser()
+		playerGrpcApi.skipTask(protoMapper.map(currentUser.id, request))
 
 		return ResponseEntity.noContent().build()
 	}

@@ -143,15 +143,15 @@ abstract class ProtoMapper {
 	@Mapping(target = "taskTopic", source = "taskTopic", qualifiedByName = ["toRestTaskTopic"])
 	abstract fun map(input: PlayerTaskTopicView): RestPlayerTaskTopic
 
-	@Mapping(target = "topicsList", source = "topics", qualifiedByName = ["toProtoTaskTopic"])
-	abstract fun map(input: RestSavePlayerTopicsRequest): SavePlayerTopicsRequest
+	@Mapping(target = "topicsList", source = "input.topics", qualifiedByName = ["toProtoTaskTopic"])
+	abstract fun map(playerId: Long, input: RestSavePlayerTopicsRequest): SavePlayerTopicsRequest
 
 	@Mapping(
 		target = "playerTask",
-		source = "playerTask",
+		source = "input.playerTask",
 		qualifiedByName = ["toProtoPlayerTaskInput"]
 	)
-	abstract fun map(input: RestSkipTaskRequest): SkipTaskRequest
+	abstract fun map(playerId: Long, input: RestSkipTaskRequest): SkipTaskRequest
 
 	@Mapping(
 		target = "playerTask",
