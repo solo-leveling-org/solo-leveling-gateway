@@ -155,10 +155,10 @@ abstract class ProtoMapper {
 
 	@Mapping(
 		target = "playerTask",
-		source = "playerTask",
+		source = "input.playerTask",
 		qualifiedByName = ["toProtoPlayerTaskInput"]
 	)
-	abstract fun map(input: RestCompleteTaskRequest): CompleteTaskRequest
+	abstract fun map(playerId: Long, input: RestCompleteTaskRequest): CompleteTaskRequest
 
 	@Named("toProtoPlayerTaskInput")
 	@Mapping(target = "status", source = "status", qualifiedByName = ["toProtoPlayerTaskStatus"])

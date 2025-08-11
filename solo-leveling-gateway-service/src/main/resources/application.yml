@@ -14,6 +14,9 @@ spring:
       schema.registry.url: http://localhost:8081
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  threads:
+    virtual:
+      enabled: true
 app:
   grpc:
     services:
