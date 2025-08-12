@@ -44,6 +44,9 @@ import org.mapstruct.CollectionMappingStrategy
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.Named
+import org.mapstruct.NullValueCheckStrategy
+import org.mapstruct.NullValueMappingStrategy
+import org.mapstruct.NullValuePropertyMappingStrategy
 import org.mapstruct.ReportingPolicy
 import org.springframework.stereotype.Component
 
@@ -52,13 +55,12 @@ import org.springframework.stereotype.Component
 @Mapper(
 	componentModel = "spring",
 	unmappedTargetPolicy = ReportingPolicy.IGNORE,
-	collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED
+	collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
+	nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
+	nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_DEFAULT,
+	nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
 )
 abstract class ProtoMapper {
-
-	@Named("toProtoUserRole")
-	fun map(input: UserRole): com.sleepkqq.sololeveling.proto.user.UserRole =
-		com.sleepkqq.sololeveling.proto.user.UserRole.valueOf(input.name)
 
 	@Named("toEntityUserRole")
 	fun map(input: com.sleepkqq.sololeveling.proto.user.UserRole): UserRole =
@@ -76,10 +78,6 @@ abstract class ProtoMapper {
 	fun mapRest(input: PlayerTaskStatus): RestPlayerTaskStatus =
 		RestPlayerTaskStatus.valueOf(input.name)
 
-	@Named("toProtoPlayerTaskStatus")
-	fun mapRest(input: RestPlayerTaskStatus): PlayerTaskStatus =
-		PlayerTaskStatus.valueOf(input.name)
-
 	@Named("toRestTaskRarity")
 	fun mapRest(input: TaskRarity): RestTaskRarity =
 		RestTaskRarity.valueOf(input.name)
@@ -88,11 +86,7 @@ abstract class ProtoMapper {
 	fun mapRest(input: TaskTopic): RestTaskTopic =
 		RestTaskTopic.valueOf(input.name)
 
-	@Named("toProtoTaskTopic")
-	fun map(input: RestTaskTopic): TaskTopic =
-		TaskTopic.valueOf(input.name)
-
-	@Mapping(target = "rolesList", source = "roles", qualifiedByName = ["toProtoUserRole"])
+	@Mapping(target = "rolesList", source = "roles")
 	@Mapping(target = "username", source = "tag")
 	abstract fun map(input: UserData): UserInput
 
@@ -143,7 +137,7 @@ abstract class ProtoMapper {
 	@Mapping(target = "taskTopic", source = "taskTopic", qualifiedByName = ["toRestTaskTopic"])
 	abstract fun map(input: PlayerTaskTopicView): RestPlayerTaskTopic
 
-	@Mapping(target = "topicsList", source = "input.topics", qualifiedByName = ["toProtoTaskTopic"])
+	@Mapping(target = "topicsList", source = "input.topics")
 	abstract fun map(playerId: Long, input: RestSavePlayerTopicsRequest): SavePlayerTopicsRequest
 
 	@Mapping(
@@ -161,6 +155,6 @@ abstract class ProtoMapper {
 	abstract fun map(playerId: Long, input: RestCompleteTaskRequest): CompleteTaskRequest
 
 	@Named("toProtoPlayerTaskInput")
-	@Mapping(target = "status", source = "status", qualifiedByName = ["toProtoPlayerTaskStatus"])
+	@Mapping(target = "task.topicsList", source = "input.task.topics")
 	abstract fun map(input: RestPlayerTask): PlayerTaskInput
 }
