@@ -3,6 +3,7 @@ package com.sleepkqq.sololeveling.gateway.mapper
 import com.google.type.Money
 import com.sleepkqq.sololeveling.gateway.dto.RestAssessment
 import com.sleepkqq.sololeveling.gateway.dto.RestCompleteTaskRequest
+import com.sleepkqq.sololeveling.gateway.dto.RestCompleteTaskResponse
 import com.sleepkqq.sololeveling.gateway.dto.RestGetActiveTasksResponse
 import com.sleepkqq.sololeveling.gateway.dto.RestGetPlayerTopicsResponse
 import com.sleepkqq.sololeveling.gateway.dto.RestLevel
@@ -24,6 +25,7 @@ import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.gateway.model.UserRole
 import com.sleepkqq.sololeveling.proto.player.Assessment
 import com.sleepkqq.sololeveling.proto.player.CompleteTaskRequest
+import com.sleepkqq.sololeveling.proto.player.CompleteTaskResponse
 import com.sleepkqq.sololeveling.proto.player.GetActiveTasksResponse
 import com.sleepkqq.sololeveling.proto.player.GetPlayerTopicsResponse
 import com.sleepkqq.sololeveling.proto.player.LevelView
@@ -157,4 +159,8 @@ abstract class ProtoMapper {
 	@Named("toProtoPlayerTaskInput")
 	@Mapping(target = "task.topicsList", source = "input.task.topics")
 	abstract fun map(input: RestPlayerTask): PlayerTaskInput
+
+	@Mapping(target = "playerBefore", source = "playerBefore", qualifiedByName = ["toRestPlayer"])
+	@Mapping(target = "playerAfter", source = "playerAfter", qualifiedByName = ["toRestPlayer"])
+	abstract fun map(input: CompleteTaskResponse): RestCompleteTaskResponse
 }

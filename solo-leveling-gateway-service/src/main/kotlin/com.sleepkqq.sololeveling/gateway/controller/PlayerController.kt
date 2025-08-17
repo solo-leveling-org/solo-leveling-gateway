@@ -58,10 +58,10 @@ class PlayerController(
 		return ResponseEntity.noContent().build()
 	}
 
-	override fun completeTask(request: @Valid RestCompleteTaskRequest): ResponseEntity<Void> {
+	override fun completeTask(request: @Valid RestCompleteTaskRequest): ResponseEntity<RestCompleteTaskResponse> {
 		val currentUser = authService.getCurrentUser()
-		playerGrpcApi.completeTask(protoMapper.map(currentUser.id, request))
+		val grpcResponse = playerGrpcApi.completeTask(protoMapper.map(currentUser.id, request))
 
-		return ResponseEntity.noContent().build()
+		return ResponseEntity.ok(protoMapper.map(grpcResponse))
 	}
 }
