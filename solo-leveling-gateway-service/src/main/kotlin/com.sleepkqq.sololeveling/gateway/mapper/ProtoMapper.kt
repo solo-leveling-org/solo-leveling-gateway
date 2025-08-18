@@ -99,6 +99,11 @@ abstract class ProtoMapper {
 	@Named("toRestPlayer")
 	@Mapping(target = "level", source = "level", qualifiedByName = ["toRestLevel"])
 	@Mapping(target = "balance", source = "balance", qualifiedByName = ["toRestPlayerBalance"])
+	@Mapping(
+		target = "taskTopics",
+		source = "taskTopicsList",
+		qualifiedByName = ["toRestPlayerTaskTopic"]
+	)
 	abstract fun map(input: PlayerView): RestPlayer
 
 	@Named("toRestLevel")
