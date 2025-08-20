@@ -4,6 +4,30 @@
     "allPublicMethods": true
   },
   {
+    "name": "io.jsonwebtoken.Jwts$ENC",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "io.jsonwebtoken.Jwts$SIG",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "io.jsonwebtoken.Jwts$KEY",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "io.jsonwebtoken.Jwts$ZIP",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredFields": true
+  },
+  {
     "name": "io.jsonwebtoken.impl.DefaultJwtBuilder",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true,
