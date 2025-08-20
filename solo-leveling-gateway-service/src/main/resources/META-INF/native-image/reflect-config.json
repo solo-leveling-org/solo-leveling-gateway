@@ -82,6 +82,13 @@
     "allDeclaredConstructors": true
   },
   {
+    "name": "io.jsonwebtoken.impl.DefaultJwtParserBuilder$Supplier",
+    "allPublicConstructors": true,
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredMethods": true
+  },
+  {
     "name": "kotlin.reflect.jvm.internal.impl.builtins.BuiltInsLoaderImpl",
     "allPublicConstructors": true
   },
