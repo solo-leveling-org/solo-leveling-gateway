@@ -9,19 +9,16 @@ RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apac
     | tar -xzf - -C /opt \
     && mv /opt/apache-maven-3.9.9 /opt/maven
 
-# Создаём системного пользователя
-RUN adduser -S myuser && \
-    mkdir -p /usr/src/app && \
-    chown myuser:myuser /usr/src/app
+# Создаём системного пользователя (Debian/Ubuntu)
+RUN useradd -r -m -u 1001 -U -d /home/myuser -s /bin/bash myuser \
+    && mkdir -p /usr/src/app \
+    && chown myuser:myuser /usr/src/app
 
 WORKDIR /usr/src/app
 USER myuser
 
 # Копируем исходники
 COPY --chown=myuser:myuser . .
-
-# Устанавливаем native-image
-RUN gu install native-image
 
 # Собираем native-бинарник
 RUN mvn clean package -Pnative -DskipTests --settings settings.xml
@@ -32,10 +29,10 @@ FROM alpine:3.21 AS run
 # Устанавливаем системные библиотеки
 RUN apk add --no-cache libc6-compat libstdc++
 
-# Создаём системного пользователя
-RUN adduser -S myuser && \
-    mkdir -p /app && \
-    chown myuser:myuser /app
+# Создаём системного пользователя и группу
+RUN addgroup -S myuser && adduser -S -G myuser myuser \
+    && mkdir -p /app \
+    && chown myuser:myuser /app
 
 USER myuser
 WORKDIR /app
