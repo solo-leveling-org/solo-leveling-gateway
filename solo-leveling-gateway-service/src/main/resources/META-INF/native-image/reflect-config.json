@@ -65,6 +65,23 @@
     "allPublicMethods": true
   },
   {
+    "name": "io.jsonwebtoken.impl.DefaultJwtBuilder$Supplier",
+    "allPublicConstructors": true,
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.DefaultJwtBuilder$ClaimsSupplier",
+    "allPublicConstructors": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.DefaultJwtBuilder$HeaderSupplier",
+    "allPublicConstructors": true,
+    "allDeclaredConstructors": true
+  },
+  {
     "name": "kotlin.reflect.jvm.internal.impl.builtins.BuiltInsLoaderImpl",
     "allPublicConstructors": true
   },
