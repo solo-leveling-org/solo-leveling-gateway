@@ -103,20 +103,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "io.confluent.kafka.serializers.encoding.json.JsonSerializer",
-    "allPublicConstructors": true,
-    "allDeclaredConstructors": true,
-    "allPublicMethods": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "io.confluent.kafka.serializers.encoding.json.JsonDeserializer",
-    "allPublicConstructors": true,
-    "allDeclaredConstructors": true,
-    "allPublicMethods": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.apache.kafka.common.serialization.ByteArrayDeserializer",
     "allPublicConstructors": true
   },
