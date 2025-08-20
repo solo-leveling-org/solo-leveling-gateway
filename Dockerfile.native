@@ -9,8 +9,8 @@ RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apac
     | tar -xzf - -C /opt \
     && mv /opt/apache-maven-3.9.9 /opt/maven
 
-# Создаём пользователя
-RUN adduser -D myuser && \
+# Создаём системного пользователя
+RUN adduser -S myuser && \
     mkdir -p /usr/src/app && \
     chown myuser:myuser /usr/src/app
 
@@ -29,21 +29,20 @@ RUN mvn clean package -Pnative -DskipTests --settings settings.xml
 # Run stage: запуск без JVM
 FROM alpine:3.21 AS run
 
-# Устанавливаем необходимые системные библиотеки
+# Устанавливаем системные библиотеки
 RUN apk add --no-cache libc6-compat libstdc++
 
-# Создаём пользователя и директорию
-RUN adduser -D myuser && \
+# Создаём системного пользователя
+RUN adduser -S myuser && \
     mkdir -p /app && \
     chown myuser:myuser /app
 
 USER myuser
 WORKDIR /app
 
-# Копируем native-бинарник (обычно имя как у модуля или артефакта)
+# Копируем native-бинарник
 COPY --from=build --chown=myuser:myuser /usr/src/app/target/solo-leveling-gateway-service /app/app
 
 EXPOSE 8080
 
-# Запускаем как обычный бинарник
 CMD ["./app", "-Dspring.profiles.active=prod"]
