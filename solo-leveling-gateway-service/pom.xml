@@ -240,6 +240,11 @@
                 <phase>package</phase>
               </execution>
             </executions>
+            <configuration>
+              <buildArgs>
+                <arg>-march=compatibility</arg>
+              </buildArgs>
+            </configuration>
           </plugin>
         </plugins>
       </build>
