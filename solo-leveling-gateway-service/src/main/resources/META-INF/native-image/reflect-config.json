@@ -69,6 +69,41 @@
     "allPublicConstructors": true
   },
   {
+    "name": "io.jsonwebtoken.impl.security.DefaultKeyOperationBuilder$Supplier",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.security.DefaultKeyOperationPolicyBuilder$Supplier",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.security.DefaultJwkSetParserBuilder$Supplier",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.security.DefaultJwkSetParserBuilder$Supplier",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.security.DefaultJwkSetBuilder$Supplier",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.security.DefaultJwkParserBuilder$Supplier",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.security.DefaultDynamicJwkBuilder$Supplier",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true
+  },
+  {
     "name": "io.jsonwebtoken.impl.lang.Services",
     "allDeclaredMethods": true,
     "allPublicMethods": true
