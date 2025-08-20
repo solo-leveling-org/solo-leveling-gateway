@@ -24,8 +24,7 @@ jobs:
 
       - name: Generate settings.xml
         run: |
-          mkdir -p ./build-context
-          cat <<EOF > ./build-context/settings.xml
+          cat <<EOF > ./settings.xml
           <?xml version="1.0" encoding="UTF-8"?>
           <settings>
             <servers>
@@ -36,7 +35,6 @@ jobs:
               </server>
             </servers>
           </settings>
-          EOF
         env:
           GITHUB_USER: ${{ secrets.GITHUB_USER }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -54,7 +52,7 @@ jobs:
         if: ${{ inputs.build_type == 'jvm' }}
         uses: docker/build-push-action@v5
         with:
-          context: ./build-context
+          context: .
           dockerfile: Dockerfile.jvm
           push: true
           tags: |
@@ -65,7 +63,7 @@ jobs:
         if: ${{ inputs.build_type == 'native' }}
         uses: docker/build-push-action@v5
         with:
-          context: ./build-context
+          context: .
           dockerfile: Dockerfile.native
           push: true
           tags: |
@@ -109,5 +107,5 @@ jobs:
 
       - name: Clean up temporary files (security)
         run: |
-          rm -rf ./build-context
+          rm -f settings.xml
           rm -f k8s/deployment-rendered.yml
