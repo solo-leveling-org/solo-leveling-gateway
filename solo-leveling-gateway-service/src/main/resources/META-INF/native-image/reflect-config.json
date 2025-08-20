@@ -1,14 +1,12 @@
 [
   {
     "name": "io.jsonwebtoken.Jwts",
-    "allDeclaredConstructors": true,
-    "allPublicMethods": true,
-    "allDeclaredMethods": true,
-    "allDeclaredFields": true
+    "allPublicMethods": true
   },
   {
     "name": "io.jsonwebtoken.impl.DefaultJwtBuilder",
     "allPublicConstructors": true,
+    "allDeclaredConstructors": true,
     "allPublicMethods": true
   },
   {
@@ -52,11 +50,11 @@
   },
   {
     "name": "io.jsonwebtoken.impl.compression.DeflateCompressionAlgorithm",
-    "allDeclaredConstructors": true
+    "allPublicConstructors": true
   },
   {
     "name": "io.jsonwebtoken.impl.compression.GzipCompressionAlgorithm",
-    "allDeclaredConstructors": true
+    "allPublicConstructors": true
   },
   {
     "name": "io.jsonwebtoken.impl.lang.Services",
