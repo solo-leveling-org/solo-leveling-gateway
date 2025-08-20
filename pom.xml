@@ -43,7 +43,6 @@
 
     <!-- native build -->
     <native-maven-plugin.version>0.11.0</native-maven-plugin.version>
-    <spring-native.version>0.12.0</spring-native.version>
 
     <!-- grpc -->
     <spring-grpc.version>0.10.0-SNAPSHOT</spring-grpc.version>
