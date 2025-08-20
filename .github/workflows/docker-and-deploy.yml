@@ -53,7 +53,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          dockerfile: Dockerfile.jvm
+          file: Dockerfile.jvm
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:latest
@@ -64,7 +64,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          dockerfile: Dockerfile.native
+          file: Dockerfile.native
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:latest
