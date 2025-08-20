@@ -1,5 +1,12 @@
 [
   {
+    "name": "io.jsonwebtoken.Jwts",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true
+  },
+  {
     "name": "io.jsonwebtoken.impl.DefaultJwtBuilder",
     "allPublicConstructors": true,
     "allPublicMethods": true
@@ -44,6 +51,19 @@
     "allPublicConstructors": true
   },
   {
+    "name": "io.jsonwebtoken.impl.compression.DeflateCompressionAlgorithm",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.compression.GzipCompressionAlgorithm",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.lang.Services",
+    "allDeclaredMethods": true,
+    "allPublicMethods": true
+  },
+  {
     "name": "kotlin.reflect.jvm.internal.impl.builtins.BuiltInsLoaderImpl",
     "allPublicConstructors": true
   },
@@ -83,26 +103,18 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "io.confluent.kafka.serializers.encoding.json.JsonSerializer",
-    "allPublicConstructors": true,
-    "allDeclaredConstructors": true,
-    "allPublicMethods": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "io.confluent.kafka.serializers.encoding.json.JsonDeserializer",
-    "allPublicConstructors": true,
-    "allDeclaredConstructors": true,
-    "allPublicMethods": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.apache.kafka.common.serialization.ByteArrayDeserializer",
     "allPublicConstructors": true
   },
   {
     "name": "org.apache.kafka.common.serialization.StringDeserializer",
-    "allPublicConstructors": true
+    "allPublicConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "org.apache.kafka.common.serialization.StringSerializer",
+    "allPublicConstructors": true,
+    "allPublicMethods": true
   },
   {
     "name": "io.confluent.kafka.serializers.context.NullContextNameStrategy",
