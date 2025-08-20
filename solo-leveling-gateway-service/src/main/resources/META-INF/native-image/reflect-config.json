@@ -5,27 +5,31 @@
   },
   {
     "name": "io.jsonwebtoken.Jwts$ENC",
-    "allDeclaredConstructors": true,
+    "allPublicFields": true,
+    "allDeclaredFields": true,
     "allPublicMethods": true,
-    "allDeclaredFields": true
+    "allDeclaredMethods": true
   },
   {
     "name": "io.jsonwebtoken.Jwts$SIG",
-    "allDeclaredConstructors": true,
+    "allPublicFields": true,
+    "allDeclaredFields": true,
     "allPublicMethods": true,
-    "allDeclaredFields": true
+    "allDeclaredMethods": true
   },
   {
     "name": "io.jsonwebtoken.Jwts$KEY",
-    "allDeclaredConstructors": true,
+    "allPublicFields": true,
+    "allDeclaredFields": true,
     "allPublicMethods": true,
-    "allDeclaredFields": true
+    "allDeclaredMethods": true
   },
   {
     "name": "io.jsonwebtoken.Jwts$ZIP",
-    "allDeclaredConstructors": true,
+    "allPublicFields": true,
+    "allDeclaredFields": true,
     "allPublicMethods": true,
-    "allDeclaredFields": true
+    "allDeclaredMethods": true
   },
   {
     "name": "io.jsonwebtoken.impl.DefaultJwtBuilder",
@@ -73,6 +77,14 @@
   },
   {
     "name": "io.jsonwebtoken.jackson.io.JacksonDeserializer",
+    "allPublicConstructors": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.security.StandardEncryptionAlgorithms",
+    "allPublicConstructors": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.io.StandardCompressionAlgorithms",
     "allPublicConstructors": true
   },
   {
