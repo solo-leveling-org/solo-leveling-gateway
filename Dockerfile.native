@@ -1,24 +1,28 @@
-# Build stage: GraalVM + Maven для native-сборки
-FROM ghcr.io/graalvm/jdk-community:24 AS build
+# Вариант 1: Использование официального образа с уже установленным native-image
+FROM ghcr.io/graalvm/native-image-community:24 AS build
 
 # Установка Maven
 ENV MAVEN_HOME=/opt/maven
 ENV PATH="${MAVEN_HOME}/bin:${PATH}"
+RUN microdnf install -y curl tar gzip && \
+    curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz | \
+    tar -xzf - -C /opt && \
+    mv /opt/apache-maven-3.9.9 /opt/maven && \
+    microdnf clean all
 
-RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz \
-    | tar -xzf - -C /opt \
-    && mv /opt/apache-maven-3.9.9 /opt/maven
-
-# Создаём системного пользователя (Debian/Ubuntu)
-RUN useradd -r -m -u 1001 -U -d /home/myuser -s /bin/bash myuser \
-    && mkdir -p /usr/src/app \
-    && chown myuser:myuser /usr/src/app
+# Создаём системного пользователя
+RUN useradd -r -m -u 1001 -U -d /home/myuser -s /bin/bash myuser && \
+    mkdir -p /usr/src/app && \
+    chown myuser:myuser /usr/src/app
 
 WORKDIR /usr/src/app
 USER myuser
 
 # Копируем исходники
 COPY --chown=myuser:myuser . .
+
+# Проверяем что native-image доступен
+RUN native-image --version
 
 # Собираем native-бинарник
 RUN mvn clean package -Pnative -DskipTests --settings settings.xml
@@ -30,9 +34,9 @@ FROM alpine:3.21 AS run
 RUN apk add --no-cache libc6-compat libstdc++
 
 # Создаём системного пользователя и группу
-RUN addgroup -S myuser && adduser -S -G myuser myuser \
-    && mkdir -p /app \
-    && chown myuser:myuser /app
+RUN addgroup -S myuser && adduser -S -G myuser myuser && \
+    mkdir -p /app && \
+    chown myuser:myuser /app
 
 USER myuser
 WORKDIR /app
@@ -41,5 +45,4 @@ WORKDIR /app
 COPY --from=build --chown=myuser:myuser /usr/src/app/target/solo-leveling-gateway-service /app/app
 
 EXPOSE 8080
-
 CMD ["./app", "-Dspring.profiles.active=prod"]
