@@ -56,13 +56,13 @@
     "allPublicConstructors": true
   },
   {
-    "name": "io.jsonwebtoken.impl.compression.StandardSecureDigestAlgorithms",
-    "allPublicConstructors": true,
-    "allPublicMethods": true
-  },
-  {
     "name": "io.jsonwebtoken.impl.compression.GzipCompressionAlgorithm",
     "allPublicConstructors": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.security.StandardSecureDigestAlgorithms",
+    "allPublicConstructors": true,
+    "allPublicMethods": true
   },
   {
     "name": "io.jsonwebtoken.impl.lang.Services",
