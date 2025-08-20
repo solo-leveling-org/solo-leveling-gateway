@@ -1,5 +1,12 @@
 [
   {
+    "name": "io.jsonwebtoken.Jwts",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true
+  },
+  {
     "name": "io.jsonwebtoken.impl.DefaultJwtBuilder",
     "allPublicConstructors": true,
     "allPublicMethods": true
@@ -42,6 +49,19 @@
   {
     "name": "io.jsonwebtoken.jackson.io.JacksonDeserializer",
     "allPublicConstructors": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.compression.DeflateCompressionAlgorithm",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.compression.GzipCompressionAlgorithm",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.lang.Services",
+    "allDeclaredMethods": true,
+    "allPublicMethods": true
   },
   {
     "name": "kotlin.reflect.jvm.internal.impl.builtins.BuiltInsLoaderImpl",
