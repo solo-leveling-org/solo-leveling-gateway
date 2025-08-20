@@ -65,6 +65,10 @@
     "allPublicMethods": true
   },
   {
+    "name": "io.jsonwebtoken.impl.security.StandardKeyOperations",
+    "allPublicConstructors": true
+  },
+  {
     "name": "io.jsonwebtoken.impl.lang.Services",
     "allDeclaredMethods": true,
     "allPublicMethods": true
