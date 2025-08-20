@@ -1,0 +1,50 @@
+[
+  {
+    "name": "io.jsonwebtoken.impl.DefaultJwtBuilder",
+    "allPublicConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.DefaultJwtParser",
+    "allPublicConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.DefaultJwtParserBuilder",
+    "allPublicConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.security.KeysBridge",
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "allPublicFields": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.crypto.MacProvider",
+    "allPublicConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.crypto.RsaProvider",
+    "allPublicConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.impl.crypto.EllipticCurveProvider",
+    "allPublicConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "io.jsonwebtoken.jackson.io.JacksonSerializer",
+    "allPublicConstructors": true
+  },
+  {
+    "name": "io.jsonwebtoken.jackson.io.JacksonDeserializer",
+    "allPublicConstructors": true
+  },
+  {
+    "name": "kotlin.reflect.jvm.internal.impl.builtins.BuiltInsLoaderImpl",
+    "allPublicConstructors": true
+  }
+]
