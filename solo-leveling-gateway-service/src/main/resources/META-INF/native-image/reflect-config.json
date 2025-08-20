@@ -107,7 +107,7 @@
   {
     "name": "io.confluent.kafka.serializers.context.NullContextNameStrategy",
     "allPublicConstructors": true,
-    "allDeclaredConstructors": true
+    "allPublicMethods": true
   },
   {
     "name": "io.confluent.kafka.serializers.context.strategy.ContextNameStrategy",
