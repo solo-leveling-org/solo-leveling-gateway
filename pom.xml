@@ -41,6 +41,9 @@
     <kotlin.code.style>official</kotlin.code.style>
     <maven-compliler.version>3.14.0</maven-compliler.version>
 
+    <!-- native build -->
+    <native-maven-plugin.version>0.11.0</native-maven-plugin.version>
+
     <!-- grpc -->
     <spring-grpc.version>0.10.0-SNAPSHOT</spring-grpc.version>
 
