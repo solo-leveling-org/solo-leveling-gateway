@@ -42,7 +42,7 @@ USER myuser
 WORKDIR /app
 
 # Копируем native-бинарник
-COPY --from=build --chown=myuser:myuser /usr/src/app/target/solo-leveling-gateway-service /app/app
+COPY --from=build --chown=myuser:myuser /usr/src/app/solo-leveling-gateway-service/target/solo-leveling-gateway-service /app/app
 
 EXPOSE 8080
 CMD ["./app", "-Dspring.profiles.active=prod"]
