@@ -108,7 +108,13 @@
   },
   {
     "name": "org.apache.kafka.common.serialization.StringDeserializer",
-    "allPublicConstructors": true
+    "allPublicConstructors": true,
+    "allPublicMethods": true
+  },
+  {
+    "name": "org.apache.kafka.common.serialization.StringSerializer",
+    "allPublicConstructors": true,
+    "allPublicMethods": true
   },
   {
     "name": "io.confluent.kafka.serializers.context.NullContextNameStrategy",
