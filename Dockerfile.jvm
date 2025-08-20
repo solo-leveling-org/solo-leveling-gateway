@@ -1,9 +1,6 @@
 # Build stage
 FROM maven:3.9.10-amazoncorretto-24-alpine AS build
 
-# Устанавливаем Node.js (необходим для сборки Vaadin фронтенда)
-RUN apk add --no-cache nodejs npm
-
 # Создаём пользователя для безопасности
 RUN adduser -D myuser && \
     mkdir -p /usr/src/app && \
@@ -21,7 +18,7 @@ RUN mvn clean package -DskipTests -Pproduction --settings settings.xml
 # Run stage
 FROM amazoncorretto:24-alpine3.21-jdk
 
-# Копируем собранный JAR и frontend
+# Копируем собранный JAR
 COPY --from=build /usr/src/app/solo-leveling-gateway-service/target/*.jar /app/solo-leveling-gateway.jar
 
 # Безопасность: создаём пользователя

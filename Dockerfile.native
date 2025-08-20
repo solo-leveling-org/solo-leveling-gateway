@@ -1,0 +1,49 @@
+# Build stage: GraalVM + Maven для native-сборки
+FROM ghcr.io/graalvm/jdk-community:24 AS build
+
+# Установка Maven
+ENV MAVEN_HOME=/opt/maven
+ENV PATH="${MAVEN_HOME}/bin:${PATH}"
+
+RUN curl -fsSL https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz | \
+    tar -xzf - -C /opt && \
+    mv /opt/apache-maven-3.9.9 /opt/maven
+
+# Создаём пользователя
+RUN adduser -D myuser && \
+    mkdir -p /usr/src/app && \
+    chown myuser:myuser /usr/src/app
+
+WORKDIR /usr/src/app
+USER myuser
+
+# Копируем исходники
+COPY --chown=myuser:myuser . .
+
+# Устанавливаем native-image
+RUN gu install native-image
+
+# Собираем native-бинарник
+RUN mvn clean package -Pnative -DskipTests --settings settings.xml
+
+# Run stage: запуск без JVM
+FROM alpine:3.21 AS run
+
+# Устанавливаем необходимые системные библиотеки
+RUN apk add --no-cache libc6-compat libstdc++
+
+# Создаём пользователя и директорию
+RUN adduser -D myuser && \
+    mkdir -p /app && \
+    chown myuser:myuser /app
+
+USER myuser
+WORKDIR /app
+
+# Копируем native-бинарник (обычно имя как у модуля или артефакта)
+COPY --from=build --chown=myuser:myuser /usr/src/app/target/solo-leveling-gateway-service /app/app
+
+EXPOSE 8080
+
+# Запускаем как обычный бинарник
+CMD ["./app", "-Dspring.profiles.active=prod"]

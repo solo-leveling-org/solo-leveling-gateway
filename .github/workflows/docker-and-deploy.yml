@@ -2,6 +2,15 @@ name: Docker build, Push and Deploy to Kubernetes
 
 on:
   workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type: jvm or native'
+        required: true
+        default: 'jvm'
+        type: choice
+        options:
+          - jvm
+          - native
 
 jobs:
   docker-and-deploy:
@@ -13,7 +22,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Generate settings.xml in project root
+      - name: Generate settings.xml
         run: |
           cat <<EOF > ./settings.xml
           <?xml version="1.0" encoding="UTF-8"?>
@@ -39,10 +48,23 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build and push JVM Docker image
+        if: ${{ inputs.build_type == 'jvm' }}
         uses: docker/build-push-action@v5
         with:
           context: .
+          dockerfile: Dockerfile.jvm
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:latest
+            ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:${{ github.sha }}
+
+      - name: Build and push Native Docker image
+        if: ${{ inputs.build_type == 'native' }}
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          dockerfile: Dockerfile.native
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:latest
