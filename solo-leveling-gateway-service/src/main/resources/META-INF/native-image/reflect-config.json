@@ -47,7 +47,6 @@
     "name": "kotlin.reflect.jvm.internal.impl.builtins.BuiltInsLoaderImpl",
     "allPublicConstructors": true
   },
-
   {
     "name": "io.confluent.kafka.serializers.KafkaAvroDeserializer",
     "allPublicConstructors": true,
@@ -58,27 +57,44 @@
   {
     "name": "io.confluent.kafka.serializers.KafkaAvroSerializer",
     "allPublicConstructors": true,
-    "allDeclaredConstructors": true
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredMethods": true
   },
   {
     "name": "io.confluent.kafka.serializers.subject.RecordNameStrategy",
-    "allPublicConstructors": true
+    "allPublicConstructors": true,
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredMethods": true
   },
   {
     "name": "io.confluent.kafka.serializers.subject.TopicRecordNameStrategy",
-    "allPublicConstructors": true
+    "allPublicConstructors": true,
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredMethods": true
   },
   {
     "name": "io.confluent.kafka.serializers.subject.TopicNameStrategy",
-    "allPublicConstructors": true
+    "allPublicConstructors": true,
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredMethods": true
   },
   {
     "name": "io.confluent.kafka.serializers.encoding.json.JsonSerializer",
-    "allPublicConstructors": true
+    "allPublicConstructors": true,
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredMethods": true
   },
   {
     "name": "io.confluent.kafka.serializers.encoding.json.JsonDeserializer",
-    "allPublicConstructors": true
+    "allPublicConstructors": true,
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true,
+    "allDeclaredMethods": true
   },
   {
     "name": "org.apache.kafka.common.serialization.ByteArrayDeserializer",
