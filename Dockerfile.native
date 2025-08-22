@@ -21,9 +21,6 @@ USER myuser
 # Копируем исходники
 COPY --chown=myuser:myuser . .
 
-# Проверяем что native-image доступен
-RUN native-image --version
-
 # Собираем native-бинарник
 RUN mvn clean package -Pnative -DskipTests --settings settings.xml
 
