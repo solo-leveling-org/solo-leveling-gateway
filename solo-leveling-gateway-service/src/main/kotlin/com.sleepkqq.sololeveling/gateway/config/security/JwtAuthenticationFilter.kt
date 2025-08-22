@@ -2,6 +2,7 @@ package com.sleepkqq.sololeveling.gateway.config.security
 
 import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.gateway.service.JwtService
+import io.jsonwebtoken.ExpiredJwtException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
@@ -52,6 +53,9 @@ class JwtAuthenticationFilter(
 			}
 
 			filterChain.doFilter(request, response)
+
+		} catch (e: ExpiredJwtException) {
+			log.info(e.message)
 
 		} catch (e: Exception) {
 			log.error("JWT authentication failed", e)
