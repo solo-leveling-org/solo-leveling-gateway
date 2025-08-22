@@ -1,5 +1,14 @@
 package com.sleepkqq.sololeveling.gateway.config
 
+import io.confluent.kafka.schemaregistry.client.rest.entities.Mode
+import io.confluent.kafka.schemaregistry.client.rest.entities.Schema
+import io.confluent.kafka.schemaregistry.client.rest.entities.SchemaString
+import io.confluent.kafka.schemaregistry.client.rest.entities.SubjectVersion
+import io.confluent.kafka.schemaregistry.client.rest.entities.requests.CompatibilityCheckResponse
+import io.confluent.kafka.schemaregistry.client.rest.entities.requests.ConfigUpdateRequest
+import io.confluent.kafka.schemaregistry.client.rest.entities.requests.ModeUpdateRequest
+import io.confluent.kafka.schemaregistry.client.rest.entities.requests.RegisterSchemaRequest
+import io.confluent.kafka.schemaregistry.client.rest.entities.requests.RegisterSchemaResponse
 import io.confluent.kafka.serializers.KafkaAvroDeserializer
 import io.confluent.kafka.serializers.KafkaAvroSerializer
 import io.confluent.kafka.serializers.context.NullContextNameStrategy
@@ -67,13 +76,22 @@ import org.springframework.context.annotation.Configuration
 		KafkaAvroDeserializer::class,
 		KafkaAvroSerializer::class,
 		RecordNameStrategy::class,
-		TopicRecordNameStrategy::class,
 		TopicNameStrategy::class,
-		ByteArrayDeserializer::class,
+		TopicRecordNameStrategy::class,
+		NullContextNameStrategy::class,
+		ContextNameStrategy::class,
 		StringDeserializer::class,
 		StringSerializer::class,
-		NullContextNameStrategy::class,
-		ContextNameStrategy::class
+		ByteArrayDeserializer::class,
+		Schema::class,
+		SchemaString::class,
+		SubjectVersion::class,
+		RegisterSchemaRequest::class,
+		RegisterSchemaResponse::class,
+		ConfigUpdateRequest::class,
+		ModeUpdateRequest::class,
+		CompatibilityCheckResponse::class,
+		Mode::class
 	]
 )
 @Configuration
