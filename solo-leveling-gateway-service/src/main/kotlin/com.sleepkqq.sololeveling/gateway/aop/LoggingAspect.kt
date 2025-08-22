@@ -42,6 +42,11 @@ class LoggingAspect {
 		val stopWatch = StopWatch()
 		val principal = getCurrentUser()
 
+		val operationSymbol = when (executionType) {
+			ExecutionType.REST_API -> "<<"
+			ExecutionType.GRPC_CALL -> ">>"
+		}
+
 		stopWatch.start()
 		val result = try {
 			joinPoint.proceed()
@@ -50,7 +55,8 @@ class LoggingAspect {
 			stopWatch.stop()
 
 			log.error(
-				">> {} '{}' failed for user '{}' in {} ms",
+				"{} {} '{}' failed for user '{}' in {} ms",
+				operationSymbol,
 				executionType.value,
 				joinPoint.signature.name,
 				principal,
@@ -65,7 +71,8 @@ class LoggingAspect {
 		}
 
 		log.info(
-			">> {} '{}' executed by '{}' in {} ms",
+			"{} {} '{}' executed by '{}' in {} ms",
+			operationSymbol,
 			executionType.value,
 			joinPoint.signature.name,
 			principal,
