@@ -1,5 +1,12 @@
 package com.sleepkqq.sololeveling.gateway.config
 
+import io.confluent.kafka.serializers.KafkaAvroDeserializer
+import io.confluent.kafka.serializers.KafkaAvroSerializer
+import io.confluent.kafka.serializers.context.NullContextNameStrategy
+import io.confluent.kafka.serializers.context.strategy.ContextNameStrategy
+import io.confluent.kafka.serializers.subject.RecordNameStrategy
+import io.confluent.kafka.serializers.subject.TopicNameStrategy
+import io.confluent.kafka.serializers.subject.TopicRecordNameStrategy
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.impl.DefaultClaimsBuilder
@@ -21,12 +28,16 @@ import io.jsonwebtoken.impl.security.StandardKeyAlgorithms
 import io.jsonwebtoken.impl.security.StandardKeyOperations
 import io.jsonwebtoken.impl.security.StandardSecureDigestAlgorithms
 import io.jsonwebtoken.security.SignatureAlgorithm
+import org.apache.kafka.common.serialization.ByteArrayDeserializer
+import org.apache.kafka.common.serialization.StringDeserializer
+import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding
 import org.springframework.context.annotation.Configuration
 
 @Suppress("unused")
 @RegisterReflectionForBinding(
 	classes = [
+		// jjwt
 		Claims::class,
 		Jwts::class,
 		Jwts.ENC::class,
@@ -51,7 +62,18 @@ import org.springframework.context.annotation.Configuration
 		DefaultJwkParserBuilder::class,
 		DefaultJwkSetBuilder::class,
 		DefaultJwkSetParserBuilder::class,
-		JwksBridge::class
+		JwksBridge::class,
+		// Avro
+		KafkaAvroDeserializer::class,
+		KafkaAvroSerializer::class,
+		RecordNameStrategy::class,
+		TopicRecordNameStrategy::class,
+		TopicNameStrategy::class,
+		ByteArrayDeserializer::class,
+		StringDeserializer::class,
+		StringSerializer::class,
+		NullContextNameStrategy::class,
+		ContextNameStrategy::class
 	]
 )
 @Configuration
