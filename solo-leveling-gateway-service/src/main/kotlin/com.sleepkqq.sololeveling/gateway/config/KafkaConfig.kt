@@ -23,8 +23,7 @@ class KafkaConfig(
 		createConsumerFactory(KafkaGroupIds.UI_GROUP_ID)
 
 	@Bean
-	fun kafkaListenerContainerFactory(
-		consumerFactory: ConsumerFactory<String, ReceiveNotificationEvent>
-	): ConcurrentKafkaListenerContainerFactory<String, ReceiveNotificationEvent> =
-		createKafkaListenerContainerFactory(consumerFactory)
+	fun kafkaListenerContainerFactory():
+			ConcurrentKafkaListenerContainerFactory<String, ReceiveNotificationEvent> =
+		createKafkaListenerContainerFactory(consumerFactoryReceiveNotificationEvent())
 }

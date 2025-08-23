@@ -1,6 +1,8 @@
 package com.sleepkqq.sololeveling.gateway.exception
 
 import com.sleepkqq.sololeveling.gateway.dto.ApiExceptionDto
+import io.grpc.Status
+import io.grpc.StatusRuntimeException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -20,7 +22,7 @@ class GlobalExceptionHandler {
 		request: WebRequest
 	): ResponseEntity<ApiExceptionDto> {
 
-		log.error("Unexpected error occurred: {}", e.message, e)
+		log.error("Unexpected error occurred", e)
 
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 			.body(
@@ -28,8 +30,57 @@ class GlobalExceptionHandler {
 					status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					error = HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase,
 					message = e.toString(),
-					path = request.getDescription(false).removePrefix("uri=")
+					path = requestToPath(request)
 				)
 			)
 	}
+
+	@ExceptionHandler(StatusRuntimeException::class)
+	fun handleGrpcException(
+		e: StatusRuntimeException,
+		request: WebRequest
+	): ResponseEntity<ApiExceptionDto> {
+
+		val grpcStatus = e.status
+		val description = grpcStatus.description ?: "gRPC service error"
+		val statusCode = grpcStatus.code
+
+		val httpStatus = when (statusCode) {
+			Status.Code.NOT_FOUND -> HttpStatus.NOT_FOUND
+			Status.Code.INVALID_ARGUMENT -> HttpStatus.BAD_REQUEST
+			Status.Code.ALREADY_EXISTS -> HttpStatus.CONFLICT
+			Status.Code.PERMISSION_DENIED -> HttpStatus.FORBIDDEN
+			Status.Code.UNAUTHENTICATED -> HttpStatus.UNAUTHORIZED
+			Status.Code.FAILED_PRECONDITION,
+			Status.Code.OUT_OF_RANGE -> HttpStatus.BAD_REQUEST
+
+			Status.Code.UNIMPLEMENTED -> HttpStatus.NOT_IMPLEMENTED
+			Status.Code.UNAVAILABLE -> HttpStatus.SERVICE_UNAVAILABLE
+			Status.Code.DEADLINE_EXCEEDED -> HttpStatus.GATEWAY_TIMEOUT
+			Status.Code.CANCELLED -> HttpStatus.GONE
+			else -> HttpStatus.INTERNAL_SERVER_ERROR
+		}
+
+		log.warn(
+			"gRPC call failed: {} (status={}) for request: {}",
+			description,
+			statusCode,
+			requestToPath(request),
+			e
+		)
+
+		return ResponseEntity.status(httpStatus)
+			.body(
+				ApiExceptionDto(
+					status = httpStatus.value(),
+					error = httpStatus.reasonPhrase,
+					message = "gRPC service error: $description [${statusCode}]",
+					path = requestToPath(request)
+				)
+			)
+	}
+
+	private fun requestToPath(request: WebRequest): String = request
+		.getDescription(false)
+		.removePrefix("uri=")
 }

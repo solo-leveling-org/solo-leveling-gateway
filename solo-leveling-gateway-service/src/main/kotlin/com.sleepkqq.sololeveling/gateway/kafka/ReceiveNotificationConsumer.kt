@@ -5,6 +5,7 @@ import com.sleepkqq.sololeveling.avro.constants.KafkaTaskTopics
 import com.sleepkqq.sololeveling.avro.notification.ReceiveNotificationEvent
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Service
 
 @Suppress("unused")
@@ -17,7 +18,8 @@ class ReceiveNotificationConsumer {
 		topics = [KafkaTaskTopics.UI_NOTIFICATION_TOPIC],
 		groupId = KafkaGroupIds.UI_GROUP_ID
 	)
-	fun listen(event: ReceiveNotificationEvent) {
+	fun listen(event: ReceiveNotificationEvent, ack: Acknowledgment) {
 		log.info(">> Received notification | transactionId={}", event.transactionId)
+		ack.acknowledge()
 	}
 }
