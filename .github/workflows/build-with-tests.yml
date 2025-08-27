@@ -39,7 +39,8 @@ jobs:
 
       - name: Build project with Maven
         run: |
-          mvn clean install -s ./settings.xml
+          chmod +x ./mvnw && \
+          ./mvnw clean install -s ./settings.xml
 
       - name: Clean up temporary files (security)
         run: |

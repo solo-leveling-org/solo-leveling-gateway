@@ -48,23 +48,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push JVM Docker image
-        if: ${{ inputs.build_type == 'jvm' }}
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: Dockerfile.jvm
-          push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:latest
-            ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:${{ github.sha }}
+      - name: Set Dockerfile name
+        id: set-dockerfile
+        run: |
+          echo "DOCKERFILE=Dockerfile.${{ inputs.build_type }}" >> $GITHUB_ENV
 
-      - name: Build and push Native Docker image
-        if: ${{ inputs.build_type == 'native' }}
+      - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: Dockerfile.native
+          file: ${{ env.DOCKERFILE }}
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:latest

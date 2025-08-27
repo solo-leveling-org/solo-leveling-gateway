@@ -39,6 +39,8 @@ app:
       - POST
       - PUT
       - DELETE
+      - PATCH
+      - HEAD
       - OPTIONS
 management:
   endpoints:
