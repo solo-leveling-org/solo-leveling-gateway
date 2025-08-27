@@ -1,17 +1,8 @@
 # Вариант 1: Использование официального образа с уже установленным native-image
 FROM ghcr.io/graalvm/native-image-community:24 AS build
 
-# Установка Maven
-ENV MAVEN_HOME=/opt/maven
-ENV PATH="${MAVEN_HOME}/bin:${PATH}"
-RUN microdnf install -y curl tar gzip && \
-    curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz | \
-    tar -xzf - -C /opt && \
-    mv /opt/apache-maven-3.9.9 /opt/maven && \
-    microdnf clean all
-
 # Создаём системного пользователя
-RUN useradd -r -m -u 1001 -U -d /home/myuser -s /bin/bash myuser && \
+RUN useradd -D myuser && \
     mkdir -p /usr/src/app && \
     chown myuser:myuser /usr/src/app
 
@@ -22,7 +13,7 @@ USER myuser
 COPY --chown=myuser:myuser . .
 
 # Собираем native-бинарник
-RUN mvn clean package -Pnative -DskipTests --settings settings.xml
+RUN ./mvnw clean package -Pnative -DskipTests --settings settings.xml
 
 # Run stage: запуск без JVM
 FROM alpine:3.21 AS run

@@ -1,5 +1,5 @@
 # Build stage
-FROM maven:3.9.10-amazoncorretto-24-alpine AS build
+FROM eclipse-temurin:24-jdk-alpine AS build
 
 # Создаём пользователя для безопасности
 RUN adduser -D myuser && \
@@ -13,10 +13,10 @@ USER myuser
 COPY --chown=myuser:myuser . .
 
 # Собираем проект
-RUN mvn clean package -DskipTests -Pproduction --settings settings.xml
+RUN ./mvnw clean package -DskipTests -Pproduction --settings settings.xml
 
 # Run stage
-FROM amazoncorretto:24-alpine3.21-jdk
+FROM eclipse-temurin:24-jre-alpine
 
 # Копируем собранный JAR
 COPY --from=build /usr/src/app/solo-leveling-gateway-service/target/*.jar /app/solo-leveling-gateway.jar
@@ -29,12 +29,9 @@ RUN adduser -D myuser && \
 USER myuser
 WORKDIR /app
 
-# Открываем порт
 EXPOSE 8080
-
-# Запускаем приложение
 CMD ["java", \
     "--enable-native-access=ALL-UNNAMED", \
     "--add-opens", "java.base/java.lang=ALL-UNNAMED", \
-     "-Dspring.profiles.active=prod", \
+    "-Dspring.profiles.active=prod", \
     "-jar", "solo-leveling-gateway.jar"]
