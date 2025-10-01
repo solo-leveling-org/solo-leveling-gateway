@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: Solo leveling gateway websocket
+  version: 1.0.0
+
+components:
+  schemas:
+    Message:
+      type: object
+      properties:
+        payload:
+          $ref: '#/components/schemas/UserNotification'
+        timestamp:
+          type: string
+          format: date-time
+      required:
+        - type
+        - payload
+        - timestamp
+
+    UserNotification:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        message:
+          type: string
+        notificationType:
+          $ref: '#/components/schemas/NotificationType'
+      required:
+        - userId
+        - message
+        - notificationType
+
+    NotificationType:
+      type: string
+      enum: [ info, warning, error ]

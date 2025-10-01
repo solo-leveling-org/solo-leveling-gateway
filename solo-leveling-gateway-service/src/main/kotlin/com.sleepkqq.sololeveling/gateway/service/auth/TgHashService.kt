@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.gateway.service
+package com.sleepkqq.sololeveling.gateway.service.auth
 
 import com.sleepkqq.sololeveling.gateway.dto.RestTgAuthData
 import org.bouncycastle.crypto.digests.SHA256Digest

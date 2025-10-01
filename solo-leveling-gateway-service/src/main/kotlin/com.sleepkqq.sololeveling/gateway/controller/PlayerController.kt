@@ -4,7 +4,7 @@ import com.sleepkqq.sololeveling.gateway.api.PlayerApi
 import com.sleepkqq.sololeveling.gateway.dto.*
 import com.sleepkqq.sololeveling.gateway.grpc.client.PlayerGrpcApi
 import com.sleepkqq.sololeveling.gateway.mapper.ProtoMapper
-import com.sleepkqq.sololeveling.gateway.service.AuthService
+import com.sleepkqq.sololeveling.gateway.service.auth.AuthService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController

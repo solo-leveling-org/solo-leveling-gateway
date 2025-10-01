@@ -1,8 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Telegram Auth API
+  title: Solo leveling gateway openapi
   version: 1.0.0
-  description: API for authentication via Telegram WebApp and JWT tokens
 
 paths:
   # =============== AUTHENTICATION ===============

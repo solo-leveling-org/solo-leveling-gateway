@@ -56,7 +56,7 @@
         <version>${openapi-generator-plugin.version}</version>
         <executions>
           <execution>
-            <id>generate-api</id>
+            <id>generate-rest-api</id>
             <goals>
               <goal>generate</goal>
             </goals>
@@ -74,7 +74,6 @@
                 <useTags>true</useTags>
                 <dateLibrary>java8</dateLibrary>
                 <java11>true</java11>
-                <hideGenerationTimestamp>true</hideGenerationTimestamp>
               </configOptions>
               <typeMappings>
                 <typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
@@ -85,6 +84,36 @@
               </importMappings>
             </configuration>
           </execution>
+          <execution>
+            <id>generate-websocket-dto</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.basedir}/src/main/resources/websocketapi.yml</inputSpec>
+              <generatorName>spring</generatorName>
+              <modelPackage>com.sleepkqq.sololeveling.gateway.dto</modelPackage>
+              <modelNamePrefix>Ws</modelNamePrefix>
+              <skipValidateSpec>true</skipValidateSpec>
+              <configOptions>
+                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                <useJakartaEe>true</useJakartaEe>
+                <dateLibrary>java8</dateLibrary>
+                <java11>true</java11>
+                <skipApiGeneration>true</skipApiGeneration>
+                <skipOperationGeneration>true</skipOperationGeneration>
+              </configOptions>
+              <typeMappings>
+                <typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
+                <typeMapping>Double=java.math.BigDecimal</typeMapping>
+              </typeMappings>
+              <importMappings>
+                <importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
+              </importMappings>
+              <generateApis>false</generateApis>
+              <generateSupportingFiles>false</generateSupportingFiles>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -93,7 +122,7 @@
         <version>${build-helper-maven-plugin.version}</version>
         <executions>
           <execution>
-            <id>add-source</id>
+            <id>add-openapi-sources</id>
             <phase>generate-sources</phase>
             <goals>
               <goal>add-source</goal>
@@ -102,21 +131,6 @@
               <sources>
                 <source>${project.build.directory}/generated-sources/openapi</source>
               </sources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-resource</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-resource</goal>
-            </goals>
-            <configuration>
-              <resources>
-                <resource>
-                  <directory>${project.build.directory}/generated-sources/openapi</directory>
-                  <targetPath>generated-sources/openapi</targetPath>
-                </resource>
-              </resources>
             </configuration>
           </execution>
         </executions>

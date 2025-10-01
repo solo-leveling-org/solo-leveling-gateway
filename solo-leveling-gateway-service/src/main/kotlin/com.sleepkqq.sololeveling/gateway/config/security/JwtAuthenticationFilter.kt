@@ -1,7 +1,7 @@
 package com.sleepkqq.sololeveling.gateway.config.security
 
 import com.sleepkqq.sololeveling.gateway.model.UserData
-import com.sleepkqq.sololeveling.gateway.service.JwtService
+import com.sleepkqq.sololeveling.gateway.service.auth.JwtService
 import io.jsonwebtoken.ExpiredJwtException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
@@ -23,7 +23,7 @@ class JwtAuthenticationFilter(
 	private val jwtService: JwtService
 ) : OncePerRequestFilter() {
 
-	private companion object {
+	companion object {
 		const val BEARER_PREFIX = "Bearer "
 	}
 
