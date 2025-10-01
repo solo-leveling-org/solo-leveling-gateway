@@ -21,9 +21,8 @@ class WebSocketConfig(
 
 	override fun registerStompEndpoints(registry: StompEndpointRegistry) {
 		registry.addEndpoint("/ws")
-			.setAllowedOriginPatterns(*corsProperties.hosts.toTypedArray())
+			.setAllowedOriginPatterns("*")
 			.addInterceptors(jwtHandshakeInterceptor)
-			.withSockJS()
 	}
 
 	override fun configureMessageBroker(registry: MessageBrokerRegistry) {
