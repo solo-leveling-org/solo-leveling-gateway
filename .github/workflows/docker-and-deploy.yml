@@ -48,29 +48,34 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Set Dockerfile name
-        id: set-dockerfile
+      - name: Determine image tag
+        id: image-tag
         run: |
-          echo "DOCKERFILE=Dockerfile.${{ inputs.build_type }}" >> $GITHUB_ENV
+          COMMIT_SHA="${{ github.sha }}"
+          if [ "${{ inputs.build_type }}" = "native" ]; then
+            TAG="${COMMIT_SHA}-native"
+          else
+            TAG="${COMMIT_SHA}"
+          fi
+          echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ${{ env.DOCKERFILE }}
+          file: ./Dockerfile.${{ inputs.build_type }}
           push: true
           tags: |
+            ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:${{ env.IMAGE_TAG }}
             ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:latest
-            ${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:${{ github.sha }}
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v4
 
       - name: Set environment variables for deployment
         run: |
+          echo "DEPLOY_IMAGE=${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:${{ env.IMAGE_TAG }}" >> $GITHUB_ENV
           echo "TELEGRAM_BOT_TOKEN_APP=${{ secrets.TELEGRAM_BOT_TOKEN_APP }}" >> $GITHUB_ENV
-          echo "GIT_COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
-          echo "DOCKERHUB_USER=${{ secrets.DOCKERHUB_USER }}" >> $GITHUB_ENV
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
 
       - name: Install gettext for envsubst

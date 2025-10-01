@@ -12,11 +12,11 @@ spec:
       labels:
         app: solo-leveling-gateway
       annotations:
-        commit.sha: "${GIT_COMMIT_SHA}"
+        commit.sha: "${DEPLOY_IMAGE}"
     spec:
       containers:
         - name: app
-          image: $DOCKERHUB_USER/solo-leveling-gateway:$GIT_COMMIT_SHA
+          image: $DEPLOY_IMAGE
           ports:
             - containerPort: 8080
           env:
