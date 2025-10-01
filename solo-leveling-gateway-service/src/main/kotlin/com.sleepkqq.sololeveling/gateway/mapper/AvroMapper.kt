@@ -9,10 +9,8 @@ import org.mapstruct.NullValueCheckStrategy
 import org.mapstruct.NullValueMappingStrategy
 import org.mapstruct.NullValuePropertyMappingStrategy
 import org.mapstruct.ReportingPolicy
-import org.springframework.stereotype.Component
 
 @Suppress("unused")
-@Component
 @Mapper(
 	componentModel = "spring",
 	unmappedTargetPolicy = ReportingPolicy.IGNORE,

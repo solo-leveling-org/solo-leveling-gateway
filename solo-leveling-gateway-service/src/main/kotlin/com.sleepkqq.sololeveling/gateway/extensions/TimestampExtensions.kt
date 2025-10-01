@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.gateway.exception
+package com.sleepkqq.sololeveling.gateway.extensions
 
 import com.google.protobuf.Timestamp
 import java.time.LocalDateTime
