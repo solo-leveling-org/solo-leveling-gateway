@@ -23,7 +23,7 @@ class JwtAuthenticationFilter(
 	private val jwtService: JwtService
 ) : OncePerRequestFilter() {
 
-	companion object {
+	private companion object {
 		const val BEARER_PREFIX = "Bearer "
 	}
 

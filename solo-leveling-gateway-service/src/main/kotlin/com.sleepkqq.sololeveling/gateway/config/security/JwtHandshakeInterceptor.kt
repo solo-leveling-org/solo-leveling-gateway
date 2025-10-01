@@ -1,11 +1,9 @@
 package com.sleepkqq.sololeveling.gateway.config.security
 
-import com.sleepkqq.sololeveling.gateway.config.security.JwtAuthenticationFilter.Companion.BEARER_PREFIX
 import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.gateway.service.auth.JwtService
 import io.jsonwebtoken.ExpiredJwtException
 import org.slf4j.LoggerFactory
-import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.server.ServerHttpRequest
 import org.springframework.http.server.ServerHttpResponse
 import org.springframework.http.server.ServletServerHttpRequest
@@ -21,6 +19,7 @@ class JwtHandshakeInterceptor(
 ) : HandshakeInterceptor {
 
 	private companion object {
+		const val TOKEN_PARAM = "token"
 		const val SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT"
 	}
 
@@ -37,9 +36,9 @@ class JwtHandshakeInterceptor(
 			return false
 		}
 
-		val authHeader = request.servletRequest.getHeader(AUTHORIZATION)
-		if (!authHeader.isNullOrBlank() && authHeader.startsWith(BEARER_PREFIX)) {
-			return handleJwtHandshake(authHeader.substring(BEARER_PREFIX.length), attributes)
+		val token = request.servletRequest.getParameter(TOKEN_PARAM)
+		if (!token.isNullOrBlank()) {
+			return handleJwtHandshake(token, attributes)
 		}
 
 		return false

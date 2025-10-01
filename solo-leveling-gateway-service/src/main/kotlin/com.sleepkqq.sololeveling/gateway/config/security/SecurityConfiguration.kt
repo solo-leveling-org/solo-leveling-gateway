@@ -1,6 +1,5 @@
 package com.sleepkqq.sololeveling.gateway.config.security
 
-import com.sleepkqq.sololeveling.gateway.config.properties.CorsProperties
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean

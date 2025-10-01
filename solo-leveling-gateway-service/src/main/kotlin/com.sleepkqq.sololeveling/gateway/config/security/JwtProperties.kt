@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.gateway.config.properties
+package com.sleepkqq.sololeveling.gateway.config.security
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

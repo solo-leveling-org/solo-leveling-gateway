@@ -77,6 +77,8 @@ jobs:
           echo "DEPLOY_IMAGE=${{ secrets.DOCKERHUB_USER }}/solo-leveling-gateway:${{ env.IMAGE_TAG }}" >> $GITHUB_ENV
           echo "TELEGRAM_BOT_TOKEN_APP=${{ secrets.TELEGRAM_BOT_TOKEN_APP }}" >> $GITHUB_ENV
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+          echo "RABBITMQ_USER=${{ secrets.RABBITMQ_USER }}" >> $GITHUB_ENV
+          echo "RABBITMQ_PASSWORD=${{ secrets.RABBITMQ_PASSWORD }}" >> $GITHUB_ENV
 
       - name: Install gettext for envsubst
         run: |

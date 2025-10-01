@@ -1,4 +1,4 @@
-package com.sleepkqq.sololeveling.gateway.config.properties
+package com.sleepkqq.sololeveling.gateway.config.grpc
 
 import com.sleepkqq.sololeveling.proto.config.GrpcServiceProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
