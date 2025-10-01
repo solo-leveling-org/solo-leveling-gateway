@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: solo-leveling-gateway
 spec:
-  replicas: 2
+  replicas: ${REPLICAS}
   selector:
     matchLabels:
       app: solo-leveling-gateway

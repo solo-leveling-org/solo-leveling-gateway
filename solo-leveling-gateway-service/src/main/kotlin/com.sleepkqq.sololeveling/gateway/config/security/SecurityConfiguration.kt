@@ -43,6 +43,8 @@ class SecurityConfiguration(
 				.requestMatchers("/api/v1/auth/**").permitAll()
 				// swagger
 				.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
+				// websocket
+				.requestMatchers("/ws/**", "/app/**", "/user/**", "/topic/**").permitAll()
 				// other
 				.anyRequest().authenticated()
 		}
