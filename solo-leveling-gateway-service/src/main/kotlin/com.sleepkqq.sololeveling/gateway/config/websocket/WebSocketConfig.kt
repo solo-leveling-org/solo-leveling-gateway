@@ -36,7 +36,6 @@ class WebSocketConfig(
 			.setSystemLogin(rabbitMqStompProperties.username)
 			.setSystemPasscode(rabbitMqStompProperties.password)
 			.setUserDestinationBroadcast(rabbitMqStompProperties.userDestinationBroadcast)
-			.setUserRegistryBroadcast(rabbitMqStompProperties.userRegistryBroadcast)
 
 		registry.setApplicationDestinationPrefixes(
 			*rabbitMqStompProperties.applicationDestinationPrefixes.toTypedArray()

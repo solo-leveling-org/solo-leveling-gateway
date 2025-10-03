@@ -11,6 +11,5 @@ class RabbitMqStompProperties(
 	val destinationPrefixes: List<String>,
 	val userDestinationPrefix: String,
 	val userDestinationBroadcast: String,
-	val userRegistryBroadcast: String,
 	val applicationDestinationPrefixes: List<String>
 )
