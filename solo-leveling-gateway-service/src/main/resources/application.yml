@@ -53,6 +53,7 @@ app:
         - /topic
       user-destination-prefix: /user
       user-destination-broadcast: /topic/unresolved-user-destination
+      user-notification-destination: /queue/notifications
       application-destination-prefixes:
         - /app
 management:
