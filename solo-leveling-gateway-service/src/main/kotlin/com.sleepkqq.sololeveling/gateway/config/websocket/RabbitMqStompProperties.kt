@@ -7,5 +7,10 @@ class RabbitMqStompProperties(
 	val host: String,
 	val port: Int,
 	val username: String,
-	val password: String
+	val password: String,
+	val destinationPrefixes: List<String>,
+	val userDestinationPrefix: String,
+	val userDestinationBroadcast: String,
+	val userRegistryBroadcast: String,
+	val applicationDestinationPrefixes: List<String>
 )

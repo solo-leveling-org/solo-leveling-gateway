@@ -48,6 +48,14 @@ app:
       port: 61613
       username: ${RABBITMQ_USER}
       password: ${RABBITMQ_PASSWORD}
+      destination-prefixes:
+        - /queue
+        - /topic
+      user-destination-prefix: /user
+      user-destination-broadcast: /topic/unresolved-user-destination
+      user-registry-broadcast: /topic/simp-user-registry
+      application-destination-prefixes:
+        - /app
 management:
   endpoints:
     web:

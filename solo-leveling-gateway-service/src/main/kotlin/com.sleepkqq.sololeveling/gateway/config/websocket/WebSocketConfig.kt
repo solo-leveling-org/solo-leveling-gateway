@@ -26,15 +26,21 @@ class WebSocketConfig(
 	}
 
 	override fun configureMessageBroker(registry: MessageBrokerRegistry) {
-		registry.enableStompBrokerRelay("/queue", "/topic")
+		registry.enableStompBrokerRelay(
+			*rabbitMqStompProperties.destinationPrefixes.toTypedArray()
+		)
 			.setRelayHost(rabbitMqStompProperties.host)
 			.setRelayPort(rabbitMqStompProperties.port)
 			.setClientLogin(rabbitMqStompProperties.username)
 			.setClientPasscode(rabbitMqStompProperties.password)
 			.setSystemLogin(rabbitMqStompProperties.username)
 			.setSystemPasscode(rabbitMqStompProperties.password)
+			.setUserDestinationBroadcast(rabbitMqStompProperties.userDestinationBroadcast)
+			.setUserRegistryBroadcast(rabbitMqStompProperties.userRegistryBroadcast)
 
-		registry.setApplicationDestinationPrefixes("/app")
-		registry.setUserDestinationPrefix("/user")
+		registry.setApplicationDestinationPrefixes(
+			*rabbitMqStompProperties.applicationDestinationPrefixes.toTypedArray()
+		)
+		registry.setUserDestinationPrefix(rabbitMqStompProperties.userDestinationPrefix)
 	}
 }
