@@ -1,10 +1,9 @@
 package com.sleepkqq.sololeveling.gateway.mapper
 
-import com.sleepkqq.sololeveling.avro.notification.ReceiveNotificationEvent
-import com.sleepkqq.sololeveling.gateway.dto.WsUserNotification
+import com.sleepkqq.sololeveling.avro.notification.Notification
+import com.sleepkqq.sololeveling.gateway.dto.WsNotification
 import org.mapstruct.CollectionMappingStrategy
 import org.mapstruct.Mapper
-import org.mapstruct.Mapping
 import org.mapstruct.NullValueCheckStrategy
 import org.mapstruct.NullValueMappingStrategy
 import org.mapstruct.NullValuePropertyMappingStrategy
@@ -20,7 +19,5 @@ import org.mapstruct.ReportingPolicy
 )
 abstract class AvroMapper {
 
-	@Mapping(target = "message", source = "input.notification.message")
-	@Mapping(target = "notificationType", source = "input.notification.type")
-	abstract fun map(input: ReceiveNotificationEvent): WsUserNotification
+	abstract fun map(input: Notification): WsNotification
 }

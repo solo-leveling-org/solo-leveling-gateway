@@ -26,7 +26,7 @@ class ReceiveNotificationConsumer(
 	fun listen(event: ReceiveNotificationEvent, ack: Acknowledgment) {
 		log.info(">> Received notification | transactionId={}", event.transactionId)
 
-		notificationService.sendUserNotification(avroMapper.map(event))
+		notificationService.sendUserNotification(event.userId, avroMapper.map(event.notification))
 
 		ack.acknowledge()
 	}

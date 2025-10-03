@@ -12,13 +12,13 @@ class NotificationService(
 	private val rabbitMqStompProperties: RabbitMqStompProperties
 ) {
 
-	fun sendUserNotification(notification: WsUserNotification) {
+	fun sendUserNotification(userId: Long, notification: WsNotification) {
 		val wsMessage = WsMessage()
 			.payload(notification)
 			.timestamp(LocalDateTime.now())
 
 		messagingTemplate.convertAndSendToUser(
-			notification.userId.toString(),
+			userId.toString(),
 			rabbitMqStompProperties.userNotificationDestination,
 			wsMessage
 		)
