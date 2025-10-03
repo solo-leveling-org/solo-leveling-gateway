@@ -26,7 +26,7 @@ class WebSocketConfig(
 	}
 
 	override fun configureMessageBroker(registry: MessageBrokerRegistry) {
-		registry.enableStompBrokerRelay("/user", "/topic")
+		registry.enableStompBrokerRelay("/queue", "/topic")
 			.setRelayHost(rabbitMqStompProperties.host)
 			.setRelayPort(rabbitMqStompProperties.port)
 			.setClientLogin(rabbitMqStompProperties.username)
