@@ -9,7 +9,6 @@ import org.springframework.http.server.ServerHttpResponse
 import org.springframework.http.server.ServletServerHttpRequest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.context.SecurityContextImpl
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.WebSocketHandler
 import org.springframework.web.socket.server.HandshakeInterceptor
@@ -21,7 +20,6 @@ class JwtHandshakeInterceptor(
 
 	private companion object {
 		const val TOKEN_PARAM = "token"
-		const val SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT"
 	}
 
 	private val log = LoggerFactory.getLogger(javaClass)
@@ -39,20 +37,18 @@ class JwtHandshakeInterceptor(
 
 		val token = request.servletRequest.getParameter(TOKEN_PARAM)
 		if (!token.isNullOrBlank()) {
-			return handleJwtHandshake(token, attributes)
+			return handleJwtHandshake(token)
 		}
 
 		return false
 	}
 
-	private fun handleJwtHandshake(jwt: String, attributes: MutableMap<String, Any>): Boolean {
+	private fun handleJwtHandshake(jwt: String): Boolean {
 		return try {
 			val tgUser = jwtService.extractTgUser(jwt)
 			val user = UserData.fromTgUser(tgUser)
 
 			val authentication = UsernamePasswordAuthenticationToken(user, jwt, user.authorities)
-			val securityContext = SecurityContextImpl(authentication)
-			attributes[SPRING_SECURITY_CONTEXT] = securityContext
 			SecurityContextHolder.getContext().authentication = authentication
 
 			true
