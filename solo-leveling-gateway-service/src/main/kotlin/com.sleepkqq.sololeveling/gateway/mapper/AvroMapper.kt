@@ -10,7 +10,6 @@ import org.mapstruct.NullValueMappingStrategy
 import org.mapstruct.NullValuePropertyMappingStrategy
 import org.mapstruct.ReportingPolicy
 
-@Suppress("unused")
 @Mapper(
 	componentModel = "spring",
 	unmappedTargetPolicy = ReportingPolicy.IGNORE,
