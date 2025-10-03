@@ -8,6 +8,7 @@ import org.springframework.http.server.ServerHttpRequest
 import org.springframework.http.server.ServerHttpResponse
 import org.springframework.http.server.ServletServerHttpRequest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.context.SecurityContextImpl
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.WebSocketHandler
@@ -52,6 +53,7 @@ class JwtHandshakeInterceptor(
 			val authentication = UsernamePasswordAuthenticationToken(user, jwt, user.authorities)
 			val securityContext = SecurityContextImpl(authentication)
 			attributes[SPRING_SECURITY_CONTEXT] = securityContext
+			SecurityContextHolder.getContext().authentication = authentication
 
 			true
 
