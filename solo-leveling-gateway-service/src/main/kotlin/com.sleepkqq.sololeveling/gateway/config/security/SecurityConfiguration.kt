@@ -1,6 +1,5 @@
 package com.sleepkqq.sololeveling.gateway.config.security
 
-import com.sleepkqq.sololeveling.gateway.config.properties.CorsProperties
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -44,6 +43,8 @@ class SecurityConfiguration(
 				.requestMatchers("/api/v1/auth/**").permitAll()
 				// swagger
 				.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
+				// websocket
+				.requestMatchers("/ws/**", "/app/**", "/user/**", "/topic/**").permitAll()
 				// other
 				.anyRequest().authenticated()
 		}

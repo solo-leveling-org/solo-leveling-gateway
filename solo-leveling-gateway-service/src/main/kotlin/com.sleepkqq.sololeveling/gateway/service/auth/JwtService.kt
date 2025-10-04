@@ -1,6 +1,6 @@
-package com.sleepkqq.sololeveling.gateway.service
+package com.sleepkqq.sololeveling.gateway.service.auth
 
-import com.sleepkqq.sololeveling.gateway.config.properties.JwtProperties
+import com.sleepkqq.sololeveling.gateway.config.security.JwtProperties
 import com.sleepkqq.sololeveling.gateway.dto.RestJwtToken
 import com.sleepkqq.sololeveling.gateway.dto.RestJwtTokenType
 import com.sleepkqq.sololeveling.gateway.dto.RestLoginResponse

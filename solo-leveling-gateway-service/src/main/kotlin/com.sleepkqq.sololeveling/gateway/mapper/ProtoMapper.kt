@@ -3,18 +3,16 @@ package com.sleepkqq.sololeveling.gateway.mapper
 import com.google.protobuf.Timestamp
 import com.google.type.Money
 import com.sleepkqq.sololeveling.gateway.dto.*
-import com.sleepkqq.sololeveling.gateway.exception.toLocalDateTime
+import com.sleepkqq.sololeveling.gateway.extensions.toLocalDateTime
 import com.sleepkqq.sololeveling.gateway.extensions.toBigDecimal
 import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.proto.player.*
 import com.sleepkqq.sololeveling.proto.user.UserInput
 import com.sleepkqq.sololeveling.proto.user.UserView
 import org.mapstruct.*
-import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
 @Suppress("unused")
-@Component
 @Mapper(
 	componentModel = "spring",
 	unmappedTargetPolicy = ReportingPolicy.IGNORE,

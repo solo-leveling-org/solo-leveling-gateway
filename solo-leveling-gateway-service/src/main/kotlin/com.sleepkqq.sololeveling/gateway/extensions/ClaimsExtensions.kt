@@ -1,7 +1,7 @@
 package com.sleepkqq.sololeveling.gateway.extensions
 
 import com.sleepkqq.sololeveling.gateway.dto.RestTgUserData
-import com.sleepkqq.sololeveling.gateway.service.JwtService
+import com.sleepkqq.sololeveling.gateway.service.auth.JwtService
 import io.jsonwebtoken.Claims
 
 fun Claims.extractUsername(): String? = get(JwtService.USERNAME_CLAIM, String::class.java)

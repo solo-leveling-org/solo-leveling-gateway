@@ -1,11 +1,8 @@
-package com.sleepkqq.sololeveling.gateway.config
+package com.sleepkqq.sololeveling.gateway.config.grpc
 
-import com.sleepkqq.sololeveling.gateway.config.properties.GrpcPlayerServiceProperties
 import com.sleepkqq.sololeveling.proto.config.DefaultGrpcClientConfig
 import com.sleepkqq.sololeveling.proto.player.PlayerServiceGrpc
-import com.sleepkqq.sololeveling.proto.player.PlayerServiceGrpc.PlayerServiceBlockingStub
 import com.sleepkqq.sololeveling.proto.user.UserServiceGrpc
-import com.sleepkqq.sololeveling.proto.user.UserServiceGrpc.UserServiceBlockingStub
 import io.grpc.ManagedChannel
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -22,10 +19,10 @@ class GrpcConfigClient(
 	fun playerManagedChannel(): ManagedChannel = createManagedChannel(properties)
 
 	@Bean
-	fun userServiceBlockingStub(): UserServiceBlockingStub =
+	fun userServiceBlockingStub(): UserServiceGrpc.UserServiceBlockingStub =
 		UserServiceGrpc.newBlockingStub(playerManagedChannel())
 
 	@Bean
-	fun playerServiceBlockingStub(): PlayerServiceBlockingStub =
+	fun playerServiceBlockingStub(): PlayerServiceGrpc.PlayerServiceBlockingStub =
 		PlayerServiceGrpc.newBlockingStub(playerManagedChannel())
 }

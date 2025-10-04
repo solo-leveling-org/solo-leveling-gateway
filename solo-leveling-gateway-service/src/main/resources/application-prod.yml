@@ -12,5 +12,8 @@ app:
   telegram:
     bot:
       token: ${TELEGRAM_BOT_TOKEN_APP}
+  rabbitmq:
+    stomp:
+      host: rabbitmq
 server:
   port: 8080

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: solo-leveling-gateway
 spec:
-  replicas: 2
+  replicas: ${REPLICAS}
   selector:
     matchLabels:
       app: solo-leveling-gateway
@@ -24,6 +24,10 @@ spec:
               value: "${TELEGRAM_BOT_TOKEN_APP}"
             - name: JWT_SECRET
               value: "${JWT_SECRET}"
+            - name: RABBITMQ_USER
+              value: "${RABBITMQ_USER}"
+            - name: RABBITMQ_PASSWORD
+              value: "${RABBITMQ_PASSWORD}"
           livenessProbe:
             httpGet:
               path: /actuator/health

@@ -8,7 +8,7 @@ import com.sleepkqq.sololeveling.gateway.dto.RestTgAuthData
 import com.sleepkqq.sololeveling.gateway.grpc.client.UserGrpcApi
 import com.sleepkqq.sololeveling.gateway.mapper.ProtoMapper
 import com.sleepkqq.sololeveling.gateway.model.UserData
-import com.sleepkqq.sololeveling.gateway.service.AuthService
+import com.sleepkqq.sololeveling.gateway.service.auth.AuthService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
