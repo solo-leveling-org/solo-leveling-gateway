@@ -1,8 +1,10 @@
 package com.sleepkqq.sololeveling.gateway.config.grpc
 
 import com.sleepkqq.sololeveling.proto.config.DefaultGrpcClientConfig
+import com.sleepkqq.sololeveling.proto.config.LocaleClientInterceptor
 import com.sleepkqq.sololeveling.proto.player.PlayerServiceGrpc
 import com.sleepkqq.sololeveling.proto.user.UserServiceGrpc
+import io.grpc.ClientInterceptor
 import io.grpc.ManagedChannel
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -19,10 +21,15 @@ class GrpcConfigClient(
 	fun playerManagedChannel(): ManagedChannel = createManagedChannel(properties)
 
 	@Bean
+	fun localeClientInterceptor(): ClientInterceptor = LocaleClientInterceptor()
+
+	@Bean
 	fun userServiceBlockingStub(): UserServiceGrpc.UserServiceBlockingStub =
 		UserServiceGrpc.newBlockingStub(playerManagedChannel())
+			.withInterceptors(localeClientInterceptor())
 
 	@Bean
 	fun playerServiceBlockingStub(): PlayerServiceGrpc.PlayerServiceBlockingStub =
 		PlayerServiceGrpc.newBlockingStub(playerManagedChannel())
+			.withInterceptors(localeClientInterceptor())
 }
