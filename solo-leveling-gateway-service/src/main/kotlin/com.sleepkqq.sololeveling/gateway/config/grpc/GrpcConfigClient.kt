@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @EnableConfigurationProperties(GrpcPlayerServiceProperties::class)
 class GrpcConfigClient(
-	private val properties: GrpcPlayerServiceProperties
+	private val properties: GrpcPlayerServiceProperties,
+	private val localeClientInterceptor: LocaleClientInterceptor
 ) : DefaultGrpcClientConfig() {
 
 	@Bean
@@ -21,8 +22,9 @@ class GrpcConfigClient(
 	@Bean
 	fun userServiceBlockingStub(): UserServiceGrpc.UserServiceBlockingStub =
 		UserServiceGrpc.newBlockingStub(playerManagedChannel())
+			.withInterceptors(localeClientInterceptor)
 
-	@Bean
 	fun playerServiceBlockingStub(): PlayerServiceGrpc.PlayerServiceBlockingStub =
 		PlayerServiceGrpc.newBlockingStub(playerManagedChannel())
+			.withInterceptors(localeClientInterceptor)
 }
