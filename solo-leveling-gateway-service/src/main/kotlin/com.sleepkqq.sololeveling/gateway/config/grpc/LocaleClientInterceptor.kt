@@ -7,6 +7,7 @@ import io.grpc.ClientInterceptor
 import io.grpc.ForwardingClientCall
 import io.grpc.Metadata
 import io.grpc.MethodDescriptor
+import org.slf4j.LoggerFactory
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Component
 
@@ -16,6 +17,8 @@ class LocaleClientInterceptor : ClientInterceptor {
 	private companion object {
 		const val LOCALE_METADATA_KEY = "x-locale"
 	}
+
+	private val log = LoggerFactory.getLogger(javaClass)
 
 	override fun <ReqT, RespT> interceptCall(
 		method: MethodDescriptor<ReqT, RespT>,
@@ -32,6 +35,8 @@ class LocaleClientInterceptor : ClientInterceptor {
 					Metadata.Key.of(LOCALE_METADATA_KEY, Metadata.ASCII_STRING_MARSHALLER),
 					currentLocale
 				)
+
+				log.info("Current locale: {}", currentLocale.toString())
 
 				super.start(responseListener, headers)
 			}
