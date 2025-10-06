@@ -24,6 +24,7 @@ class GrpcConfigClient(
 		UserServiceGrpc.newBlockingStub(playerManagedChannel())
 			.withInterceptors(localeClientInterceptor)
 
+	@Bean
 	fun playerServiceBlockingStub(): PlayerServiceGrpc.PlayerServiceBlockingStub =
 		PlayerServiceGrpc.newBlockingStub(playerManagedChannel())
 			.withInterceptors(localeClientInterceptor)
