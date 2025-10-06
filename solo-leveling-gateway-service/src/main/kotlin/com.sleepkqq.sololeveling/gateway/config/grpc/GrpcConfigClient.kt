@@ -24,14 +24,12 @@ class GrpcConfigClient(
 	fun localeClientInterceptor(): ClientInterceptor = LocaleClientInterceptor()
 
 	@Bean
-	fun userServiceBlockingStub(localeClientInterceptor: ClientInterceptor):
-			UserServiceGrpc.UserServiceBlockingStub =
+	fun userServiceBlockingStub(): UserServiceGrpc.UserServiceBlockingStub =
 		UserServiceGrpc.newBlockingStub(playerManagedChannel())
-			.withInterceptors(localeClientInterceptor)
+			.withInterceptors(localeClientInterceptor())
 
 	@Bean
-	fun playerServiceBlockingStub(localeClientInterceptor: ClientInterceptor):
-			PlayerServiceGrpc.PlayerServiceBlockingStub =
+	fun playerServiceBlockingStub(): PlayerServiceGrpc.PlayerServiceBlockingStub =
 		PlayerServiceGrpc.newBlockingStub(playerManagedChannel())
-			.withInterceptors(localeClientInterceptor)
+			.withInterceptors(localeClientInterceptor())
 }
