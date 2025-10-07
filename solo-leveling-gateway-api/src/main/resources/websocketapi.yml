@@ -39,4 +39,4 @@ components:
 
     NotificationSource:
       type: string
-      enum: [ tasks ]
+      enum: [ tasks, locale ]
