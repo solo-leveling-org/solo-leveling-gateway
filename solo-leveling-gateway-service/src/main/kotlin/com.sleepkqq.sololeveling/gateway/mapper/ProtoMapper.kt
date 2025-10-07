@@ -8,6 +8,7 @@ import com.sleepkqq.sololeveling.gateway.extensions.toBigDecimal
 import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.proto.player.*
 import com.sleepkqq.sololeveling.proto.user.UserInput
+import com.sleepkqq.sololeveling.proto.user.UserLocaleResponse
 import com.sleepkqq.sololeveling.proto.user.UserView
 import org.mapstruct.*
 import java.time.LocalDateTime
@@ -78,4 +79,6 @@ abstract class ProtoMapper {
 	abstract fun map(input: RestPlayerTask): PlayerTaskInput
 
 	abstract fun map(input: CompleteTaskResponse): RestCompleteTaskResponse
+
+	abstract fun map(input: UserLocaleResponse): RestUserLocaleResponse
 }
