@@ -26,11 +26,12 @@ components:
           $ref: '#/components/schemas/NotificationType'
         source:
           $ref: '#/components/schemas/NotificationSource'
-
+        visible:
+          type: boolean
       required:
-        - message
         - type
         - source
+        - visible
 
     NotificationType:
       type: string

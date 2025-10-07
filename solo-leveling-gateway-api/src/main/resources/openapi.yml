@@ -317,7 +317,8 @@ components:
     UserLocaleResponse:
       type: object
       required:
-        - user
+        - locale
+        - isManual
       properties:
         locale:
           type: string
