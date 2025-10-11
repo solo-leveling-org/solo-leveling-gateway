@@ -429,7 +429,7 @@ components:
         transactions:
           type: array
           items:
-            $ref: '#/components/schemas/PlayerBalanceTransactionView'
+            $ref: '#/components/schemas/PlayerBalanceTransaction'
         pagination:
           $ref: '#/components/schemas/PaginationInfo'
 
@@ -484,6 +484,12 @@ components:
         - ASC
         - DESC
 
+    JwtTokenType:
+      type: string
+      enum:
+        - ACCESS
+        - REFRESH
+
     # --- Domain Objects ---
     Task:
       type: object
@@ -519,6 +525,9 @@ components:
         intelligence:
           type: integer
           format: int32
+      required:
+        - id
+        - version
 
     Level:
       type: object
@@ -543,6 +552,14 @@ components:
           format: int32
         assessment:
           $ref: '#/components/schemas/Assessment'
+      required:
+        - id
+        - version
+        - level
+        - totalExperience
+        - currentExperience
+        - experienceToNextLevel
+        - assessment
 
     PlayerTaskTopic:
       type: object
@@ -559,6 +576,12 @@ components:
           $ref: '#/components/schemas/TaskTopic'
         level:
           $ref: '#/components/schemas/Level'
+      required:
+        - id
+        - version
+        - isActive
+        - taskTopic
+        - level
 
     Money:
       type: object
@@ -569,6 +592,9 @@ components:
         amount:
           type: number
           format: decimal
+      required:
+        - currencyCode
+        - amount
 
     PlayerBalance:
       type: object
@@ -581,6 +607,10 @@ components:
           format: int32
         balance:
           $ref: '#/components/schemas/Money'
+      required:
+        - id
+        - version
+        - balance
 
     Player:
       type: object
@@ -632,7 +662,7 @@ components:
         task:
           $ref: '#/components/schemas/Task'
 
-    PlayerBalanceTransactionView:
+    PlayerBalanceTransaction:
       type: object
       properties:
         id:
@@ -671,11 +701,11 @@ components:
     Filter:
       type: object
       properties:
-        date_filters:
+        dateFilters:
           type: array
           items:
             $ref: '#/components/schemas/DateFilter'
-        string_filters:
+        stringFilters:
           type: array
           items:
             $ref: '#/components/schemas/StringFilter'
@@ -693,6 +723,8 @@ components:
           format: date-time
       required:
         - field
+        - from
+        - to
 
     StringFilter:
       type: object
@@ -743,12 +775,11 @@ components:
             $ref: '#/components/schemas/UserRole'
         player:
           $ref: '#/components/schemas/Player'
-
-    JwtTokenType:
-      type: string
-      enum:
-        - ACCESS
-        - REFRESH
+      required:
+        - id
+        - version
+        - roles
+        - player
 
     JwtToken:
       type: object
