@@ -5,6 +5,7 @@ import com.google.type.Money
 import com.sleepkqq.sololeveling.gateway.dto.*
 import com.sleepkqq.sololeveling.gateway.extensions.toLocalDateTime
 import com.sleepkqq.sololeveling.gateway.extensions.toBigDecimal
+import com.sleepkqq.sololeveling.gateway.extensions.toTimestamp
 import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.proto.player.*
 import com.sleepkqq.sololeveling.proto.user.UserInput
@@ -39,6 +40,12 @@ abstract class ProtoMapper {
 	fun map(input: TaskTopic): RestTaskTopic =
 		RestTaskTopic.valueOf(input.name)
 
+	fun map(input: PlayerBalanceTransactionType): RestPlayerBalanceTransactionType =
+		RestPlayerBalanceTransactionType.valueOf(input.name)
+
+	fun map(input: PlayerBalanceTransactionCause): RestPlayerBalanceTransactionCause =
+		RestPlayerBalanceTransactionCause.valueOf(input.name)
+
 	fun map(input: Timestamp): LocalDateTime = input.toLocalDateTime()
 
 	@Mapping(target = "rolesList", source = "roles")
@@ -56,6 +63,8 @@ abstract class ProtoMapper {
 	fun map(input: Money): RestMoney = RestMoney()
 		.currencyCode(input.currencyCode)
 		.amount(input.toBigDecimal())
+
+	fun map(input: LocalDateTime): Timestamp = input.toTimestamp()
 
 	@Mapping(target = "tasks", source = "tasksList")
 	abstract fun map(input: GetActiveTasksResponse): RestGetActiveTasksResponse
@@ -81,4 +90,34 @@ abstract class ProtoMapper {
 	abstract fun map(input: CompleteTaskResponse): RestCompleteTaskResponse
 
 	abstract fun map(input: UserLocaleResponse): RestUserLocaleResponse
+
+	@Mapping(
+		target = "options",
+		expression = "java(map(options, page, pageSize))"
+	)
+	abstract fun map(
+		playerId: Long,
+		options: RestRequestQueryOptions?,
+		page: Int,
+		pageSize: Int
+	): SearchPlayerBalanceTransactionsRequest
+
+	@Mapping(target = "filter.stringFiltersList", source = "options.filter.stringFilters")
+	@Mapping(target = "filter.dateFiltersList", source = "options.filter.dateFilters")
+	@Mapping(target = "sortsList", source = "options.sorts")
+	abstract fun map(
+		options: RestRequestQueryOptions,
+		page: Int,
+		pageSize: Int
+	): RequestQueryOptions
+
+	@Mapping(target = "valuesList", source = "values")
+	abstract fun map(input: RestStringFilter): StringFilter
+
+	@Mapping(target = "transactions", source = "transactionsList")
+	@Mapping(target = "options.filters", source = "options.filtersList")
+	@Mapping(target = "options.sorts", source = "options.sortsList")
+	abstract fun map(input: SearchPlayerBalanceTransactionsResponse): RestSearchPlayerBalanceTransactionsResponse
+
+	abstract fun map(input: GetPlayerBalanceResponse): RestGetPlayerBalanceResponse
 }
