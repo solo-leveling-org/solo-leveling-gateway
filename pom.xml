@@ -71,7 +71,7 @@
   <repositories>
     <repository>
       <id>github</id>
-      <url>https://maven.pkg.github.com/solo-leveling-org/solo-leveling-proto</url>
+      <url>https://maven.pkg.github.com/solo-leveling-org/solo-leveling-lib</url>
     </repository>
     <repository>
       <id>spring-milestones</id>
