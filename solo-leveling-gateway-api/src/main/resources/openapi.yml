@@ -263,7 +263,7 @@ paths:
             format: int32
             default: 0
             minimum: 0
-        - name: page_size
+        - name: pageSize
           in: query
           required: false
           schema:
@@ -432,6 +432,10 @@ components:
             $ref: '#/components/schemas/PlayerBalanceTransaction'
         pagination:
           $ref: '#/components/schemas/PaginationInfo'
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocalizedField'
 
     # --- Enums ---
     UserRole:
@@ -697,6 +701,37 @@ components:
       required:
         - totalPageCount
         - totalRowCount
+
+    LocalizedField:
+      type: object
+      properties:
+        field:
+          type: string
+          description: Field identifier
+          example: "taskTopics"
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocalizedItem'
+          description: List of localized items for this field
+      required:
+        - field
+        - items
+
+    LocalizedItem:
+      type: object
+      properties:
+        item:
+          type: string
+          description: Enum item identifier
+          example: "PHYSICAL_ACTIVITY"
+        localization:
+          type: string
+          description: Localized display name
+          example: "Physical Activity"
+      required:
+        - item
+        - localization
 
     Filter:
       type: object

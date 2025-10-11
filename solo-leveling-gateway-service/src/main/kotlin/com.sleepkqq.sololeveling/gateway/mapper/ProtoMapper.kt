@@ -115,6 +115,7 @@ abstract class ProtoMapper {
 	abstract fun map(input: RestStringFilter): StringFilter
 
 	@Mapping(target = "transactions", source = "transactionsList")
+	@Mapping(target = "filters", source = "filtersList")
 	abstract fun map(input: SearchPlayerBalanceTransactionsResponse): RestSearchPlayerBalanceTransactionsResponse
 
 	abstract fun map(input: GetPlayerBalanceResponse): RestGetPlayerBalanceResponse
