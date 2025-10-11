@@ -397,6 +397,7 @@ components:
       type: object
       required:
         - tasks
+        - firstTime
       properties:
         tasks:
           type: array
@@ -412,12 +413,17 @@ components:
           $ref: '#/components/schemas/Player'
         playerAfter:
           $ref: '#/components/schemas/Player'
+      required:
+        - playerBefore
+        - playerAfter
 
     GetPlayerBalanceResponse:
       type: object
       properties:
         balance:
           $ref: '#/components/schemas/PlayerBalance'
+      required:
+        - balance
 
     SearchPlayerBalanceTransactionsResponse:
       type: object
@@ -428,6 +434,9 @@ components:
             $ref: '#/components/schemas/PlayerBalanceTransaction'
         options:
           $ref: '#/components/schemas/ResponseQueryOptions'
+      required:
+        - transactions
+        - options
 
     # --- Enums ---
     UserRole:

@@ -1,5 +1,6 @@
 package com.sleepkqq.sololeveling.gateway.grpc.client
 
+import com.google.protobuf.Empty
 import com.sleepkqq.sololeveling.proto.player.*
 import com.sleepkqq.sololeveling.proto.player.PlayerServiceGrpc.PlayerServiceBlockingStub
 import org.springframework.stereotype.Service
@@ -17,20 +18,16 @@ class PlayerGrpcApi(
 		GetPlayerTopicsRequest.newBuilder().setPlayerId(playerId).build()
 	)
 
-	fun savePlayerTopics(request: SavePlayerTopicsRequest) {
+	fun savePlayerTopics(request: SavePlayerTopicsRequest): Empty =
 		playerStub.savePlayerTopics(request)
-	}
 
-	fun generateTasks(playerId: Long) {
+	fun generateTasks(playerId: Long): Empty =
 		playerStub.generateTasks(GenerateTasksRequest.newBuilder().setPlayerId(playerId).build())
-	}
 
 	fun completeTask(request: CompleteTaskRequest): CompleteTaskResponse =
 		playerStub.completeTask(request)
 
-	fun skipTask(request: SkipTaskRequest) {
-		playerStub.skipTask(request)
-	}
+	fun skipTask(request: SkipTaskRequest): Empty = playerStub.skipTask(request)
 
 	fun getPlayerBalance(playerId: Long): GetPlayerBalanceResponse =
 		playerStub.getPlayerBalance(GetPlayerBalanceRequest.newBuilder().setPlayerId(playerId).build())
