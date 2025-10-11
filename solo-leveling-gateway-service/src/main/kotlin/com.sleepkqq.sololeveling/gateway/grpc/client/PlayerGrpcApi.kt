@@ -17,15 +17,25 @@ class PlayerGrpcApi(
 		GetPlayerTopicsRequest.newBuilder().setPlayerId(playerId).build()
 	)
 
-	fun savePlayerTopics(request: SavePlayerTopicsRequest) = playerStub.savePlayerTopics(request)
+	fun savePlayerTopics(request: SavePlayerTopicsRequest) {
+		playerStub.savePlayerTopics(request)
+	}
 
-	fun generateTasks(playerId: Long) =
+	fun generateTasks(playerId: Long) {
 		playerStub.generateTasks(GenerateTasksRequest.newBuilder().setPlayerId(playerId).build())
+	}
 
-	fun completeTask(request: CompleteTaskRequest) = playerStub.completeTask(request)
+	fun completeTask(request: CompleteTaskRequest): CompleteTaskResponse =
+		playerStub.completeTask(request)
 
-	fun skipTask(request: SkipTaskRequest) = playerStub.skipTask(request)
+	fun skipTask(request: SkipTaskRequest) {
+		playerStub.skipTask(request)
+	}
 
-	fun searchPlayerBalanceTransactions(request: SearchPlayerBalanceTransactionsRequest) =
+	fun getPlayerBalance(playerId: Long): GetPlayerBalanceResponse =
+		playerStub.getPlayerBalance(GetPlayerBalanceRequest.newBuilder().setPlayerId(playerId).build())
+
+	fun searchPlayerBalanceTransactions(request: SearchPlayerBalanceTransactionsRequest):
+			SearchPlayerBalanceTransactionsResponse =
 		playerStub.searchPlayerBalanceTransactions(request)
 }

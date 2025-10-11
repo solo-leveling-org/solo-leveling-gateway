@@ -234,6 +234,20 @@ paths:
         '204':
           description: Task skipped successfully
 
+  /api/v1/player/balance:
+    get:
+      tags:
+        - player
+      summary: Get player balance
+      operationId: getPlayerBalance
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPlayerBalanceResponse'
+
   /api/v1/player/balance/transaction/search:
     post:
       tags:
@@ -402,6 +416,12 @@ components:
           $ref: '#/components/schemas/Player'
         playerAfter:
           $ref: '#/components/schemas/Player'
+
+    GetPlayerBalanceResponse:
+      type: object
+      properties:
+        balance:
+          $ref: '#/components/schemas/PlayerBalance'
 
     SearchPlayerBalanceTransactionsResponse:
       type: object

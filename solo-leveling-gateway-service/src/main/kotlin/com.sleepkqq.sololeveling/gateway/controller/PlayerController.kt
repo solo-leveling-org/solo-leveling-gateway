@@ -67,6 +67,13 @@ class PlayerController(
 		return ResponseEntity.ok(protoMapper.map(grpcResponse))
 	}
 
+	override fun getPlayerBalance(): ResponseEntity<RestGetPlayerBalanceResponse> {
+		val currentUser = authService.getCurrentUser()
+		val grpcResponse = playerGrpcApi.getPlayerBalance(currentUser.id)
+
+		return ResponseEntity.ok(protoMapper.map(grpcResponse))
+	}
+
 	override fun searchPlayerBalanceTransactions(
 		request: @Valid RestSearchPlayerBalanceTransactionsRequest,
 		page: @Min(0) @Valid Int,
