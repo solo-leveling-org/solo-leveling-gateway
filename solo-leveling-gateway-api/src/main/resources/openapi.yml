@@ -339,12 +339,8 @@ components:
     SearchPlayerBalanceTransactionsRequest:
       type: object
       properties:
-        filter:
-          $ref: '#/components/schemas/Filter'
-        sorts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Sort'
+        options:
+          $ref: '#/components/schemas/RequestQueryOptions'
 
     # --- RESPONSES ---
     LoginResponse:
@@ -430,12 +426,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PlayerBalanceTransaction'
-        pagination:
-          $ref: '#/components/schemas/PaginationInfo'
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/LocalizedField'
+        options:
+          $ref: '#/components/schemas/ResponseQueryOptions'
 
     # --- Enums ---
     UserRole:
@@ -691,17 +683,6 @@ components:
         - cause
         - createdAt
 
-    PaginationInfo:
-      type: object
-      properties:
-        totalPageCount:
-          type: integer
-        totalRowCount:
-          type: integer
-      required:
-        - totalPageCount
-        - totalRowCount
-
     LocalizedField:
       type: object
       properties:
@@ -732,6 +713,44 @@ components:
       required:
         - item
         - localization
+
+    RequestQueryOptions:
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/Filter'
+        sorts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sort'
+
+    ResponseQueryOptions:
+      type: object
+      properties:
+        totalRowCount:
+          type: integer
+          format: int64
+          description: Total number of rows/items
+          example: 10
+        totalPageCount:
+          type: integer
+          format: int64
+          description: Total number of pages
+          example: 5
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocalizedField'
+          description: Available filters with localization
+        sorts:
+          type: array
+          items:
+            type: string
+          description: Available sort fields
+          example: [ "createdAt", "updatedAt", "name" ]
+      required:
+        - total_page_count
+        - total_row_count
 
     Filter:
       type: object

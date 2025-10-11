@@ -93,29 +93,30 @@ abstract class ProtoMapper {
 
 	@Mapping(
 		target = "options",
-		expression = "java(map(request, page, pageSize))"
+		expression = "java(map(options, page, pageSize))"
 	)
 	abstract fun map(
 		playerId: Long,
-		request: RestSearchPlayerBalanceTransactionsRequest,
+		options: RestRequestQueryOptions?,
 		page: Int,
 		pageSize: Int
 	): SearchPlayerBalanceTransactionsRequest
 
-	@Mapping(target = "filter.stringFiltersList", source = "request.filter.stringFilters")
-	@Mapping(target = "filter.dateFiltersList", source = "request.filter.dateFilters")
-	@Mapping(target = "sortsList", source = "request.sorts")
+	@Mapping(target = "filter.stringFiltersList", source = "options.filter.stringFilters")
+	@Mapping(target = "filter.dateFiltersList", source = "options.filter.dateFilters")
+	@Mapping(target = "sortsList", source = "options.sorts")
 	abstract fun map(
-		request: RestSearchPlayerBalanceTransactionsRequest,
+		options: RestRequestQueryOptions,
 		page: Int,
 		pageSize: Int
-	): QueryOptions
+	): RequestQueryOptions
 
 	@Mapping(target = "valuesList", source = "values")
 	abstract fun map(input: RestStringFilter): StringFilter
 
 	@Mapping(target = "transactions", source = "transactionsList")
-	@Mapping(target = "filters", source = "filtersList")
+	@Mapping(target = "options.filters", source = "options.filtersList")
+	@Mapping(target = "options.sorts", source = "options.sortsList")
 	abstract fun map(input: SearchPlayerBalanceTransactionsResponse): RestSearchPlayerBalanceTransactionsResponse
 
 	abstract fun map(input: GetPlayerBalanceResponse): RestGetPlayerBalanceResponse

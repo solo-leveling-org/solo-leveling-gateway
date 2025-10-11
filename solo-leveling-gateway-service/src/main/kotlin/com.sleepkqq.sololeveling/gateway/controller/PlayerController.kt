@@ -81,7 +81,7 @@ class PlayerController(
 	): ResponseEntity<RestSearchPlayerBalanceTransactionsResponse> {
 
 		val currentUser = authService.getCurrentUser()
-		val grpcRequest = protoMapper.map(currentUser.id, request, page, pageSize)
+		val grpcRequest = protoMapper.map(currentUser.id, request.options, page, pageSize)
 		val grpcResponse = playerGrpcApi.searchPlayerBalanceTransactions(grpcRequest)
 
 		return ResponseEntity.ok(protoMapper.map(grpcResponse))
