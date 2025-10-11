@@ -234,6 +234,44 @@ paths:
         '204':
           description: Task skipped successfully
 
+  /api/v1/player/balance/transaction/search:
+    post:
+      tags:
+        - player
+      summary: Search player balance transactions
+      operationId: searchPlayerBalanceTransactions
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+            minimum: 0
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 20
+            minimum: 1
+            maximum: 100
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchPlayerBalanceTransactionsRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchPlayerBalanceTransactionsResponse'
+
 components:
   schemas:
     # --- REQUESTS ---
@@ -283,6 +321,16 @@ components:
       properties:
         playerTask:
           $ref: '#/components/schemas/PlayerTask'
+
+    SearchPlayerBalanceTransactionsRequest:
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/Filter'
+        sorts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sort'
 
     # --- RESPONSES ---
     LoginResponse:
@@ -355,6 +403,16 @@ components:
         playerAfter:
           $ref: '#/components/schemas/Player'
 
+    SearchPlayerBalanceTransactionsResponse:
+      type: object
+      properties:
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlayerBalanceTransactionView'
+        pagination:
+          $ref: '#/components/schemas/PaginationInfo'
+
     # --- Enums ---
     UserRole:
       type: string
@@ -385,6 +443,26 @@ components:
     PlayerTaskStatus:
       type: string
       enum: [ PREPARING, IN_PROGRESS, PENDING_COMPLETION, COMPLETED, SKIPPED ]
+
+    PlayerBalanceTransactionType:
+      type: string
+      enum:
+        - IN
+        - OUT
+
+    PlayerBalanceTransactionCause:
+      type: string
+      enum:
+        - TASK_COMPLETION
+        - LEVEL_UP
+        - DAILY_CHECK_IN
+        - ITEM_PURCHASE
+
+    OrderMode:
+      type: string
+      enum:
+        - ASC
+        - DESC
 
     # --- Domain Objects ---
     Task:
@@ -533,6 +611,92 @@ components:
           $ref: '#/components/schemas/PlayerTaskStatus'
         task:
           $ref: '#/components/schemas/Task'
+
+    PlayerBalanceTransactionView:
+      type: object
+      properties:
+        id:
+          type: string
+        version:
+          type: integer
+          format: int32
+        amount:
+          $ref: '#/components/schemas/Money'
+        type:
+          $ref: '#/components/schemas/PlayerBalanceTransactionType'
+        cause:
+          $ref: '#/components/schemas/PlayerBalanceTransactionCause'
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - version
+        - amount
+        - type
+        - cause
+        - createdAt
+
+    PaginationInfo:
+      type: object
+      properties:
+        totalPageCount:
+          type: integer
+        totalRowCount:
+          type: integer
+      required:
+        - totalPageCount
+        - totalRowCount
+
+    Filter:
+      type: object
+      properties:
+        date_filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DateFilter'
+        string_filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/StringFilter'
+
+    DateFilter:
+      type: object
+      properties:
+        field:
+          type: string
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+      required:
+        - field
+
+    StringFilter:
+      type: object
+      properties:
+        field:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+      required:
+        - field
+        - values
+
+    Sort:
+      type: object
+      properties:
+        field:
+          type: string
+        mode:
+          $ref: '#/components/schemas/OrderMode'
+      required:
+        - field
+        - mode
 
     User:
       type: object

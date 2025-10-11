@@ -1,7 +1,7 @@
 package com.sleepkqq.sololeveling.gateway.config.grpc
 
 import com.sleepkqq.sololeveling.proto.config.DefaultGrpcClientConfig
-import com.sleepkqq.sololeveling.proto.config.LocaleClientInterceptor
+import com.sleepkqq.sololeveling.proto.config.interceptor.LocaleClientInterceptor
 import com.sleepkqq.sololeveling.proto.player.PlayerServiceGrpc
 import com.sleepkqq.sololeveling.proto.user.UserServiceGrpc
 import io.grpc.ClientInterceptor

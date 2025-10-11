@@ -25,4 +25,7 @@ class PlayerGrpcApi(
 	fun completeTask(request: CompleteTaskRequest) = playerStub.completeTask(request)
 
 	fun skipTask(request: SkipTaskRequest) = playerStub.skipTask(request)
+
+	fun searchPlayerBalanceTransactions(request: SearchPlayerBalanceTransactionsRequest) =
+		playerStub.searchPlayerBalanceTransactions(request)
 }
