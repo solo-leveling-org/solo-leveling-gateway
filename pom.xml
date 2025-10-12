@@ -61,7 +61,7 @@
     <springdoc-openapi.version>2.8.9</springdoc-openapi.version>
 
     <!-- solo leveling -->
-    <solo-leveling-lib.version>1.0.22</solo-leveling-lib.version>
+    <solo-leveling-lib.version>1.0.24</solo-leveling-lib.version>
 
     <!-- tests -->
     <test-containers.version>1.21.3</test-containers.version>

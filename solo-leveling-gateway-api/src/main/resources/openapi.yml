@@ -711,10 +711,10 @@ components:
     LocalizedItem:
       type: object
       properties:
-        item:
-          type: string
-          description: Enum item identifier
-          example: "PHYSICAL_ACTIVITY"
+        ordinal:
+          type: integer
+          description: Enum ordinal
+          example: 0
         localization:
           type: string
           description: Localized display name
@@ -768,10 +768,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DateFilter'
-        stringFilters:
+        enumFilters:
           type: array
           items:
-            $ref: '#/components/schemas/StringFilter'
+            $ref: '#/components/schemas/EnumFilter'
 
     DateFilter:
       type: object
@@ -789,7 +789,7 @@ components:
         - from
         - to
 
-    StringFilter:
+    EnumFilter:
       type: object
       properties:
         field:
@@ -797,7 +797,7 @@ components:
         values:
           type: array
           items:
-            type: string
+            type: integer
       required:
         - field
         - values

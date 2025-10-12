@@ -105,7 +105,7 @@ abstract class ProtoMapper {
 		pageSize: Int
 	): SearchPlayerBalanceTransactionsRequest
 
-	@Mapping(target = "filter.stringFiltersList", source = "options.filter.stringFilters")
+	@Mapping(target = "filter.enumFiltersList", source = "options.filter.enumFilters")
 	@Mapping(target = "filter.dateFiltersList", source = "options.filter.dateFilters")
 	@Mapping(target = "sortsList", source = "options.sorts")
 	abstract fun map(
@@ -115,7 +115,7 @@ abstract class ProtoMapper {
 	): RequestQueryOptions
 
 	@Mapping(target = "valuesList", source = "values")
-	abstract fun map(input: RestStringFilter): StringFilter
+	abstract fun map(input: RestEnumFilter): EnumFilter
 
 	@Mapping(target = "transactions", source = "transactionsList")
 	@Mapping(target = "options.filters", source = "options.filtersList")
