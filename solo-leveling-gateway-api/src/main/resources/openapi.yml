@@ -802,7 +802,7 @@ components:
         values:
           type: array
           items:
-            type: integer
+            type: string
       required:
         - field
         - values
