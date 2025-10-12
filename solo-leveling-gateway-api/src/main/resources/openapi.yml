@@ -711,6 +711,10 @@ components:
     LocalizedItem:
       type: object
       properties:
+        name:
+          type: string
+          description: Enum name
+          example: "PHYSICAL_ACTIVITY"
         ordinal:
           type: integer
           description: Enum ordinal
@@ -720,7 +724,8 @@ components:
           description: Localized display name
           example: "Physical Activity"
       required:
-        - item
+        - name
+        - ordinal
         - localization
 
     RequestQueryOptions:
