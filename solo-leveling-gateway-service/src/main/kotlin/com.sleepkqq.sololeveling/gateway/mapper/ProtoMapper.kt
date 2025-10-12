@@ -12,6 +12,7 @@ import com.sleepkqq.sololeveling.proto.user.UserInput
 import com.sleepkqq.sololeveling.proto.user.UserLocaleResponse
 import com.sleepkqq.sololeveling.proto.user.UserView
 import org.mapstruct.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Suppress("unused")
@@ -65,6 +66,8 @@ abstract class ProtoMapper {
 		.amount(input.toBigDecimal())
 
 	fun map(input: LocalDateTime): Timestamp = input.toTimestamp()
+
+	fun map(input: LocalDate): Timestamp = input.atStartOfDay().toTimestamp()
 
 	@Mapping(target = "tasks", source = "tasksList")
 	abstract fun map(input: GetActiveTasksResponse): RestGetActiveTasksResponse
