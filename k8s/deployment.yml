@@ -24,10 +24,10 @@ spec:
               value: "${TELEGRAM_BOT_TOKEN_APP}"
             - name: JWT_SECRET
               value: "${JWT_SECRET}"
-            - name: RABBITMQ_USER
-              value: "${RABBITMQ_USER}"
-            - name: RABBITMQ_PASSWORD
-              value: "${RABBITMQ_PASSWORD}"
+            - name: RABBITMQ_DEFAULT_USER
+              value: "${RABBITMQ_DEFAULT_USER}"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "${RABBITMQ_DEFAULT_PASS}"
           livenessProbe:
             httpGet:
               path: /actuator/health
