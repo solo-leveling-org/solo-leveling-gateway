@@ -33,7 +33,7 @@ app:
   cors:
     hosts:
       - https://solo-leveling.online
-      - https://solo-leveling.ru.tuna.am
+      - https://solo-leveling-ui.ru.tuna.am
     methods:
       - GET
       - POST

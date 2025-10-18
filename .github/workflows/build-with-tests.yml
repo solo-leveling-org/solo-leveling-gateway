@@ -12,22 +12,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate settings.xml in project root
+      - name: Install gettext for envsubst
         run: |
-          cat <<EOF > ./settings.xml
-          <?xml version="1.0" encoding="UTF-8"?>
-          <settings>
-            <servers>
-              <server>
-                <id>github</id>
-                <username>${GITHUB_USER}</username>
-                <password>${PACKAGES_TOKEN}</password>
-              </server>
-            </servers>
-          </settings>
-        env:
-          GITHUB_USER: ${{ secrets.GITHUB_USER }}
-          PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+          sudo apt-get update && sudo apt-get install -y gettext-base
+
+      - name: Create settings.xml with environment variables
+        run: |
+          # Создаем шаблон settings.xml из секрета
+          echo "${{ secrets.MAVEN_SETTINGS_XML }}" > ./settings-template.xml
+
+          # Экспортируем переменные для envsubst
+          export GITHUB_USER="${{ secrets.GITHUB_USER }}"
+          export PACKAGES_TOKEN="${{ secrets.PACKAGES_TOKEN }}"
+
+          # Применяем подстановку переменных
+          envsubst < ./settings-template.xml > ./settings.xml
+
+          # Проверяем результат
+          if [ -s ./settings.xml ]; then
+            echo "settings.xml successfully created with environment variables"
+            echo "=== settings.xml content ==="
+            cat ./settings.xml
+            echo "=== end of settings.xml ==="
+          else
+            echo "ERROR: settings.xml is empty or not created"
+            exit 1
+          fi
+
+          # Очищаем шаблон
+          rm -f ./settings-template.xml
 
       - name: Setup Java
         uses: actions/setup-java@v3
