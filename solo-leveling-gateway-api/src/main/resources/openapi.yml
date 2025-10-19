@@ -698,7 +698,11 @@ components:
         field:
           type: string
           description: Field identifier
-          example: "taskTopics"
+          example: "transactionType"
+        localization:
+          type: string
+          description: Localized display name
+          example: "Transaction type"
         items:
           type: array
           items:
@@ -706,6 +710,7 @@ components:
           description: List of localized items for this field
       required:
         - field
+        - localization
         - items
 
     LocalizedItem:
@@ -748,7 +753,7 @@ components:
           example: 5
         currentPage:
           type: integer
-          format: int64
+          format: int32
           description: Current page
           example: 0
         hasMore:
@@ -767,8 +772,10 @@ components:
           description: Available sort fields
           example: [ "createdAt", "updatedAt", "name" ]
       required:
-        - total_page_count
-        - total_row_count
+        - totalRowCount
+        - totalPageCount
+        - currentPage
+        - hasMore
 
     Filter:
       type: object
