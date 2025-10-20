@@ -9,7 +9,7 @@ spring:
     cache-duration: -1
     fallback-to-system-locale: false
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:29092
     properties:
       schema.registry.url: http://localhost:8081
   autoconfigure:
@@ -22,7 +22,7 @@ app:
     services:
       player:
         host: localhost
-        port: 9090
+        port: 11001
   telegram:
     bot:
       token: ${TELEGRAM_BOT_TOKEN_DEV}
@@ -33,7 +33,7 @@ app:
   cors:
     hosts:
       - https://solo-leveling.online
-      - https://solo-leveling.ru.tuna.am
+      - https://solo-leveling-ui.ru.tuna.am
     methods:
       - GET
       - POST
@@ -46,8 +46,8 @@ app:
     stomp:
       host: localhost
       port: 61613
-      username: ${RABBITMQ_USER}
-      password: ${RABBITMQ_PASSWORD}
+      username: ${RABBITMQ_DEFAULT_USER}
+      password: ${RABBITMQ_DEFAULT_PASS}
       destination-prefixes:
         - /queue
         - /topic
@@ -62,7 +62,7 @@ management:
       exposure:
         include: "*"
 server:
-  port: 8089
+  port: 10002
   servlet:
     session:
       timeout: 604_800
