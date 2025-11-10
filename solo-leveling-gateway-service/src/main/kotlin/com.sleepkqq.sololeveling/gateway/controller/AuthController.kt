@@ -23,8 +23,9 @@ class AuthController(
 
 	override fun login(tgAuthData: @Valid RestTgAuthData): ResponseEntity<RestLoginResponse> {
 		val userData = UserData.fromTgUser(tgAuthData.tgWebAppData.user)
+		val response = authService.login(tgAuthData)
 		userGrpcApi.authUser(protoMapper.map(userData))
-		return ResponseEntity.ok(authService.login(tgAuthData))
+		return ResponseEntity.ok(response)
 	}
 
 	override fun refresh(refreshRequest: @Valid RestRefreshRequest): ResponseEntity<RestRefreshResponse> {
