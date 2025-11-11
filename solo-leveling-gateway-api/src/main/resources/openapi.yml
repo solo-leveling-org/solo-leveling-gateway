@@ -467,7 +467,7 @@ components:
 
     PlayerTaskStatus:
       type: string
-      enum: [ PREPARING, IN_PROGRESS, PENDING_COMPLETION, COMPLETED, SKIPPED ]
+      enum: [ PREPARING, IN_PROGRESS, COMPLETED, SKIPPED ]
 
     PlayerBalanceTransactionType:
       type: string

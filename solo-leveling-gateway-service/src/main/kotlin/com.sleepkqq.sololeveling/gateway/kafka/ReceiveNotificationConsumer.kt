@@ -24,7 +24,7 @@ class ReceiveNotificationConsumer(
 		groupId = KafkaGroupIds.UI_GROUP_ID
 	)
 	fun listen(event: ReceiveNotificationEvent, ack: Acknowledgment) {
-		log.info(">> Received notification | transactionId={}", event.transactionId)
+		log.info(">> Received notification | txId={}", event.txId)
 
 		notificationService.sendUserNotification(event.userId, avroMapper.map(event.notification))
 
