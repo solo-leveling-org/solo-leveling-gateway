@@ -425,18 +425,25 @@ components:
       required:
         - balance
 
-    SearchPlayerBalanceTransactionsResponse:
+    QueryableResponse:
       type: object
       properties:
-        transactions:
-          type: array
-          items:
-            $ref: '#/components/schemas/PlayerBalanceTransaction'
         options:
           $ref: '#/components/schemas/ResponseQueryOptions'
       required:
-        - transactions
         - options
+
+    SearchPlayerBalanceTransactionsResponse:
+      allOf:
+        - $ref: '#/components/schemas/QueryableResponse'
+        - type: object
+          properties:
+            transactions:
+              type: array
+              items:
+                $ref: '#/components/schemas/PlayerBalanceTransaction'
+          required:
+            - transactions
 
     # --- Enums ---
     UserRole:
@@ -659,7 +666,10 @@ components:
         order:
           type: integer
           format: int32
-        closedAt:
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
           type: string
           format: date-time
         status:
