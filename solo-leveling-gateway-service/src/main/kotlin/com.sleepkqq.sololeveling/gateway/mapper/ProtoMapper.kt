@@ -15,7 +15,6 @@ import org.mapstruct.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-@Suppress("unused")
 @Mapper(
 	componentModel = "spring",
 	unmappedTargetPolicy = ReportingPolicy.IGNORE,
@@ -98,12 +97,23 @@ abstract class ProtoMapper {
 		target = "options",
 		expression = "java(map(options, page, pageSize))"
 	)
-	abstract fun map(
+	abstract fun mapSearchTransactionsRequest(
 		playerId: Long,
 		options: RestRequestQueryOptions?,
 		page: Int,
 		pageSize: Int
 	): SearchPlayerBalanceTransactionsRequest
+
+	@Mapping(
+		target = "options",
+		expression = "java(map(options, page, pageSize))"
+	)
+	abstract fun mapSearchTasksRequest(
+		playerId: Long,
+		options: RestRequestQueryOptions?,
+		page: Int,
+		pageSize: Int
+	): SearchPlayerTasksRequest
 
 	@Mapping(target = "filter.enumFiltersList", source = "options.filter.enumFilters")
 	@Mapping(target = "filter.dateFiltersList", source = "options.filter.dateFilters")
@@ -121,6 +131,11 @@ abstract class ProtoMapper {
 	@Mapping(target = "options.filters", source = "options.filtersList")
 	@Mapping(target = "options.sorts", source = "options.sortsList")
 	abstract fun map(input: SearchPlayerBalanceTransactionsResponse): RestSearchPlayerBalanceTransactionsResponse
+
+	@Mapping(target = "tasks", source = "tasksList")
+	@Mapping(target = "options.filters", source = "options.filtersList")
+	@Mapping(target = "options.sorts", source = "options.sortsList")
+	abstract fun map(input: SearchPlayerTasksResponse): RestSearchPlayerTasksResponse
 
 	abstract fun map(input: GetPlayerBalanceResponse): RestGetPlayerBalanceResponse
 

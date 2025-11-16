@@ -10,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.util.StopWatch
 
-@Suppress("unused")
 @Aspect
 @Component
 class LoggingAspect {

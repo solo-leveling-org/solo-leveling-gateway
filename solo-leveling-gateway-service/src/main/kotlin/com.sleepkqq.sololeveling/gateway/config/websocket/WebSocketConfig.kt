@@ -9,13 +9,13 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer
 
-@Suppress("unused")
 @Configuration
 @EnableWebSocketMessageBroker
 @EnableConfigurationProperties(RabbitMqStompProperties::class)
 class WebSocketConfig(
 	private val jwtHandshakeInterceptor: JwtHandshakeInterceptor,
 	private val rabbitMqStompProperties: RabbitMqStompProperties,
+	// todo: use cors for websocket
 	private val corsProperties: CorsProperties
 ) : WebSocketMessageBrokerConfigurer {
 

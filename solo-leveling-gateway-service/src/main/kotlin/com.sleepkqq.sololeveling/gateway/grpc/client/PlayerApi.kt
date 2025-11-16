@@ -6,7 +6,7 @@ import com.sleepkqq.sololeveling.proto.player.PlayerServiceGrpc.PlayerServiceBlo
 import org.springframework.stereotype.Service
 
 @Service
-class PlayerGrpcApi(
+class PlayerApi(
 	private val playerStub: PlayerServiceBlockingStub
 ) {
 
@@ -28,6 +28,9 @@ class PlayerGrpcApi(
 		playerStub.completeTask(request)
 
 	fun skipTask(request: SkipTaskRequest): Empty = playerStub.skipTask(request)
+
+	fun searchPlayerTasks(request: SearchPlayerTasksRequest): SearchPlayerTasksResponse =
+		playerStub.searchPlayerTasks(request)
 
 	fun getPlayerBalance(playerId: Long): GetPlayerBalanceResponse =
 		playerStub.getPlayerBalance(GetPlayerBalanceRequest.newBuilder().setPlayerId(playerId).build())

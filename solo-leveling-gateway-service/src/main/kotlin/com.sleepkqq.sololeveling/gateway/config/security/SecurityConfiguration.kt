@@ -11,7 +11,6 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
 
-@Suppress("unused")
 @Configuration
 @EnableWebSecurity
 @EnableConfigurationProperties(CorsProperties::class)
@@ -49,7 +48,7 @@ class SecurityConfiguration(
 				.anyRequest().authenticated()
 		}
 		.exceptionHandling {
-			it.authenticationEntryPoint { request, response, authException ->
+			it.authenticationEntryPoint { _, response, _ ->
 				response.status = HttpServletResponse.SC_UNAUTHORIZED
 			}
 		}
