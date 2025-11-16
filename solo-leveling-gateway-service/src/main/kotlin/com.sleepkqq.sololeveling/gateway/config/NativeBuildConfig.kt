@@ -43,7 +43,6 @@ import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding
 import org.springframework.context.annotation.Configuration
 
-@Suppress("unused")
 @RegisterReflectionForBinding(
 	classes = [
 		// jjwt

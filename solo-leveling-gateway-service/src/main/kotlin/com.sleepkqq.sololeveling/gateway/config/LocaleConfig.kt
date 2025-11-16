@@ -7,7 +7,6 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver
 import java.util.Locale
 import kotlin.apply
 
-@Suppress("unused")
 @Configuration
 class LocaleConfig {
 

@@ -69,6 +69,9 @@
                 <dateLibrary>java8</dateLibrary>
                 <java11>true</java11>
               </configOptions>
+              <additionalProperties>
+                <additionalProperty>apiNameSuffix=RestApi</additionalProperty>
+              </additionalProperties>
               <typeMappings>
                 <typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
                 <typeMapping>Double=java.math.BigDecimal</typeMapping>
