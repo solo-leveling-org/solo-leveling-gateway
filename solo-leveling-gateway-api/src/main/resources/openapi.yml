@@ -562,12 +562,6 @@ components:
         version:
           type: integer
           format: int32
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
         title:
           type: string
         description:
