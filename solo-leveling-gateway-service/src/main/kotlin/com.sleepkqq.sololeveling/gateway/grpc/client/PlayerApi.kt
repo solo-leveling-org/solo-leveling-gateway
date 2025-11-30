@@ -29,13 +29,13 @@ class PlayerApi(
 
 	fun skipTask(request: SkipTaskRequest): Empty = playerStub.skipTask(request)
 
-	fun searchPlayerTasks(request: SearchPlayerTasksRequest): SearchPlayerTasksResponse =
+	fun searchPlayerTasks(request: SearchEntitiesRequest): SearchPlayerTasksResponse =
 		playerStub.searchPlayerTasks(request)
 
 	fun getPlayerBalance(playerId: Long): GetPlayerBalanceResponse =
 		playerStub.getPlayerBalance(GetPlayerBalanceRequest.newBuilder().setPlayerId(playerId).build())
 
-	fun searchPlayerBalanceTransactions(request: SearchPlayerBalanceTransactionsRequest):
+	fun searchPlayerBalanceTransactions(request: SearchEntitiesRequest):
 			SearchPlayerBalanceTransactionsResponse =
 		playerStub.searchPlayerBalanceTransactions(request)
 }

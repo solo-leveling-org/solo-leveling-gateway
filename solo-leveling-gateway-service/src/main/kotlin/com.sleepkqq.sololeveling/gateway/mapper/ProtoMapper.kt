@@ -93,36 +93,20 @@ abstract class ProtoMapper {
 
 	abstract fun map(input: UserLocaleResponse): RestUserLocaleResponse
 
-	@Mapping(
-		target = "options",
-		expression = "java(map(options, page, pageSize))"
-	)
-	abstract fun mapSearchTransactionsRequest(
-		playerId: Long,
-		options: RestRequestQueryOptions?,
-		page: Int,
-		pageSize: Int
-	): SearchPlayerBalanceTransactionsRequest
+	abstract fun map(page: Int, pageSize: Int): RequestPaging
 
-	@Mapping(
-		target = "options",
-		expression = "java(map(options, page, pageSize))"
-	)
-	abstract fun mapSearchTasksRequest(
+	@Mapping(target = "paging", expression = "java(map(page, pageSize))")
+	abstract fun map(
 		playerId: Long,
 		options: RestRequestQueryOptions?,
 		page: Int,
 		pageSize: Int
-	): SearchPlayerTasksRequest
+	): SearchEntitiesRequest
 
 	@Mapping(target = "filter.enumFiltersList", source = "options.filter.enumFilters")
 	@Mapping(target = "filter.dateFiltersList", source = "options.filter.dateFilters")
 	@Mapping(target = "sortsList", source = "options.sorts")
-	abstract fun map(
-		options: RestRequestQueryOptions,
-		page: Int,
-		pageSize: Int
-	): RequestQueryOptions
+	abstract fun map(options: RestRequestQueryOptions): RequestQueryOptions
 
 	@Mapping(target = "valuesList", source = "values")
 	abstract fun map(input: RestEnumFilter): EnumFilter
