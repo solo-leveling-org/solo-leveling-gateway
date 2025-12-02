@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
+import java.util.UUID
 
 @RestController
 class PlayerController(
@@ -19,49 +20,37 @@ class PlayerController(
 ) : PlayerRestApi {
 
 	override fun generateTasks(): ResponseEntity<Void> {
-		val currentUser = authService.getCurrentUser()
-		playerApi.generateTasks(currentUser.id)
+		playerApi.generateTasks()
 
 		return ResponseEntity.noContent().build()
 	}
 
 	override fun getActiveTasks(): ResponseEntity<RestGetActiveTasksResponse> {
-		val currentUser = authService.getCurrentUser()
-		val grpcResponse = playerApi.getActiveTasks(currentUser.id)
+		val grpcResponse = playerApi.getActiveTasks()
 
 		return ResponseEntity.ok(protoMapper.map(grpcResponse))
 	}
 
-	override fun getCurrentPlayerTopics(): ResponseEntity<RestGetPlayerTopicsResponse> {
-		val currentUser = authService.getCurrentUser()
-		val grpcResponse = playerApi.getPlayerTopics(currentUser.id)
-
-		return ResponseEntity.ok(protoMapper.map(grpcResponse))
-	}
-
-	override fun getPlayerTopics(playerId: Long): ResponseEntity<RestGetPlayerTopicsResponse> {
-		val grpcResponse = playerApi.getPlayerTopics(playerId)
+	override fun getPlayerTopics(): ResponseEntity<RestGetPlayerTopicsResponse> {
+		val grpcResponse = playerApi.getPlayerTopics()
 
 		return ResponseEntity.ok(protoMapper.map(grpcResponse))
 	}
 
 	override fun savePlayerTopics(request: @Valid RestSavePlayerTopicsRequest): ResponseEntity<Void> {
-		val currentUser = authService.getCurrentUser()
-		playerApi.savePlayerTopics(protoMapper.map(currentUser.id, request))
+		playerApi.savePlayerTopics(protoMapper.map(request))
 
 		return ResponseEntity.noContent().build()
 	}
 
-	override fun skipTask(request: @Valid RestSkipTaskRequest): ResponseEntity<Void> {
-		val currentUser = authService.getCurrentUser()
-		playerApi.skipTask(protoMapper.map(currentUser.id, request))
+	override fun skipTask(id: UUID): ResponseEntity<Void> {
+		playerApi.skipTask(id)
 
 		return ResponseEntity.noContent().build()
 	}
 
-	override fun completeTask(request: @Valid RestCompleteTaskRequest): ResponseEntity<RestCompleteTaskResponse> {
-		val currentUser = authService.getCurrentUser()
-		val grpcResponse = playerApi.completeTask(protoMapper.map(currentUser.id, request))
+	override fun completeTask(id: UUID): ResponseEntity<RestCompleteTaskResponse> {
+		val grpcResponse = playerApi.completeTask(id)
 
 		return ResponseEntity.ok(protoMapper.map(grpcResponse))
 	}
@@ -80,8 +69,7 @@ class PlayerController(
 	}
 
 	override fun getPlayerBalance(): ResponseEntity<RestGetPlayerBalanceResponse> {
-		val currentUser = authService.getCurrentUser()
-		val grpcResponse = playerApi.getPlayerBalance(currentUser.id)
+		val grpcResponse = playerApi.getPlayerBalance()
 
 		return ResponseEntity.ok(protoMapper.map(grpcResponse))
 	}

@@ -8,6 +8,8 @@ import com.sleepkqq.sololeveling.gateway.extensions.toBigDecimal
 import com.sleepkqq.sololeveling.gateway.extensions.toTimestamp
 import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.proto.player.*
+import com.sleepkqq.sololeveling.proto.user.GetUsersLeaderboardRequest
+import com.sleepkqq.sololeveling.proto.user.GetUsersLeaderboardResponse
 import com.sleepkqq.sololeveling.proto.user.UserInput
 import com.sleepkqq.sololeveling.proto.user.UserLocaleResponse
 import com.sleepkqq.sololeveling.proto.user.UserView
@@ -78,16 +80,7 @@ abstract class ProtoMapper {
 	abstract fun map(input: GetPlayerTopicsResponse): RestGetPlayerTopicsResponse
 
 	@Mapping(target = "playerTaskTopicsList", source = "input.playerTaskTopics")
-	abstract fun map(playerId: Long, input: RestSavePlayerTopicsRequest): SavePlayerTopicsRequest
-
-	@Mapping(target = "playerTask", source = "input.playerTask")
-	abstract fun map(playerId: Long, input: RestSkipTaskRequest): SkipTaskRequest
-
-	@Mapping(target = "playerTask", source = "input.playerTask")
-	abstract fun map(playerId: Long, input: RestCompleteTaskRequest): CompleteTaskRequest
-
-	@Mapping(target = "task.topicsList", source = "input.task.topics")
-	abstract fun map(input: RestPlayerTask): PlayerTaskInput
+	abstract fun map(input: RestSavePlayerTopicsRequest): SavePlayerTopicsRequest
 
 	abstract fun map(input: CompleteTaskResponse): RestCompleteTaskResponse
 
@@ -125,4 +118,15 @@ abstract class ProtoMapper {
 
 	@Mapping(target = "items", source = "input.itemsList")
 	abstract fun map(input: LocalizedField): RestLocalizedField
+
+	@Mapping(target = "paging", expression = "java(map(page, pageSize))")
+	abstract fun map(
+		type: RestLeaderboardType,
+		range: RestDayRange?,
+		page: Int,
+		pageSize: Int
+	): GetUsersLeaderboardRequest
+
+	@Mapping(target = "users", source = "usersList")
+	abstract fun map(input: GetUsersLeaderboardResponse): RestGetUsersLeaderboardResponse
 }

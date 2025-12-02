@@ -101,12 +101,8 @@
                 <skipOperationGeneration>true</skipOperationGeneration>
               </configOptions>
               <typeMappings>
-                <typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
                 <typeMapping>Double=java.math.BigDecimal</typeMapping>
               </typeMappings>
-              <importMappings>
-                <importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
-              </importMappings>
               <generateApis>false</generateApis>
               <generateSupportingFiles>false</generateSupportingFiles>
             </configuration>

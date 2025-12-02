@@ -1,5 +1,6 @@
 package com.sleepkqq.sololeveling.gateway.config.security
 
+import com.sleepkqq.sololeveling.config.interceptor.UserContextHolder
 import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.gateway.service.auth.JwtService
 import io.jsonwebtoken.ExpiredJwtException
@@ -50,6 +51,7 @@ class JwtAuthenticationFilter(
 				val authentication = UsernamePasswordAuthenticationToken(user, jwt, user.authorities)
 				authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 				SecurityContextHolder.getContext().authentication = authentication
+				UserContextHolder.setUserId(user.id)
 			}
 
 			filterChain.doFilter(request, response)

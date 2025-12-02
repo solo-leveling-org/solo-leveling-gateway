@@ -1,12 +1,11 @@
 package com.sleepkqq.sololeveling.gateway.aop
 
-import com.sleepkqq.sololeveling.gateway.model.UserData
+import com.sleepkqq.sololeveling.config.interceptor.UserContextHolder
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.util.StopWatch
 
@@ -39,7 +38,7 @@ class LoggingAspect {
 		executionType: ExecutionType
 	): Any {
 		val stopWatch = StopWatch()
-		val principal = getCurrentUser()
+		val userId = UserContextHolder.getUserId()?.toString() ?: "unauthenticated"
 
 		stopWatch.start()
 		val result = try {
@@ -53,7 +52,7 @@ class LoggingAspect {
 				executionType.operationSymbol.value,
 				executionType.value,
 				joinPoint.signature.name,
-				principal,
+				userId,
 				stopWatch.totalTimeMillis,
 				e
 			)
@@ -69,22 +68,10 @@ class LoggingAspect {
 			executionType.operationSymbol.value,
 			executionType.value,
 			joinPoint.signature.name,
-			principal,
+			userId,
 			stopWatch.totalTimeMillis
 		)
 
 		return result
-	}
-
-	private fun getCurrentUser(): String {
-		val authentication = SecurityContextHolder.getContext().authentication
-			?: return "unauthenticated"
-		val principal = authentication.principal
-
-		return if (principal is UserData) {
-			principal.id.toString()
-		} else {
-			"anonymous"
-		}
 	}
 }
