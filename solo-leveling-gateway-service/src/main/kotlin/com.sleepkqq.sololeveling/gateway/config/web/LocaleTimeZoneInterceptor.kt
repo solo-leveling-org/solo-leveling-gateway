@@ -14,7 +14,6 @@ import java.util.TimeZone
 class LocaleTimeZoneInterceptor : HandlerInterceptor {
 
 	private companion object {
-		const val ACCEPT_LANGUAGE_HEADER = "Accept-Language"
 		const val TIME_ZONE_HEADER = "X-TimeZone"
 	}
 
@@ -23,9 +22,7 @@ class LocaleTimeZoneInterceptor : HandlerInterceptor {
 		response: HttpServletResponse,
 		handler: Any
 	): Boolean {
-		val locale = request.getHeader(ACCEPT_LANGUAGE_HEADER)
-			?.let { Locale.forLanguageTag(it.split(",").first().trim()) }
-			?: Locale.ENGLISH
+		val locale = request.locale ?: Locale.ENGLISH
 
 		val timeZone = request.getHeader(TIME_ZONE_HEADER)
 			?.let { TimeZone.getTimeZone(it) }

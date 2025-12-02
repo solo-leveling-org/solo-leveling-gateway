@@ -3,7 +3,7 @@ package com.sleepkqq.sololeveling.gateway.mapper
 import com.google.protobuf.Timestamp
 import com.google.type.Money
 import com.sleepkqq.sololeveling.gateway.dto.*
-import com.sleepkqq.sololeveling.gateway.extensions.toLocalDateTime
+import com.sleepkqq.sololeveling.gateway.extensions.toOffsetDateTime
 import com.sleepkqq.sololeveling.gateway.extensions.toBigDecimal
 import com.sleepkqq.sololeveling.gateway.extensions.toTimestamp
 import com.sleepkqq.sololeveling.gateway.model.UserData
@@ -15,7 +15,7 @@ import com.sleepkqq.sololeveling.proto.user.UserLocaleResponse
 import com.sleepkqq.sololeveling.proto.user.UserView
 import org.mapstruct.*
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Mapper(
 	componentModel = "spring",
@@ -48,7 +48,7 @@ abstract class ProtoMapper {
 	fun map(input: PlayerBalanceTransactionCause): RestPlayerBalanceTransactionCause =
 		RestPlayerBalanceTransactionCause.valueOf(input.name)
 
-	fun map(input: Timestamp): LocalDateTime = input.toLocalDateTime()
+	fun map(input: Timestamp): OffsetDateTime = input.toOffsetDateTime()
 
 	@Mapping(target = "rolesList", source = "roles")
 	@Mapping(target = "username", source = "tag")
@@ -66,9 +66,7 @@ abstract class ProtoMapper {
 		.currencyCode(input.currencyCode)
 		.amount(input.toBigDecimal())
 
-	fun map(input: LocalDateTime): Timestamp = input.toTimestamp()
-
-	fun map(input: LocalDate): Timestamp = input.atStartOfDay().toTimestamp()
+	fun map(input: LocalDate): Timestamp = input.toTimestamp()
 
 	@Mapping(target = "tasks", source = "tasksList")
 	abstract fun map(input: GetActiveTasksResponse): RestGetActiveTasksResponse
