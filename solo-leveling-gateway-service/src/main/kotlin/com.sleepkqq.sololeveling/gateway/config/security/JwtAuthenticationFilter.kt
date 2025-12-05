@@ -56,11 +56,13 @@ class JwtAuthenticationFilter(
 
 			filterChain.doFilter(request, response)
 
-		} catch (e: ExpiredJwtException) {
-			log.info(e.message)
-
 		} catch (e: Exception) {
-			log.error("JWT authentication failed", e)
+			if (e is ExpiredJwtException) {
+				log.info("Expired JWT token: ${e.message}")
+			} else {
+				log.error("JWT authentication failed", e)
+			}
+
 			response.status = HttpServletResponse.SC_UNAUTHORIZED
 			response.contentType = APPLICATION_JSON_VALUE
 			response.writer.write(e.toString())
