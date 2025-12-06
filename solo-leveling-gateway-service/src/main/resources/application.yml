@@ -70,6 +70,9 @@ management:
     web:
       exposure:
         include: health,info,prometheus,metrics
+  metrics:
+    tags:
+      application: ${spring.application.name}
 server:
   port: 10002
   servlet:
