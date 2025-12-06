@@ -3,17 +3,22 @@ package com.sleepkqq.sololeveling.gateway.mapper
 import com.google.protobuf.Timestamp
 import com.google.type.Money
 import com.sleepkqq.sololeveling.gateway.dto.*
-import com.sleepkqq.sololeveling.gateway.extensions.toLocalDateTime
+import com.sleepkqq.sololeveling.gateway.extensions.toOffsetDateTime
 import com.sleepkqq.sololeveling.gateway.extensions.toBigDecimal
 import com.sleepkqq.sololeveling.gateway.extensions.toTimestamp
 import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.proto.player.*
+import com.sleepkqq.sololeveling.proto.user.GetUserLeaderboardRequest
+import com.sleepkqq.sololeveling.proto.user.GetUserLeaderboardResponse
+import com.sleepkqq.sololeveling.proto.user.GetUsersLeaderboardRequest
+import com.sleepkqq.sololeveling.proto.user.GetUsersLeaderboardResponse
 import com.sleepkqq.sololeveling.proto.user.UserInput
 import com.sleepkqq.sololeveling.proto.user.UserLocaleResponse
 import com.sleepkqq.sololeveling.proto.user.UserView
 import org.mapstruct.*
+import java.math.BigDecimal
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Mapper(
 	componentModel = "spring",
@@ -46,7 +51,7 @@ abstract class ProtoMapper {
 	fun map(input: PlayerBalanceTransactionCause): RestPlayerBalanceTransactionCause =
 		RestPlayerBalanceTransactionCause.valueOf(input.name)
 
-	fun map(input: Timestamp): LocalDateTime = input.toLocalDateTime()
+	fun map(input: Timestamp): OffsetDateTime = input.toOffsetDateTime()
 
 	@Mapping(target = "rolesList", source = "roles")
 	@Mapping(target = "username", source = "tag")
@@ -64,9 +69,9 @@ abstract class ProtoMapper {
 		.currencyCode(input.currencyCode)
 		.amount(input.toBigDecimal())
 
-	fun map(input: LocalDateTime): Timestamp = input.toTimestamp()
+	fun mapDecimal(input: Money): BigDecimal = input.toBigDecimal()
 
-	fun map(input: LocalDate): Timestamp = input.atStartOfDay().toTimestamp()
+	fun map(input: LocalDate): Timestamp = input.toTimestamp()
 
 	@Mapping(target = "tasks", source = "tasksList")
 	abstract fun map(input: GetActiveTasksResponse): RestGetActiveTasksResponse
@@ -78,16 +83,7 @@ abstract class ProtoMapper {
 	abstract fun map(input: GetPlayerTopicsResponse): RestGetPlayerTopicsResponse
 
 	@Mapping(target = "playerTaskTopicsList", source = "input.playerTaskTopics")
-	abstract fun map(playerId: Long, input: RestSavePlayerTopicsRequest): SavePlayerTopicsRequest
-
-	@Mapping(target = "playerTask", source = "input.playerTask")
-	abstract fun map(playerId: Long, input: RestSkipTaskRequest): SkipTaskRequest
-
-	@Mapping(target = "playerTask", source = "input.playerTask")
-	abstract fun map(playerId: Long, input: RestCompleteTaskRequest): CompleteTaskRequest
-
-	@Mapping(target = "task.topicsList", source = "input.task.topics")
-	abstract fun map(input: RestPlayerTask): PlayerTaskInput
+	abstract fun map(input: RestSavePlayerTopicsRequest): SavePlayerTopicsRequest
 
 	abstract fun map(input: CompleteTaskResponse): RestCompleteTaskResponse
 
@@ -125,4 +121,19 @@ abstract class ProtoMapper {
 
 	@Mapping(target = "items", source = "input.itemsList")
 	abstract fun map(input: LocalizedField): RestLocalizedField
+
+	@Mapping(target = "paging", expression = "java(map(page, pageSize))")
+	abstract fun map(
+		type: RestLeaderboardType,
+		range: RestDayRange?,
+		page: Int,
+		pageSize: Int
+	): GetUsersLeaderboardRequest
+
+	abstract fun map(type: RestLeaderboardType, range: RestDayRange?): GetUserLeaderboardRequest
+
+	@Mapping(target = "users", source = "usersList")
+	abstract fun map(input: GetUsersLeaderboardResponse): RestGetUsersLeaderboardResponse
+
+	abstract fun map(input: GetUserLeaderboardResponse): RestGetUserLeaderboardResponse
 }

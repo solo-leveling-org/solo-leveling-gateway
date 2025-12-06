@@ -1,13 +1,23 @@
 package com.sleepkqq.sololeveling.gateway.extensions
 
 import com.google.protobuf.Timestamp
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import org.springframework.context.i18n.LocaleContextHolder
+import java.time.Instant
+import java.time.LocalDate
+import java.time.OffsetDateTime
 
-fun Timestamp.toLocalDateTime(): LocalDateTime {
-	return LocalDateTime.ofEpochSecond(
-		this.seconds,
-		this.nanos,
-		ZoneOffset.UTC
+fun Timestamp.toOffsetDateTime(): OffsetDateTime {
+	return OffsetDateTime.ofInstant(
+		Instant.ofEpochSecond(this.seconds, this.nanos.toLong()),
+		LocaleContextHolder.getTimeZone().toZoneId()
 	)
+}
+
+fun LocalDate.toTimestamp(): Timestamp {
+	val zoneId = LocaleContextHolder.getTimeZone().toZoneId()
+	val instant = this.atStartOfDay(zoneId).toInstant()
+	return Timestamp.newBuilder()
+		.setSeconds(instant.epochSecond)
+		.setNanos(instant.nano)
+		.build()
 }

@@ -73,12 +73,8 @@
                 <additionalProperty>apiNameSuffix=RestApi</additionalProperty>
               </additionalProperties>
               <typeMappings>
-                <typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
                 <typeMapping>Double=java.math.BigDecimal</typeMapping>
               </typeMappings>
-              <importMappings>
-                <importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
-              </importMappings>
             </configuration>
           </execution>
           <execution>
@@ -101,12 +97,8 @@
                 <skipOperationGeneration>true</skipOperationGeneration>
               </configOptions>
               <typeMappings>
-                <typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
                 <typeMapping>Double=java.math.BigDecimal</typeMapping>
               </typeMappings>
-              <importMappings>
-                <importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
-              </importMappings>
               <generateApis>false</generateApis>
               <generateSupportingFiles>false</generateSupportingFiles>
             </configuration>
@@ -126,7 +118,7 @@
             </goals>
             <configuration>
               <sources>
-                <source>${project.build.directory}/generated-sources/openapi</source>
+                <source>${project.build.directory}/generated-sources/openapi/src/main/java</source>
               </sources>
             </configuration>
           </execution>

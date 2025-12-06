@@ -1,5 +1,6 @@
 package com.sleepkqq.sololeveling.gateway.config.security
 
+import com.sleepkqq.sololeveling.config.interceptor.UserContextHolder
 import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.gateway.service.auth.JwtService
 import io.jsonwebtoken.ExpiredJwtException
@@ -9,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders.AUTHORIZATION
-import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
+import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
@@ -50,18 +51,19 @@ class JwtAuthenticationFilter(
 				val authentication = UsernamePasswordAuthenticationToken(user, jwt, user.authorities)
 				authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 				SecurityContextHolder.getContext().authentication = authentication
+				UserContextHolder.setUserId(user.id)
 			}
 
 			filterChain.doFilter(request, response)
 
-		} catch (e: ExpiredJwtException) {
-			log.info(e.message)
-
 		} catch (e: Exception) {
-			log.error("JWT authentication failed", e)
-			response.status = HttpServletResponse.SC_UNAUTHORIZED
-			response.contentType = APPLICATION_JSON_VALUE
-			response.writer.write(e.toString())
+			if (e is ExpiredJwtException) {
+				log.info("Expired JWT token: ${e.message}")
+			} else {
+				log.error("JWT authentication failed", e)
+			}
+
+			throw BadCredentialsException("Authentication failed")
 		}
 	}
 }

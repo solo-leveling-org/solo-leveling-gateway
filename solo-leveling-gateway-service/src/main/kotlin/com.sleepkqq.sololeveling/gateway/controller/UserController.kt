@@ -1,13 +1,19 @@
 package com.sleepkqq.sololeveling.gateway.controller
 
 import com.sleepkqq.sololeveling.gateway.api.UserRestApi
+import com.sleepkqq.sololeveling.gateway.dto.RestGetUserLeaderboardResponse
 import com.sleepkqq.sololeveling.gateway.dto.RestGetUserResponse
+import com.sleepkqq.sololeveling.gateway.dto.RestGetUsersLeaderboardRequest
+import com.sleepkqq.sololeveling.gateway.dto.RestGetUsersLeaderboardResponse
+import com.sleepkqq.sololeveling.gateway.dto.RestLeaderboardType
 import com.sleepkqq.sololeveling.gateway.dto.RestUpdateUserLocaleRequest
 import com.sleepkqq.sololeveling.gateway.dto.RestUserLocaleResponse
 import com.sleepkqq.sololeveling.gateway.grpc.client.UserApi
 import com.sleepkqq.sololeveling.gateway.mapper.ProtoMapper
 import com.sleepkqq.sololeveling.gateway.service.auth.AuthService
 import jakarta.validation.Valid
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 import java.util.Locale
@@ -37,19 +43,43 @@ class UserController(
 	}
 
 	override fun getUserLocale(): ResponseEntity<RestUserLocaleResponse> {
-		val currentUser = authService.getCurrentUser()
+		val grpcResponse = userApi.getUserLocale()
 
-		val response = userApi.getUserLocale(currentUser.id)
-		return ResponseEntity.ok(protoMapper.map(response))
+		return ResponseEntity.ok(protoMapper.map(grpcResponse))
 	}
 
 	override fun updateUserLocale(request: @Valid RestUpdateUserLocaleRequest):
 			ResponseEntity<RestUserLocaleResponse> {
 
-		val currentUser = authService.getCurrentUser()
-
 		val locale = Locale.forLanguageTag(request.locale)
-		val response = userApi.updateUserLocale(currentUser.id, locale)
-		return ResponseEntity.ok(protoMapper.map(response))
+		val grpcResponse = userApi.updateUserLocale(locale)
+
+		return ResponseEntity.ok(protoMapper.map(grpcResponse))
+	}
+
+	override fun getUsersLeaderboard(
+		type: RestLeaderboardType,
+		request: @Valid RestGetUsersLeaderboardRequest,
+		page: @Min(value = 0) @Valid Int,
+		pageSize: @Min(value = 1) @Max(value = 100) @Valid Int
+	): ResponseEntity<RestGetUsersLeaderboardResponse> {
+
+		val grpcResponse = userApi.getUsersLeaderboard(
+			protoMapper.map(type, request.range, page, pageSize)
+		)
+
+		return ResponseEntity.ok(protoMapper.map(grpcResponse))
+	}
+
+	override fun getUserLeaderboard(
+		type: RestLeaderboardType,
+		request: @Valid RestGetUsersLeaderboardRequest
+	): ResponseEntity<RestGetUserLeaderboardResponse> {
+
+		val grpcResponse = userApi.getUserLeaderboard(
+			protoMapper.map(type, request.range)
+		)
+
+		return ResponseEntity.ok(protoMapper.map(grpcResponse))
 	}
 }

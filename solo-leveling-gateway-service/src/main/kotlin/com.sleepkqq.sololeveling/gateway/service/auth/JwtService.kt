@@ -9,11 +9,11 @@ import com.sleepkqq.sololeveling.gateway.extensions.toTgUser
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Service
 import java.lang.System.currentTimeMillis
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
+import java.time.OffsetDateTime
 import java.util.Date
 import javax.crypto.SecretKey
 
@@ -59,9 +59,9 @@ class JwtService {
 			RestJwtTokenType.REFRESH -> jwtProperties.refreshLifetime
 		}
 
-		val expiresAt = LocalDateTime.ofInstant(
+		val expiresAt = OffsetDateTime.ofInstant(
 			Instant.ofEpochMilli(expirationMillis),
-			ZoneId.systemDefault()
+			LocaleContextHolder.getTimeZone().toZoneId()
 		)
 
 		val token = Jwts.builder()

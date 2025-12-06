@@ -4,36 +4,36 @@ import com.google.protobuf.Empty
 import com.sleepkqq.sololeveling.proto.player.*
 import com.sleepkqq.sololeveling.proto.player.PlayerServiceGrpc.PlayerServiceBlockingStub
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class PlayerApi(
 	private val playerStub: PlayerServiceBlockingStub
 ) {
 
-	fun getActiveTasks(playerId: Long): GetActiveTasksResponse = playerStub.getActiveTasks(
-		GetActiveTasksRequest.newBuilder().setPlayerId(playerId).build()
-	)
+	fun getActiveTasks(): GetActiveTasksResponse =
+		playerStub.getActiveTasks(Empty.newBuilder().build())
 
-	fun getPlayerTopics(playerId: Long): GetPlayerTopicsResponse = playerStub.getPlayerTopics(
-		GetPlayerTopicsRequest.newBuilder().setPlayerId(playerId).build()
-	)
+	fun getPlayerTopics(): GetPlayerTopicsResponse =
+		playerStub.getPlayerTopics(Empty.newBuilder().build())
 
 	fun savePlayerTopics(request: SavePlayerTopicsRequest): Empty =
 		playerStub.savePlayerTopics(request)
 
-	fun generateTasks(playerId: Long): Empty =
-		playerStub.generateTasks(GenerateTasksRequest.newBuilder().setPlayerId(playerId).build())
+	fun generateTasks(): Empty =
+		playerStub.generateTasks(Empty.newBuilder().build())
 
-	fun completeTask(request: CompleteTaskRequest): CompleteTaskResponse =
-		playerStub.completeTask(request)
+	fun completeTask(id: UUID): CompleteTaskResponse =
+		playerStub.completeTask(CompleteTaskRequest.newBuilder().setPlayerTaskId(id.toString()).build())
 
-	fun skipTask(request: SkipTaskRequest): Empty = playerStub.skipTask(request)
+	fun skipTask(id: UUID): Empty =
+		playerStub.skipTask(SkipTaskRequest.newBuilder().setPlayerTaskId(id.toString()).build())
 
 	fun searchPlayerTasks(request: SearchEntitiesRequest): SearchPlayerTasksResponse =
 		playerStub.searchPlayerTasks(request)
 
-	fun getPlayerBalance(playerId: Long): GetPlayerBalanceResponse =
-		playerStub.getPlayerBalance(GetPlayerBalanceRequest.newBuilder().setPlayerId(playerId).build())
+	fun getPlayerBalance(): GetPlayerBalanceResponse =
+		playerStub.getPlayerBalance(Empty.newBuilder().build())
 
 	fun searchPlayerBalanceTransactions(request: SearchEntitiesRequest):
 			SearchPlayerBalanceTransactionsResponse =

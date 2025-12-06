@@ -4,7 +4,8 @@ import com.sleepkqq.sololeveling.gateway.config.websocket.RabbitMqStompPropertie
 import com.sleepkqq.sololeveling.gateway.dto.*
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 
 @Service
 class NotificationService(
@@ -15,7 +16,7 @@ class NotificationService(
 	fun sendUserNotification(userId: Long, notification: WsNotification) {
 		val wsMessage = WsMessage()
 			.payload(notification)
-			.timestamp(LocalDateTime.now())
+			.timestamp(OffsetDateTime.now(ZoneOffset.UTC))
 
 		messagingTemplate.convertAndSendToUser(
 			userId.toString(),
