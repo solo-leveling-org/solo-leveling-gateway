@@ -2,6 +2,8 @@ package com.sleepkqq.sololeveling.gateway.grpc.client
 
 import com.google.protobuf.Empty
 import com.sleepkqq.sololeveling.proto.user.AuthUserRequest
+import com.sleepkqq.sololeveling.proto.user.GetUserLeaderboardRequest
+import com.sleepkqq.sololeveling.proto.user.GetUserLeaderboardResponse
 import com.sleepkqq.sololeveling.proto.user.GetUserRequest
 import com.sleepkqq.sololeveling.proto.user.GetUsersLeaderboardRequest
 import com.sleepkqq.sololeveling.proto.user.GetUsersLeaderboardResponse
@@ -38,4 +40,7 @@ class UserApi(
 
 	fun getUsersLeaderboard(request: GetUsersLeaderboardRequest): GetUsersLeaderboardResponse =
 		userStub.getUsersLeaderboard(request)
+
+	fun getUserLeaderboard(request: GetUserLeaderboardRequest): GetUserLeaderboardResponse =
+		userStub.getUserLeaderboard(request)
 }

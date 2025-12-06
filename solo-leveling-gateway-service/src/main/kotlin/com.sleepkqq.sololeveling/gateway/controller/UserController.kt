@@ -1,6 +1,7 @@
 package com.sleepkqq.sololeveling.gateway.controller
 
 import com.sleepkqq.sololeveling.gateway.api.UserRestApi
+import com.sleepkqq.sololeveling.gateway.dto.RestGetUserLeaderboardResponse
 import com.sleepkqq.sololeveling.gateway.dto.RestGetUserResponse
 import com.sleepkqq.sololeveling.gateway.dto.RestGetUsersLeaderboardRequest
 import com.sleepkqq.sololeveling.gateway.dto.RestGetUsersLeaderboardResponse
@@ -63,7 +64,21 @@ class UserController(
 		pageSize: @Min(value = 1) @Max(value = 100) @Valid Int
 	): ResponseEntity<RestGetUsersLeaderboardResponse> {
 
-		val grpcResponse = userApi.getUsersLeaderboard(protoMapper.map(type, request.range, page, pageSize))
+		val grpcResponse = userApi.getUsersLeaderboard(
+			protoMapper.map(type, request.range, page, pageSize)
+		)
+
+		return ResponseEntity.ok(protoMapper.map(grpcResponse))
+	}
+
+	override fun getUserLeaderboard(
+		type: RestLeaderboardType,
+		request: @Valid RestGetUsersLeaderboardRequest
+	): ResponseEntity<RestGetUserLeaderboardResponse> {
+
+		val grpcResponse = userApi.getUserLeaderboard(
+			protoMapper.map(type, request.range)
+		)
 
 		return ResponseEntity.ok(protoMapper.map(grpcResponse))
 	}

@@ -8,6 +8,8 @@ import com.sleepkqq.sololeveling.gateway.extensions.toBigDecimal
 import com.sleepkqq.sololeveling.gateway.extensions.toTimestamp
 import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.proto.player.*
+import com.sleepkqq.sololeveling.proto.user.GetUserLeaderboardRequest
+import com.sleepkqq.sololeveling.proto.user.GetUserLeaderboardResponse
 import com.sleepkqq.sololeveling.proto.user.GetUsersLeaderboardRequest
 import com.sleepkqq.sololeveling.proto.user.GetUsersLeaderboardResponse
 import com.sleepkqq.sololeveling.proto.user.UserInput
@@ -128,6 +130,10 @@ abstract class ProtoMapper {
 		pageSize: Int
 	): GetUsersLeaderboardRequest
 
+	abstract fun map(type: RestLeaderboardType, range: RestDayRange?): GetUserLeaderboardRequest
+
 	@Mapping(target = "users", source = "usersList")
 	abstract fun map(input: GetUsersLeaderboardResponse): RestGetUsersLeaderboardResponse
+
+	abstract fun map(input: GetUserLeaderboardResponse): RestGetUserLeaderboardResponse
 }
