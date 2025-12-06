@@ -69,7 +69,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info,prometheus,metrics
 server:
   port: 10002
   servlet:
