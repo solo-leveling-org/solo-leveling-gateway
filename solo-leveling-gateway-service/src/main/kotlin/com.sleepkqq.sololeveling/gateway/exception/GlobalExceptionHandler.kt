@@ -11,7 +11,6 @@ import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
@@ -43,7 +42,7 @@ class GlobalExceptionHandler(
 			)
 	}
 
-	@ExceptionHandler(ExpiredJwtException::class, BadCredentialsException::class)
+	@ExceptionHandler(ExpiredJwtException::class)
 	fun handleAuthException(
 		e: Exception,
 		request: WebRequest
@@ -98,6 +97,7 @@ class GlobalExceptionHandler(
 		val grpcStatus = e.status
 		val description = grpcStatus.description ?: "gRPC service error"
 		val statusCode = grpcStatus.code
+		val requestPath = requestToPath(request)
 
 		val httpStatus = when (statusCode) {
 			Status.Code.NOT_FOUND -> HttpStatus.NOT_FOUND
@@ -115,13 +115,45 @@ class GlobalExceptionHandler(
 			else -> HttpStatus.INTERNAL_SERVER_ERROR
 		}
 
-		log.error(
-			"gRPC call failed: {} (status={}) for request: {}",
-			description,
-			statusCode,
-			requestToPath(request),
-			e
-		)
+		when (statusCode) {
+			Status.Code.NOT_FOUND,
+			Status.Code.INVALID_ARGUMENT,
+			Status.Code.ALREADY_EXISTS,
+			Status.Code.PERMISSION_DENIED,
+			Status.Code.UNAUTHENTICATED,
+			Status.Code.FAILED_PRECONDITION,
+			Status.Code.OUT_OF_RANGE -> {
+				if (log.isDebugEnabled) {
+					log.debug(
+						"gRPC client error: {} (status={}) for request: {}",
+						description,
+						statusCode,
+						requestPath
+					)
+				}
+			}
+
+			Status.Code.UNAVAILABLE,
+			Status.Code.DEADLINE_EXCEEDED,
+			Status.Code.CANCELLED -> {
+				log.warn(
+					"gRPC operational issue: {} (status={}) for request: {}",
+					description,
+					statusCode,
+					requestPath
+				)
+			}
+
+			else -> {
+				log.error(
+					"gRPC server error: {} (status={}) for request: {}",
+					description,
+					statusCode,
+					requestPath,
+					e
+				)
+			}
+		}
 
 		return ResponseEntity.status(httpStatus)
 			.body(
@@ -129,7 +161,7 @@ class GlobalExceptionHandler(
 					status = httpStatus.value(),
 					error = httpStatus.reasonPhrase,
 					message = "gRPC service error: $description [${statusCode}]",
-					path = requestToPath(request)
+					path = requestPath
 				)
 			)
 	}

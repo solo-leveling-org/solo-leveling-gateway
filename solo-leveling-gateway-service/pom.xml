@@ -80,6 +80,11 @@
     </dependency>
     <dependency>
       <groupId>com.sleepkqq</groupId>
+      <artifactId>solo-leveling-rest</artifactId>
+      <version>${solo-leveling-lib.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sleepkqq</groupId>
       <artifactId>solo-leveling-gateway-api</artifactId>
       <version>${project.version}</version>
     </dependency>
