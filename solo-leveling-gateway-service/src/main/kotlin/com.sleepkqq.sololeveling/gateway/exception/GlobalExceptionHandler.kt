@@ -5,6 +5,7 @@ import com.sleepkqq.sololeveling.gateway.localization.LocalizationException
 import com.sleepkqq.sololeveling.gateway.localization.LocalizationMessage
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
+import io.jsonwebtoken.ExpiredJwtException
 import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
@@ -40,6 +41,21 @@ class GlobalExceptionHandler(
 				)
 			)
 	}
+
+	@ExceptionHandler(ExpiredJwtException::class)
+	fun handleAuthException(
+		e: Exception,
+		request: WebRequest
+	): ResponseEntity<ApiExceptionDto> =
+		ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+			.body(
+				ApiExceptionDto(
+					status = HttpStatus.UNAUTHORIZED.value(),
+					error = HttpStatus.UNAUTHORIZED.reasonPhrase,
+					message = e.toString(),
+					path = requestToPath(request)
+				)
+			)
 
 	@ExceptionHandler(LocalizationException::class)
 	fun handleLocalizationException(
