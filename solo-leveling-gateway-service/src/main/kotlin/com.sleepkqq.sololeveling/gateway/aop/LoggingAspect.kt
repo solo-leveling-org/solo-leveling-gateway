@@ -44,19 +44,6 @@ class LoggingAspect {
 		val result = try {
 			joinPoint.proceed()
 
-		} catch (e: Throwable) {
-			stopWatch.stop()
-
-			log.error(
-				"{} {} '{}' failed for user '{}' in {} ms",
-				executionType.operationSymbol.value,
-				executionType.value,
-				joinPoint.signature.name,
-				userId,
-				stopWatch.totalTimeMillis,
-				e
-			)
-			throw e
 		} finally {
 			if (stopWatch.isRunning) {
 				stopWatch.stop()
