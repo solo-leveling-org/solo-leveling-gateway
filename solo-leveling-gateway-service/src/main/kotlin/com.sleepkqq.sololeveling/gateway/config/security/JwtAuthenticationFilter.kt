@@ -36,36 +36,39 @@ class JwtAuthenticationFilter(
 		response: HttpServletResponse,
 		filterChain: FilterChain
 	) {
-		val authHeader = request.getHeader(AUTHORIZATION)
-		if (!StringUtils.hasText(authHeader) || !authHeader.startsWith(BEARER_PREFIX)) {
-			filterChain.doFilter(request, response)
-			return
-		}
-
 		try {
-			val jwt = authHeader.substring(BEARER_PREFIX.length)
+			val authHeader = request.getHeader(AUTHORIZATION)
 
-			val user = UserData.fromTgUser(jwtService.extractTgUser(jwt))
-
-			if (SecurityContextHolder.getContext().authentication == null) {
-				val authentication = UsernamePasswordAuthenticationToken(user, jwt, user.authorities)
-				authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
-				SecurityContextHolder.getContext().authentication = authentication
-				UserContextHolder.setUserId(user.id)
+			if (!StringUtils.hasText(authHeader) || !authHeader.startsWith(BEARER_PREFIX)) {
+				filterChain.doFilter(request, response)
+				return
 			}
 
-			filterChain.doFilter(request, response)
+			try {
+				val jwt = authHeader.substring(BEARER_PREFIX.length)
+				val user = UserData.fromTgUser(jwtService.extractTgUser(jwt))
 
-		} catch (e: Exception) {
-			if (e is ExpiredJwtException) {
-				log.info("Expired JWT token: ${e.message}")
-			} else {
-				log.error("JWT authentication failed", e)
+				if (SecurityContextHolder.getContext().authentication == null) {
+					val authentication = UsernamePasswordAuthenticationToken(user, jwt, user.authorities)
+					authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
+					SecurityContextHolder.getContext().authentication = authentication
+					UserContextHolder.setUserId(user.id)
+				}
+
+				filterChain.doFilter(request, response)
+			} catch (e: Exception) {
+				if (e is ExpiredJwtException) {
+					log.info("Expired JWT token: ${e.message}")
+				} else {
+					log.error("JWT authentication failed", e)
+				}
+
+				response.status = HttpServletResponse.SC_UNAUTHORIZED
+				response.contentType = APPLICATION_JSON_VALUE
+				response.writer.write(e.toString())
 			}
-
-			response.status = HttpServletResponse.SC_UNAUTHORIZED
-			response.contentType = APPLICATION_JSON_VALUE
-			response.writer.write(e.toString())
+		} finally {
+			UserContextHolder.clear()
 		}
 	}
 }
