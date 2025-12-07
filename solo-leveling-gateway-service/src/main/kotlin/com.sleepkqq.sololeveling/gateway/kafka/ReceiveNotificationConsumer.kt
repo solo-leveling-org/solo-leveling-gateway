@@ -35,8 +35,9 @@ class ReceiveNotificationConsumer(
 	override fun getTxId(event: ReceiveNotificationEvent): String = event.txId
 
 	override fun processEvent(event: ReceiveNotificationEvent) {
-		log.info(">> Received notification | txId={}", event.txId)
-
-		notificationService.sendUserNotification(event.userId, avroMapper.map(event.notification))
+		notificationService.sendUserNotification(
+			event.userId,
+			avroMapper.map(event.notification)
+		)
 	}
 }
