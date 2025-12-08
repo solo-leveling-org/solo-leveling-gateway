@@ -1,5 +1,7 @@
 package com.sleepkqq.sololeveling.gateway.config
 
+import com.sleepkqq.sololeveling.avro.config.interceptor.UserKafkaConsumerInterceptor
+import com.sleepkqq.sololeveling.avro.config.interceptor.UserKafkaProducerInterceptor
 import io.confluent.kafka.schemaregistry.client.rest.entities.Mode
 import io.confluent.kafka.schemaregistry.client.rest.entities.Schema
 import io.confluent.kafka.schemaregistry.client.rest.entities.SchemaString
@@ -90,7 +92,10 @@ import org.springframework.context.annotation.Configuration
 		ConfigUpdateRequest::class,
 		ModeUpdateRequest::class,
 		CompatibilityCheckResponse::class,
-		Mode::class
+		Mode::class,
+		// Kafka
+		UserKafkaConsumerInterceptor::class,
+		UserKafkaProducerInterceptor::class
 	]
 )
 @Configuration
