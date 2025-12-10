@@ -8,12 +8,13 @@ import com.sleepkqq.sololeveling.gateway.extensions.toBigDecimal
 import com.sleepkqq.sololeveling.gateway.extensions.toTimestamp
 import com.sleepkqq.sololeveling.gateway.model.UserData
 import com.sleepkqq.sololeveling.proto.player.*
+import com.sleepkqq.sololeveling.proto.user.GetUserAdditionalInfoResponse
 import com.sleepkqq.sololeveling.proto.user.GetUserLeaderboardRequest
 import com.sleepkqq.sololeveling.proto.user.GetUserLeaderboardResponse
 import com.sleepkqq.sololeveling.proto.user.GetUsersLeaderboardRequest
 import com.sleepkqq.sololeveling.proto.user.GetUsersLeaderboardResponse
 import com.sleepkqq.sololeveling.proto.user.UserInput
-import com.sleepkqq.sololeveling.proto.user.UserLocaleResponse
+import com.sleepkqq.sololeveling.proto.user.UserRole
 import com.sleepkqq.sololeveling.proto.user.UserView
 import org.mapstruct.*
 import java.math.BigDecimal
@@ -30,20 +31,15 @@ import java.time.OffsetDateTime
 )
 abstract class ProtoMapper {
 
-	fun map(input: com.sleepkqq.sololeveling.proto.user.UserRole): RestUserRole =
-		RestUserRole.valueOf(input.name)
+	fun map(input: UserRole): RestUserRole = RestUserRole.valueOf(input.name)
 
-	fun map(input: Assessment): RestAssessment =
-		RestAssessment.valueOf(input.name)
+	fun map(input: Assessment): RestAssessment = RestAssessment.valueOf(input.name)
 
-	fun map(input: PlayerTaskStatus): RestPlayerTaskStatus =
-		RestPlayerTaskStatus.valueOf(input.name)
+	fun map(input: PlayerTaskStatus): RestPlayerTaskStatus = RestPlayerTaskStatus.valueOf(input.name)
 
-	fun map(input: TaskRarity): RestTaskRarity =
-		RestTaskRarity.valueOf(input.name)
+	fun map(input: TaskRarity): RestTaskRarity = RestTaskRarity.valueOf(input.name)
 
-	fun map(input: TaskTopic): RestTaskTopic =
-		RestTaskTopic.valueOf(input.name)
+	fun map(input: TaskTopic): RestTaskTopic = RestTaskTopic.valueOf(input.name)
 
 	fun map(input: PlayerBalanceTransactionType): RestPlayerBalanceTransactionType =
 		RestPlayerBalanceTransactionType.valueOf(input.name)
@@ -53,11 +49,9 @@ abstract class ProtoMapper {
 
 	fun map(input: Timestamp): OffsetDateTime = input.toOffsetDateTime()
 
-	@Mapping(target = "rolesList", source = "roles")
 	@Mapping(target = "username", source = "tag")
 	abstract fun map(input: UserData): UserInput
 
-	@Mapping(target = "roles", source = "rolesList")
 	abstract fun map(input: UserView): RestUser
 
 	@Mapping(target = "taskTopics", source = "taskTopicsList")
@@ -87,7 +81,8 @@ abstract class ProtoMapper {
 
 	abstract fun map(input: CompleteTaskResponse): RestCompleteTaskResponse
 
-	abstract fun map(input: UserLocaleResponse): RestUserLocaleResponse
+	@Mapping(target = "roles", source = "rolesList")
+	abstract fun map(input: GetUserAdditionalInfoResponse): RestUserAdditionalInfoResponse
 
 	abstract fun map(page: Int, pageSize: Int): RequestPaging
 

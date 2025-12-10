@@ -11,11 +11,10 @@ class UserData(
 	val firstName: String?,
 	val lastName: String?,
 	val photoUrl: String?,
-	val locale: Locale,
-	val roles: Set<UserRole>
+	val locale: Locale
 ) : UserDetails {
 
-	override fun getAuthorities(): Set<UserRole> = roles
+	override fun getAuthorities(): Set<UserRole> = setOf()
 
 	override fun getPassword(): String? = null
 
@@ -35,8 +34,7 @@ class UserData(
 				tgUser.languageCode
 					?.takeIf { it in SUPPORTED_LANGUAGE_TAGS }
 					?.let { Locale.forLanguageTag(it) }
-					?: Locale.ENGLISH,
-				setOf()
+					?: Locale.ENGLISH
 			)
 		}
 	}

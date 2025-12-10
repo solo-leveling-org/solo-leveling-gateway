@@ -48,7 +48,7 @@ class JwtHandshakeInterceptor(
 			val tgUser = jwtService.extractTgUser(jwt)
 			val user = UserData.fromTgUser(tgUser)
 
-			val authentication = UsernamePasswordAuthenticationToken(user, jwt, user.authorities)
+			val authentication = UsernamePasswordAuthenticationToken(user, jwt, listOf())
 			SecurityContextHolder.getContext().authentication = authentication
 
 			true
