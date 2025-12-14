@@ -7,7 +7,7 @@ import com.sleepkqq.sololeveling.gateway.dto.RestGetUsersLeaderboardRequest
 import com.sleepkqq.sololeveling.gateway.dto.RestGetUsersLeaderboardResponse
 import com.sleepkqq.sololeveling.gateway.dto.RestLeaderboardType
 import com.sleepkqq.sololeveling.gateway.dto.RestUpdateUserLocaleRequest
-import com.sleepkqq.sololeveling.gateway.dto.RestUserLocaleResponse
+import com.sleepkqq.sololeveling.gateway.dto.RestUserAdditionalInfoResponse
 import com.sleepkqq.sololeveling.gateway.grpc.client.UserApi
 import com.sleepkqq.sololeveling.gateway.mapper.ProtoMapper
 import com.sleepkqq.sololeveling.gateway.service.auth.AuthService
@@ -42,19 +42,18 @@ class UserController(
 		return ResponseEntity.ok(response)
 	}
 
-	override fun getUserLocale(): ResponseEntity<RestUserLocaleResponse> {
-		val grpcResponse = userApi.getUserLocale()
+	override fun getUserAdditionalInfo(): ResponseEntity<RestUserAdditionalInfoResponse> {
+		val grpcResponse = userApi.getUserAdditionalInfo()
 
 		return ResponseEntity.ok(protoMapper.map(grpcResponse))
 	}
 
-	override fun updateUserLocale(request: @Valid RestUpdateUserLocaleRequest):
-			ResponseEntity<RestUserLocaleResponse> {
+	override fun updateUserLocale(request: @Valid RestUpdateUserLocaleRequest): ResponseEntity<Void> {
 
 		val locale = Locale.forLanguageTag(request.locale)
-		val grpcResponse = userApi.updateUserLocale(locale)
+		userApi.updateUserLocale(locale)
 
-		return ResponseEntity.ok(protoMapper.map(grpcResponse))
+		return ResponseEntity.noContent().build()
 	}
 
 	override fun getUsersLeaderboard(
