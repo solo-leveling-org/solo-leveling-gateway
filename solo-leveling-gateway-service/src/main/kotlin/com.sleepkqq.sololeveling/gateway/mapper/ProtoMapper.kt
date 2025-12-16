@@ -47,7 +47,7 @@ abstract class ProtoMapper {
 	fun map(input: PlayerBalanceTransactionCause): RestPlayerBalanceTransactionCause =
 		RestPlayerBalanceTransactionCause.valueOf(input.name)
 
-	fun map(input: Timestamp): OffsetDateTime = input.toOffsetDateTime()
+	fun map(input: Timestamp): OffsetDateTime? = input.toOffsetDateTime()
 
 	@Mapping(target = "username", source = "tag")
 	abstract fun map(input: UserData): UserInput

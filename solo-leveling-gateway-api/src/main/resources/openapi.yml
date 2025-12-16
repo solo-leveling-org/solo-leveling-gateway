@@ -479,6 +479,7 @@ components:
           type: boolean
       required:
         - tasks
+        - stamina
         - firstTime
 
     CompleteTaskResponse:
@@ -799,9 +800,6 @@ components:
         id:
           type: integer
           format: int64
-        maxTasks:
-          type: integer
-          format: int32
         agility:
           type: integer
           format: int32

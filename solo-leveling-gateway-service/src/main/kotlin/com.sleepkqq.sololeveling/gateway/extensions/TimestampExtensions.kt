@@ -6,7 +6,11 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.OffsetDateTime
 
-fun Timestamp.toOffsetDateTime(): OffsetDateTime {
+fun Timestamp.toOffsetDateTime(): OffsetDateTime? {
+	if (this == Timestamp.getDefaultInstance()) {
+		return null
+	}
+
 	return OffsetDateTime.ofInstant(
 		Instant.ofEpochSecond(this.seconds, this.nanos.toLong()),
 		LocaleContextHolder.getTimeZone().toZoneId()

@@ -75,9 +75,6 @@ management:
       application: ${spring.application.name}
 server:
   port: 10002
-  servlet:
-    session:
-      timeout: P7D
 logging:
   level:
     org.atmosphere: WARN
