@@ -475,6 +475,9 @@ components:
             $ref: '#/components/schemas/PlayerTask'
         stamina:
           $ref: '#/components/schemas/Stamina'
+        dayStreak:
+          $ref: '#/components/schemas/DayStreak'
+
         firstTime:
           type: boolean
       required:
@@ -637,6 +640,9 @@ components:
     Stamina:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
         current:
           type: integer
           format: int32
@@ -676,11 +682,29 @@ components:
           description: Время полного восстановления стамины (ISO 8601)
           example: "2025-12-15T17:00:00Z"
       required:
+        - id
         - current
         - max
         - isRegenerating
         - regenRate
         - regenIntervalSeconds
+
+    DayStreak:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        current:
+          type: integer
+          format: int32
+        max:
+          type: integer
+          format: int32
+      required:
+        - id
+        - current
+        - max
 
     Task:
       type: object
