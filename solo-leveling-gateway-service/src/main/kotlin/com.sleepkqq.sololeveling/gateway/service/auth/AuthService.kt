@@ -27,5 +27,5 @@ class AuthService(
 		jwtService.generateAccessTokenFromRefreshToken(refreshToken)
 
 	fun getCurrentUser(): UserData =
-		SecurityContextHolder.getContext().authentication.principal as UserData
+		SecurityContextHolder.getContext().authentication!!.principal as UserData
 }

@@ -449,6 +449,10 @@ components:
     UserAdditionalInfoResponse:
       type: object
       properties:
+        photoUrl:
+          type: string
+        dayStreak:
+          $ref: '#/components/schemas/DayStreak'
         locale:
           $ref: '#/components/schemas/UserLocale'
         roles:
@@ -475,8 +479,6 @@ components:
             $ref: '#/components/schemas/PlayerTask'
         stamina:
           $ref: '#/components/schemas/Stamina'
-        dayStreak:
-          $ref: '#/components/schemas/DayStreak'
 
         firstTime:
           type: boolean
