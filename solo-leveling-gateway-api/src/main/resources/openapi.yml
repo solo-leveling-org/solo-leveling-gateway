@@ -320,6 +320,53 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchPlayerTasksResponse'
 
+  /api/v1/player/tasks/daily:
+    get:
+      tags:
+        - player
+      summary: Get current daily tasks
+      operationId: getDailyTasks
+      responses:
+        '200':
+          description: Daily tasks retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDailyTasksResponse'
+
+  /api/v1/player/activity/monthly:
+    get:
+      tags:
+        - player
+      summary: Get monthly activity calendar
+      operationId: getMonthlyActivity
+      parameters:
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 2000
+            maximum: 2100
+          description: Year (e.g. 2026)
+        - name: month
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 12
+          description: Month number from 1 (January) to 12 (December)
+      responses:
+        '200':
+          description: Monthly activity retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMonthlyActivityResponse'
+
   /api/v1/player/balance:
     get:
       tags:
@@ -560,6 +607,26 @@ components:
           $ref: '#/components/schemas/LeaderboardUser'
       required:
         - user
+
+    GetDailyTasksResponse:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlayerDailyTask'
+
+    GetMonthlyActivityResponse:
+      type: object
+      properties:
+        activeDays:
+          type: array
+          items:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 31
+          description: List of day numbers (1-31) when daily tasks were completed
 
     # --- Enums ---
     UserRole:
@@ -819,6 +886,33 @@ components:
       required:
         - id
         - balance
+
+    PlayerDailyTask:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          description: Localized task title
+        progress:
+          type: number
+          format: decimal
+          description: Current progress value
+        goal:
+          type: number
+          format: decimal
+          description: Target goal value
+        completed:
+          type: boolean
+          description: Whether task is completed
+      required:
+        - id
+        - title
+        - progress
+        - goal
+        - completed
 
     Player:
       type: object

@@ -88,7 +88,6 @@ abstract class ProtoMapper {
 
 	@Mapping(target = "paging", expression = "java(map(page, pageSize))")
 	abstract fun map(
-		playerId: Long,
 		options: RestRequestQueryOptions?,
 		page: Int,
 		pageSize: Int
@@ -111,6 +110,12 @@ abstract class ProtoMapper {
 	@Mapping(target = "options.filters", source = "options.filtersList")
 	@Mapping(target = "options.sorts", source = "options.sortsList")
 	abstract fun map(input: SearchPlayerTasksResponse): RestSearchPlayerTasksResponse
+
+	@Mapping(target = "tasks", source = "tasksList")
+	abstract fun map(input: GetDailyTasksResponse): RestGetDailyTasksResponse
+
+	@Mapping(target = "activeDays", source = "activeDaysList")
+	abstract fun map(input: GetMonthlyActivityResponse): RestGetMonthlyActivityResponse
 
 	abstract fun map(input: GetPlayerBalanceResponse): RestGetPlayerBalanceResponse
 
