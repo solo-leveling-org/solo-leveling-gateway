@@ -18,9 +18,12 @@ fun Money.toBigDecimal(): BigDecimal {
 		.divide(BigDecimal(1_000_000_000), RoundingMode.UNNECESSARY)
 
 	val result = decimalUnits + decimalNanos
-	return if (isNegative) {
+	val finalResult = if (isNegative) {
 		result.negate()
 	} else {
 		result
 	}
+
+	// Округляем до 2 знаков после запятой
+	return finalResult.setScale(2, RoundingMode.HALF_UP)
 }
