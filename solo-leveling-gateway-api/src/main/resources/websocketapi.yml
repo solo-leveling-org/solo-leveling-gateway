@@ -26,12 +26,9 @@ components:
           $ref: '#/components/schemas/NotificationType'
         source:
           $ref: '#/components/schemas/NotificationSource'
-        visible:
-          type: boolean
       required:
         - type
         - source
-        - visible
 
     NotificationType:
       type: string
@@ -39,4 +36,4 @@ components:
 
     NotificationSource:
       type: string
-      enum: [ tasks, locale ]
+      enum: [ tasks, locale, dayStreak ]
