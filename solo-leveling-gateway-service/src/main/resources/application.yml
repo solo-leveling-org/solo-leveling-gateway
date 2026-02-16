@@ -41,7 +41,7 @@ app:
     refresh-lifetime: 18_000_000
   cors:
     hosts:
-      - https://solo-leveling.online
+      - https://solo-leveling.org
       - https://solo-leveling-ui.ru.tuna.am
     methods:
       - GET

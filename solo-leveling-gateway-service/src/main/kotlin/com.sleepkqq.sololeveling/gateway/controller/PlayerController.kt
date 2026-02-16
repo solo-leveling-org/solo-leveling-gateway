@@ -4,17 +4,16 @@ import com.sleepkqq.sololeveling.gateway.api.PlayerRestApi
 import com.sleepkqq.sololeveling.gateway.dto.*
 import com.sleepkqq.sololeveling.gateway.grpc.client.PlayerApi
 import com.sleepkqq.sololeveling.gateway.mapper.ProtoMapper
-import com.sleepkqq.sololeveling.gateway.service.auth.AuthService
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
 class PlayerController(
-	private val authService: AuthService,
 	private val playerApi: PlayerApi,
 	private val protoMapper: ProtoMapper
 ) : PlayerRestApi {
@@ -60,10 +59,23 @@ class PlayerController(
 		page: @Min(value = 0) @Valid Int,
 		pageSize: @Min(value = 1) @Max(value = 100) @Valid Int
 	): ResponseEntity<RestSearchPlayerTasksResponse> {
-
-		val currentUser = authService.getCurrentUser()
-		val grpcRequest = protoMapper.map(currentUser.id, request.options, page, pageSize)
+		val grpcRequest = protoMapper.map(request.options, page, pageSize)
 		val grpcResponse = playerApi.searchPlayerTasks(grpcRequest)
+
+		return ResponseEntity.ok(protoMapper.map(grpcResponse))
+	}
+
+	override fun getDailyTasks(): ResponseEntity<RestGetDailyTasksResponse> {
+		val grpcResponse = playerApi.getDailyTasks()
+
+		return ResponseEntity.ok(protoMapper.map(grpcResponse))
+	}
+
+	override fun getMonthlyActivity(
+		year: @NotNull @Min(value = 2000) @Max(value = 2100) @Valid Int,
+		month: @NotNull @Min(value = 1) @Max(value = 12) @Valid Int
+	): ResponseEntity<RestGetMonthlyActivityResponse> {
+		val grpcResponse = playerApi.getMonthlyActivity(year, month)
 
 		return ResponseEntity.ok(protoMapper.map(grpcResponse))
 	}
@@ -79,9 +91,7 @@ class PlayerController(
 		page: @Min(0) @Valid Int,
 		pageSize: @Min(1) @Max(100) @Valid Int
 	): ResponseEntity<RestSearchPlayerBalanceTransactionsResponse> {
-
-		val currentUser = authService.getCurrentUser()
-		val grpcRequest = protoMapper.map(currentUser.id, request.options, page, pageSize)
+		val grpcRequest = protoMapper.map(request.options, page, pageSize)
 		val grpcResponse = playerApi.searchPlayerBalanceTransactions(grpcRequest)
 
 		return ResponseEntity.ok(protoMapper.map(grpcResponse))

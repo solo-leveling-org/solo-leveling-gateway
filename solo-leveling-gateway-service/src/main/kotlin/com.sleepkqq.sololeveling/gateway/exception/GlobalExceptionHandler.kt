@@ -6,11 +6,13 @@ import com.sleepkqq.sololeveling.gateway.localization.LocalizationMessage
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
 import io.jsonwebtoken.ExpiredJwtException
+import jakarta.validation.ConstraintViolationException
 import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
@@ -22,6 +24,50 @@ class GlobalExceptionHandler(
 ) {
 
 	private val log = LoggerFactory.getLogger(javaClass)
+
+	@ExceptionHandler(MethodArgumentNotValidException::class)
+	fun handleMethodArgumentNotValid(
+		e: MethodArgumentNotValidException,
+		request: WebRequest
+	): ResponseEntity<ApiExceptionDto> {
+
+		val errors = e.bindingResult.fieldErrors
+			.joinToString("; ") { "${it.field}: ${it.defaultMessage}" }
+
+		log.debug("Validation error: {}", errors)
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(
+				ApiExceptionDto(
+					status = HttpStatus.BAD_REQUEST.value(),
+					error = HttpStatus.BAD_REQUEST.reasonPhrase,
+					message = "Validation failed: $errors",
+					path = requestToPath(request)
+				)
+			)
+	}
+
+	@ExceptionHandler(ConstraintViolationException::class)
+	fun handleConstraintViolation(
+		e: ConstraintViolationException,
+		request: WebRequest
+	): ResponseEntity<ApiExceptionDto> {
+
+		val errors = e.constraintViolations
+			.joinToString("; ") { "${it.propertyPath}: ${it.message}" }
+
+		log.debug("Constraint violation: {}", errors)
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(
+				ApiExceptionDto(
+					status = HttpStatus.BAD_REQUEST.value(),
+					error = HttpStatus.BAD_REQUEST.reasonPhrase,
+					message = "Validation failed: $errors",
+					path = requestToPath(request)
+				)
+			)
+	}
 
 	@ExceptionHandler(Exception::class)
 	fun handleGeneralException(

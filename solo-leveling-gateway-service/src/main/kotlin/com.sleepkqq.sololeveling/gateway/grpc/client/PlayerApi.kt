@@ -38,4 +38,12 @@ class PlayerApi(
 	fun searchPlayerBalanceTransactions(request: SearchEntitiesRequest):
 			SearchPlayerBalanceTransactionsResponse =
 		playerStub.searchPlayerBalanceTransactions(request)
+
+	fun getDailyTasks(): GetDailyTasksResponse =
+		playerStub.getDailyTasks(Empty.newBuilder().build())
+
+	fun getMonthlyActivity(year: Int, month: Int): GetMonthlyActivityResponse =
+		playerStub.getMonthlyActivity(
+			GetMonthlyActivityRequest.newBuilder().setYear(year).setMonth(month).build()
+		)
 }
