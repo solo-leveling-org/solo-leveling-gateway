@@ -12,7 +12,7 @@ spec:
       labels:
         app: soloist-gateway
       annotations:
-        commit.sha: "${DEPLOY_IMAGE}"
+        commit.sha: "${IMAGE_TAG}"
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
         prometheus.io/path: "/actuator/prometheus"
