@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: solo-leveling-gateway
+  name: soloist-gateway
 spec:
   replicas: ${REPLICAS}
   selector:
     matchLabels:
-      app: solo-leveling-gateway
+      app: soloist-gateway
   template:
     metadata:
       labels:
-        app: solo-leveling-gateway
+        app: soloist-gateway
       annotations:
         commit.sha: "${DEPLOY_IMAGE}"
         prometheus.io/scrape: "true"

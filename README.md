@@ -1,1 +1,1 @@
-**tuna http 10002 --subdomain=solo-leveling-gateway**
+**tuna http 10002 --subdomain=soloist-gateway**

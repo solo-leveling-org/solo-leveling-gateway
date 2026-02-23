@@ -10,14 +10,14 @@
     <version>4.0.2</version>
   </parent>
 
-  <groupId>com.sleepkqq</groupId>
-  <artifactId>solo-leveling-gateway</artifactId>
+  <groupId>com.soloist</groupId>
+  <artifactId>soloist-gateway</artifactId>
   <version>2.0.0</version>
   <packaging>pom</packaging>
 
   <modules>
-    <module>solo-leveling-gateway-service</module>
-    <module>solo-leveling-gateway-api</module>
+    <module>soloist-gateway-service</module>
+    <module>soloist-gateway-api</module>
   </modules>
 
   <dependencyManagement>
@@ -60,8 +60,8 @@
     <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
     <springdoc-openapi.version>3.0.1</springdoc-openapi.version>
 
-    <!-- solo leveling -->
-    <solo-leveling-lib.version>1.6.7</solo-leveling-lib.version>
+    <!-- soloist -->
+    <soloist-lib.version>2.0.0</soloist-lib.version>
 
     <!-- tests -->
     <test-containers.version>2.0.3</test-containers.version>

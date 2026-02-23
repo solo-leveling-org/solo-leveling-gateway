@@ -1,0 +1,22 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka-service:9092
+    properties:
+      schema.registry.url: http://schema-registry-service:8081
+  data:
+    redis:
+      host: redis
+app:
+  grpc:
+    services:
+      player:
+        host: soloist-player
+        port: 90
+  telegram:
+    bot:
+      token: ${TELEGRAM_BOT_TOKEN_APP}
+  rabbitmq:
+    stomp:
+      host: rabbitmq
+server:
+  port: 8080
