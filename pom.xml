@@ -61,7 +61,7 @@
     <springdoc-openapi.version>3.0.1</springdoc-openapi.version>
 
     <!-- soloist -->
-    <soloist-lib.version>2.0.0</soloist-lib.version>
+    <soloist-lib.version>2.0.1</soloist-lib.version>
 
     <!-- tests -->
     <test-containers.version>2.0.3</test-containers.version>
