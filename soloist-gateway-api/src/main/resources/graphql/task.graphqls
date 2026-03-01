@@ -1,0 +1,86 @@
+extend type Query {
+    activeTasks: ActiveTasksResult!
+    dailyTasks: DailyTasksResult!
+    searchPlayerTasks(
+        paging: PagingInput!
+        options: SearchOptionsInput
+    ): SearchPlayerTasksResult!
+}
+
+extend type Mutation {
+    generateTasks: Boolean!
+    completeTask(id: UUID!): CompleteTaskResult!
+    skipTask(id: UUID!): Boolean!
+}
+
+# ── Domain types ─────────────────────────────────────────
+
+type Task {
+    id: UUID!
+    title: String!
+    description: String
+    experience: Int!
+    currencyReward: Int!
+    rarity: Rarity!
+    topics: [TaskTopic!]!
+    agility: Int!
+    strength: Int!
+    intelligence: Int!
+}
+
+type PlayerTask {
+    id: UUID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    order: Int!
+    status: PlayerTaskStatus!
+    task: Task!
+}
+
+type PlayerDailyTask {
+    id: UUID!
+    title: String!
+    progress: Float!
+    goal: Float!
+    isCompleted: Boolean!
+}
+
+# ── Result types ─────────────────────────────────────────
+
+type ActiveTasksResult {
+    tasks: [PlayerTask!]!
+    stamina: Stamina!
+    isFirstTime: Boolean!
+}
+
+type DailyTasksResult {
+    tasks: [PlayerDailyTask!]!
+}
+
+type CompleteTaskResult {
+    playerBefore: Player!
+    playerAfter: Player!
+}
+
+type SearchPlayerTasksResult {
+    tasks: [PlayerTask!]!
+    paging: ResponsePaging!
+    options: ResponseQueryOptions
+}
+
+# ── Enums ────────────────────────────────────────────────
+
+enum Rarity {
+    COMMON
+    UNCOMMON
+    RARE
+    EPIC
+    LEGENDARY
+}
+
+enum PlayerTaskStatus {
+    PREPARING
+    IN_PROGRESS
+    COMPLETED
+    SKIPPED
+}

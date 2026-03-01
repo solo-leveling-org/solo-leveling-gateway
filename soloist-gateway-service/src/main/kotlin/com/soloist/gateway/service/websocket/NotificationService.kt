@@ -1,8 +1,8 @@
 package com.soloist.gateway.service.websocket
 
-import com.soloist.gateway.config.websocket.RabbitMqStompProperties
-import com.soloist.gateway.dto.WsMessage
-import com.soloist.gateway.dto.WsNotification
+import com.soloist.gateway.config.properties.RabbitMqStompProperties
+import com.soloist.gateway.dto.ws.WsMessage
+import com.soloist.gateway.dto.ws.WsNotification
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Service
 import java.time.OffsetDateTime
@@ -15,9 +15,7 @@ class NotificationService(
 ) {
 
 	fun sendUserNotification(userId: Long, notification: WsNotification) {
-		val wsMessage = WsMessage()
-			.payload(notification)
-			.timestamp(OffsetDateTime.now(ZoneOffset.UTC))
+		val wsMessage = WsMessage(notification, OffsetDateTime.now(ZoneOffset.UTC))
 
 		messagingTemplate.convertAndSendToUser(
 			userId.toString(),

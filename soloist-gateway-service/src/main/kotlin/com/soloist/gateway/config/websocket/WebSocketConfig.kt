@@ -1,8 +1,8 @@
 package com.soloist.gateway.config.websocket
 
-import com.soloist.gateway.config.security.CorsProperties
+import com.soloist.gateway.config.properties.CorsProperties
+import com.soloist.gateway.config.properties.RabbitMqStompProperties
 import com.soloist.gateway.config.security.JwtHandshakeInterceptor
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker
@@ -11,7 +11,6 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-@EnableConfigurationProperties(RabbitMqStompProperties::class)
 class WebSocketConfig(
 	private val jwtHandshakeInterceptor: JwtHandshakeInterceptor,
 	private val rabbitMqStompProperties: RabbitMqStompProperties,

@@ -1,4 +1,4 @@
-package com.soloist.gateway.config.grpc
+package com.soloist.gateway.config.properties
 
 import com.soloist.proto.config.GrpcServiceProperties
 import org.springframework.boot.context.properties.ConfigurationProperties

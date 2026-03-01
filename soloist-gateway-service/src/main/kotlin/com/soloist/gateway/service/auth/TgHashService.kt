@@ -1,6 +1,6 @@
 package com.soloist.gateway.service.auth
 
-import com.soloist.gateway.dto.RestTgAuthData
+import com.soloist.gateway.dto.auth.TgAuthData
 import org.bouncycastle.crypto.digests.SHA256Digest
 import org.bouncycastle.crypto.macs.HMac
 import org.bouncycastle.crypto.params.KeyParameter
@@ -24,7 +24,7 @@ class TgHashService(
 		const val KEY_VALUE_DELIMITER = "="
 	}
 
-	fun checkHash(tgAuthData: RestTgAuthData): Boolean {
+	fun checkHash(tgAuthData: TgAuthData): Boolean {
 		val parsedQuery = parseQuery(tgAuthData.initData)
 		return validateHash(parsedQuery, tgAuthData.tgWebAppData.hash)
 	}

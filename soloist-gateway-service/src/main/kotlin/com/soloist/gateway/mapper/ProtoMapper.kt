@@ -1,49 +1,27 @@
 package com.soloist.gateway.mapper
 
 import com.google.protobuf.Timestamp
-import com.google.type.Money
-import com.soloist.gateway.extensions.toOffsetDateTime
+import com.soloist.gateway.graphql.types.*
 import com.soloist.gateway.extensions.toBigDecimal
+import com.soloist.gateway.extensions.toOffsetDateTime
 import com.soloist.gateway.extensions.toTimestamp
 import com.soloist.gateway.model.UserData
-import com.soloist.proto.player.*
+import com.soloist.proto.balance.BalanceView
+import com.soloist.proto.balance.SearchBalanceTransactionsResponse
+import com.soloist.proto.common.EnumFilter
+import com.soloist.proto.common.RequestPaging
+import com.soloist.proto.common.RequestQueryOptions
+import com.soloist.proto.common.SearchEntitiesRequest
+import com.soloist.proto.player.GetMonthlyActivityResponse
+import com.soloist.proto.player.GetPlayerTopicsResponse
+import com.soloist.proto.player.PlayerView
+import com.soloist.proto.task.*
 import com.soloist.proto.user.GetUserAdditionalInfoResponse
 import com.soloist.proto.user.GetUserLeaderboardRequest
-import com.soloist.proto.user.GetUserLeaderboardResponse
 import com.soloist.proto.user.GetUsersLeaderboardRequest
 import com.soloist.proto.user.GetUsersLeaderboardResponse
 import com.soloist.proto.user.UserInput
-import com.soloist.proto.user.UserRole
 import com.soloist.proto.user.UserView
-import com.soloist.gateway.dto.RestAssessment
-import com.soloist.gateway.dto.RestCompleteTaskResponse
-import com.soloist.gateway.dto.RestDayRange
-import com.soloist.gateway.dto.RestEnumFilter
-import com.soloist.gateway.dto.RestGetActiveTasksResponse
-import com.soloist.gateway.dto.RestGetDailyTasksResponse
-import com.soloist.gateway.dto.RestGetMonthlyActivityResponse
-import com.soloist.gateway.dto.RestGetPlayerBalanceResponse
-import com.soloist.gateway.dto.RestGetPlayerTopicsResponse
-import com.soloist.gateway.dto.RestGetUserLeaderboardResponse
-import com.soloist.gateway.dto.RestGetUsersLeaderboardResponse
-import com.soloist.gateway.dto.RestLeaderboardType
-import com.soloist.gateway.dto.RestLocalizedField
-import com.soloist.gateway.dto.RestMoney
-import com.soloist.gateway.dto.RestPlayer
-import com.soloist.gateway.dto.RestPlayerBalance
-import com.soloist.gateway.dto.RestPlayerBalanceTransactionCause
-import com.soloist.gateway.dto.RestPlayerBalanceTransactionType
-import com.soloist.gateway.dto.RestPlayerTask
-import com.soloist.gateway.dto.RestPlayerTaskStatus
-import com.soloist.gateway.dto.RestRequestQueryOptions
-import com.soloist.gateway.dto.RestSavePlayerTopicsRequest
-import com.soloist.gateway.dto.RestSearchPlayerBalanceTransactionsResponse
-import com.soloist.gateway.dto.RestSearchPlayerTasksResponse
-import com.soloist.gateway.dto.RestTaskRarity
-import com.soloist.gateway.dto.RestTaskTopic
-import com.soloist.gateway.dto.RestUser
-import com.soloist.gateway.dto.RestUserAdditionalInfoResponse
-import com.soloist.gateway.dto.RestUserRole
 import org.mapstruct.*
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -59,109 +37,96 @@ import java.time.OffsetDateTime
 )
 abstract class ProtoMapper {
 
-	fun map(input: UserRole): RestUserRole = RestUserRole.valueOf(input.name)
+	fun map(input: com.soloist.proto.common.UserRole): UserRole = UserRole.valueOf(input.name)
 
-	fun map(input: Assessment): RestAssessment = RestAssessment.valueOf(input.name)
+	fun map(input: com.soloist.proto.common.Assessment): Assessment = Assessment.valueOf(input.name)
 
-	fun map(input: PlayerTaskStatus): RestPlayerTaskStatus = RestPlayerTaskStatus.valueOf(input.name)
+	fun map(input: com.soloist.proto.common.PlayerTaskStatus): PlayerTaskStatus =
+		PlayerTaskStatus.valueOf(input.name)
 
-	fun map(input: TaskRarity): RestTaskRarity = RestTaskRarity.valueOf(input.name)
+	fun map(input: com.soloist.proto.common.Rarity): Rarity = Rarity.valueOf(input.name)
 
-	fun map(input: TaskTopic): RestTaskTopic = RestTaskTopic.valueOf(input.name)
+	fun map(input: com.soloist.proto.common.TaskTopic): TaskTopic = TaskTopic.valueOf(input.name)
 
-	fun map(input: PlayerBalanceTransactionType): RestPlayerBalanceTransactionType =
-		RestPlayerBalanceTransactionType.valueOf(input.name)
+	fun map(input: com.soloist.proto.common.BalanceTransactionType): BalanceTransactionType =
+		BalanceTransactionType.valueOf(input.name)
 
-	fun map(input: PlayerBalanceTransactionCause): RestPlayerBalanceTransactionCause =
-		RestPlayerBalanceTransactionCause.valueOf(input.name)
+	fun map(input: com.soloist.proto.common.BalanceTransactionCause): BalanceTransactionCause =
+		BalanceTransactionCause.valueOf(input.name)
 
 	fun map(input: Timestamp): OffsetDateTime? = input.toOffsetDateTime()
 
 	@Mapping(target = "username", source = "tag")
 	abstract fun map(input: UserData): UserInput
 
-	abstract fun map(input: UserView): RestUser
+	abstract fun map(input: UserView): User
 
 	@Mapping(target = "taskTopics", source = "taskTopicsList")
-	abstract fun map(input: PlayerView): RestPlayer
+	abstract fun map(input: PlayerView): Player
 
-	abstract fun map(input: PlayerBalanceView): RestPlayerBalance
+	abstract fun map(input: BalanceView): Balance
 
-	fun map(input: Money): RestMoney = RestMoney()
-		.currencyCode(input.currencyCode)
-		.amount(input.toBigDecimal())
-
-	fun mapDecimal(input: Money): BigDecimal = input.toBigDecimal()
+	fun map(input: com.google.type.Money): Money = Money(input.currencyCode, input.toBigDecimal())
 
 	fun map(input: LocalDate): Timestamp = input.toTimestamp()
 
 	@Mapping(target = "tasks", source = "tasksList")
-	abstract fun map(input: GetActiveTasksResponse): RestGetActiveTasksResponse
+	abstract fun map(input: GetActiveTasksResponse): ActiveTasksResult
 
 	@Mapping(target = "task.topics", source = "input.task.topicsList")
-	abstract fun map(input: PlayerTaskView): RestPlayerTask
+	abstract fun map(input: PlayerTaskView): PlayerTask
 
 	@Mapping(target = "playerTaskTopics", source = "playerTaskTopicsList")
-	abstract fun map(input: GetPlayerTopicsResponse): RestGetPlayerTopicsResponse
+	abstract fun map(input: GetPlayerTopicsResponse): PlayerTopicsResult
 
-	@Mapping(target = "playerTaskTopicsList", source = "input.playerTaskTopics")
-	abstract fun map(input: RestSavePlayerTopicsRequest): SavePlayerTopicsRequest
+	abstract fun map(input: PlayerTaskTopicInput): com.soloist.proto.player.PlayerTaskTopicInput
 
-	abstract fun map(input: CompleteTaskResponse): RestCompleteTaskResponse
+	abstract fun map(input: CompleteTaskResponse): CompleteTaskResult
 
 	@Mapping(target = "roles", source = "rolesList")
-	abstract fun map(input: GetUserAdditionalInfoResponse): RestUserAdditionalInfoResponse
+	abstract fun map(input: GetUserAdditionalInfoResponse): UserAdditionalInfoResult
 
-	abstract fun map(page: Int, pageSize: Int): RequestPaging
-
-	@Mapping(target = "paging", expression = "java(map(page, pageSize))")
-	abstract fun map(
-		options: RestRequestQueryOptions?,
-		page: Int,
-		pageSize: Int
-	): SearchEntitiesRequest
+	abstract fun map(paging: PagingInput, options: SearchOptionsInput?): SearchEntitiesRequest
 
 	@Mapping(target = "filter.enumFiltersList", source = "options.filter.enumFilters")
 	@Mapping(target = "filter.dateFiltersList", source = "options.filter.dateFilters")
 	@Mapping(target = "sortsList", source = "options.sorts")
-	abstract fun map(options: RestRequestQueryOptions): RequestQueryOptions
+	abstract fun map(options: SearchOptionsInput?): RequestQueryOptions
 
 	@Mapping(target = "valuesList", source = "values")
-	abstract fun map(input: RestEnumFilter): EnumFilter
+	abstract fun map(input: EnumFilterInput): EnumFilter
 
 	@Mapping(target = "transactions", source = "transactionsList")
 	@Mapping(target = "options.filters", source = "options.filtersList")
 	@Mapping(target = "options.sorts", source = "options.sortsList")
-	abstract fun map(input: SearchPlayerBalanceTransactionsResponse): RestSearchPlayerBalanceTransactionsResponse
+	abstract fun map(input: SearchBalanceTransactionsResponse): SearchBalanceTransactionsResult
 
 	@Mapping(target = "tasks", source = "tasksList")
 	@Mapping(target = "options.filters", source = "options.filtersList")
 	@Mapping(target = "options.sorts", source = "options.sortsList")
-	abstract fun map(input: SearchPlayerTasksResponse): RestSearchPlayerTasksResponse
+	abstract fun map(input: SearchPlayerTasksResponse): SearchPlayerTasksResult
 
 	@Mapping(target = "tasks", source = "tasksList")
-	abstract fun map(input: GetDailyTasksResponse): RestGetDailyTasksResponse
+	abstract fun map(input: GetDailyTasksResponse): DailyTasksResult
 
 	@Mapping(target = "activeDays", source = "activeDaysList")
-	abstract fun map(input: GetMonthlyActivityResponse): RestGetMonthlyActivityResponse
-
-	abstract fun map(input: GetPlayerBalanceResponse): RestGetPlayerBalanceResponse
+	abstract fun map(input: GetMonthlyActivityResponse): MonthlyActivityResult
 
 	@Mapping(target = "items", source = "input.itemsList")
-	abstract fun map(input: LocalizedField): RestLocalizedField
+	abstract fun map(input: com.soloist.proto.common.LocalizedField): LocalizedField
 
-	@Mapping(target = "paging", expression = "java(map(page, pageSize))")
-	abstract fun map(
-		type: RestLeaderboardType,
-		range: RestDayRange?,
-		page: Int,
-		pageSize: Int
-	): GetUsersLeaderboardRequest
+	@Mapping(target = "type", source = "filter.type")
+	@Mapping(target = "range", source = "filter.range")
+	abstract fun map(paging: PagingInput, filter: LeaderboardFilterInput): GetUsersLeaderboardRequest
 
-	abstract fun map(type: RestLeaderboardType, range: RestDayRange?): GetUserLeaderboardRequest
+	@Mapping(target = "type", source = "filter.type")
+	@Mapping(target = "range", source = "filter.range")
+	abstract fun map(filter: LeaderboardFilterInput): GetUserLeaderboardRequest
 
 	@Mapping(target = "users", source = "usersList")
-	abstract fun map(input: GetUsersLeaderboardResponse): RestGetUsersLeaderboardResponse
+	abstract fun map(input: GetUsersLeaderboardResponse): UsersLeaderboardResult
 
-	abstract fun map(input: GetUserLeaderboardResponse): RestGetUserLeaderboardResponse
+	abstract fun map(input: com.soloist.proto.user.LeaderboardUser): LeaderboardUser
+
+	abstract fun map(input: PagingInput): RequestPaging
 }

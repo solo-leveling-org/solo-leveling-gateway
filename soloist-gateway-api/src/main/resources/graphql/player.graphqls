@@ -1,0 +1,109 @@
+extend type Query {
+    playerTopics: PlayerTopicsResult!
+    monthlyActivity(year: Int!, month: Int!): MonthlyActivityResult!
+}
+
+extend type Mutation {
+    savePlayerTopics(topics: [PlayerTaskTopicInput!]!): Boolean!
+}
+
+# ── Domain types ─────────────────────────────────────────
+
+type Player {
+    id: Long!
+    agility: Int!
+    strength: Int!
+    intelligence: Int!
+    level: Level!
+    balance: Balance!
+    taskTopics: [PlayerTaskTopic!]!
+}
+
+type ProfilePlayer {
+    id: Long!
+    agility: Int!
+    strength: Int!
+    intelligence: Int!
+    level: Level!
+}
+
+type Level {
+    id: UUID!
+    level: Int!
+    totalExperience: Int!
+    currentExperience: Int!
+    experienceToNextLevel: Int!
+    assessment: Assessment!
+}
+
+type PlayerTaskTopic {
+    id: UUID!
+    version: Int!
+    isActive: Boolean!
+    taskTopic: TaskTopic!
+    level: Level!
+    isDisabled: Boolean!
+}
+
+type Stamina {
+    id: UUID!
+    current: Int!
+    max: Int!
+    isRegenerating: Boolean!
+    regenRate: Int!
+    regenIntervalSeconds: Int!
+    nextRegenAt: DateTime
+    fullRegenAt: DateTime
+}
+
+type DayStreak {
+    id: UUID!
+    current: Int!
+    max: Int!
+    isExtendedToday: Boolean!
+}
+
+# ── Result types ─────────────────────────────────────────
+
+type PlayerTopicsResult {
+    playerTaskTopics: [PlayerTaskTopic!]!
+}
+
+type MonthlyActivityResult {
+    activeDays: [Int!]!
+}
+
+# ── Input types ──────────────────────────────────────────
+
+input PlayerTaskTopicInput {
+    id: UUID!
+    version: Int!
+    isActive: Boolean!
+    taskTopic: TaskTopic!
+}
+
+# ── Enums ────────────────────────────────────────────────
+
+enum Assessment {
+    S
+    A
+    B
+    C
+    D
+    E
+}
+
+enum TaskTopic {
+    PHYSICAL_ACTIVITY
+    CREATIVITY
+    SOCIAL_SKILLS
+    NUTRITION
+    PRODUCTIVITY
+    ADVENTURE
+    MUSIC
+    BRAIN
+    CYBERSPORT
+    DEVELOPMENT
+    READING
+    LANGUAGE_LEARNING
+}

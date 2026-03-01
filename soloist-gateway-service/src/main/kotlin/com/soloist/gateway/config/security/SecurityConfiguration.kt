@@ -1,7 +1,7 @@
 package com.soloist.gateway.config.security
 
+import com.soloist.gateway.config.properties.CorsProperties
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -13,7 +13,6 @@ import org.springframework.web.cors.CorsConfiguration
 
 @Configuration
 @EnableWebSecurity
-@EnableConfigurationProperties(CorsProperties::class)
 class SecurityConfiguration(
 	private val jwtAuthenticationFilter: JwtAuthenticationFilter,
 	private val corsProperties: CorsProperties
