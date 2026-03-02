@@ -59,7 +59,7 @@
     <mapstruct.version>1.6.3</mapstruct.version>
 
     <!-- soloist -->
-    <soloist-lib.version>2.0.3.14</soloist-lib.version>
+    <soloist-lib.version>2.1.0</soloist-lib.version>
 
     <!-- tests -->
     <test-containers.version>2.0.3</test-containers.version>
