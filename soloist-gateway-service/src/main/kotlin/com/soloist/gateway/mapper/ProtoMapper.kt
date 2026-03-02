@@ -7,20 +7,23 @@ import com.soloist.gateway.extensions.toOffsetDateTime
 import com.soloist.gateway.extensions.toTimestamp
 import com.soloist.gateway.model.UserData
 import com.soloist.proto.balance.BalanceView
+import com.soloist.proto.balance.SearchBalanceTransactionsRequest
 import com.soloist.proto.balance.SearchBalanceTransactionsResponse
 import com.soloist.proto.common.EnumFilter
 import com.soloist.proto.common.RequestPaging
 import com.soloist.proto.common.RequestQueryOptions
-import com.soloist.proto.common.SearchEntitiesRequest
 import com.soloist.proto.player.GetMonthlyActivityResponse
 import com.soloist.proto.player.GetPlayerTopicsResponse
+import com.soloist.proto.player.LevelView
+import com.soloist.proto.player.PlayerDayStreakView
+import com.soloist.proto.player.PlayerStaminaView
 import com.soloist.proto.player.PlayerView
 import com.soloist.proto.task.*
-import com.soloist.proto.user.GetUserAdditionalInfoResponse
 import com.soloist.proto.user.GetUserLeaderboardRequest
 import com.soloist.proto.user.GetUsersLeaderboardRequest
 import com.soloist.proto.user.GetUsersLeaderboardResponse
 import com.soloist.proto.user.UserInput
+import com.soloist.proto.user.UserLocale
 import com.soloist.proto.user.UserView
 import org.mapstruct.*
 import java.math.BigDecimal
@@ -61,12 +64,16 @@ abstract class ProtoMapper {
 
 	abstract fun map(input: UserView): User
 
-	@Mapping(target = "taskTopics", source = "taskTopicsList")
 	abstract fun map(input: PlayerView): Player
 
 	abstract fun map(input: BalanceView): Balance
 
-	fun map(input: com.google.type.Money): Money = Money(input.currencyCode, input.toBigDecimal())
+	fun map(input: com.google.type.Money): Money = Money.newBuilder()
+		.currencyCode(input.currencyCode)
+		.amount(input.toBigDecimal())
+		.build()
+
+	fun map(input: com.google.type.Decimal): BigDecimal = input.toBigDecimal()
 
 	fun map(input: LocalDate): Timestamp = input.toTimestamp()
 
@@ -76,17 +83,26 @@ abstract class ProtoMapper {
 	@Mapping(target = "task.topics", source = "input.task.topicsList")
 	abstract fun map(input: PlayerTaskView): PlayerTask
 
-	@Mapping(target = "playerTaskTopics", source = "playerTaskTopicsList")
+	@Mapping(target = "topics", source = "taskTopicsList")
 	abstract fun map(input: GetPlayerTopicsResponse): PlayerTopicsResult
 
 	abstract fun map(input: PlayerTaskTopicInput): com.soloist.proto.player.PlayerTaskTopicInput
 
+	@Mapping(target = "playerBefore.taskTopics", source = "input.playerBefore.taskTopicsList")
+	@Mapping(target = "playerAfter.taskTopics", source = "input.playerAfter.taskTopicsList")
 	abstract fun map(input: CompleteTaskResponse): CompleteTaskResult
 
-	@Mapping(target = "roles", source = "rolesList")
-	abstract fun map(input: GetUserAdditionalInfoResponse): UserAdditionalInfoResult
+	abstract fun mapTransactions(
+		playerId: Long,
+		paging: PagingInput,
+		options: SearchOptionsInput?
+	): SearchBalanceTransactionsRequest
 
-	abstract fun map(paging: PagingInput, options: SearchOptionsInput?): SearchEntitiesRequest
+	abstract fun mapTasks(
+		playerId: Long,
+		paging: PagingInput,
+		options: SearchOptionsInput?
+	): SearchClosedPlayerTasksRequest
 
 	@Mapping(target = "filter.enumFiltersList", source = "options.filter.enumFilters")
 	@Mapping(target = "filter.dateFiltersList", source = "options.filter.dateFilters")
@@ -104,7 +120,7 @@ abstract class ProtoMapper {
 	@Mapping(target = "tasks", source = "tasksList")
 	@Mapping(target = "options.filters", source = "options.filtersList")
 	@Mapping(target = "options.sorts", source = "options.sortsList")
-	abstract fun map(input: SearchPlayerTasksResponse): SearchPlayerTasksResult
+	abstract fun map(input: SearchClosedPlayerTasksResponse): ClosedPlayerTasksResult
 
 	@Mapping(target = "tasks", source = "tasksList")
 	abstract fun map(input: GetDailyTasksResponse): DailyTasksResult
@@ -129,4 +145,12 @@ abstract class ProtoMapper {
 	abstract fun map(input: com.soloist.proto.user.LeaderboardUser): LeaderboardUser
 
 	abstract fun map(input: PagingInput): RequestPaging
+
+	abstract fun map(input: LevelView): Level
+
+	abstract fun map(input: UserLocaleInput): UserLocale
+
+	abstract fun map(input: PlayerDayStreakView): DayStreak
+
+	abstract fun map(input: PlayerStaminaView): Stamina
 }

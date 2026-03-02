@@ -1,7 +1,5 @@
-# Вариант 1: Использование официального образа с уже установленным native-image
 FROM ghcr.io/graalvm/native-image-community:25 AS build
 
-# Создаём системного пользователя
 RUN useradd -r -m -u 1001 -U -d /home/myuser -s /bin/bash myuser && \
     mkdir -p /usr/src/app && \
     chown myuser:myuser /usr/src/app
@@ -9,20 +7,30 @@ RUN useradd -r -m -u 1001 -U -d /home/myuser -s /bin/bash myuser && \
 WORKDIR /usr/src/app
 USER myuser
 
-# Копируем исходники
+COPY --chown=myuser:myuser .mvn .mvn
+COPY --chown=myuser:myuser mvnw mvnw
+
+COPY --chown=myuser:myuser pom.xml pom.xml
+COPY --chown=myuser:myuser soloist-gateway-api/pom.xml soloist-gateway-api/pom.xml
+COPY --chown=myuser:myuser soloist-gateway-service/pom.xml soloist-gateway-service/pom.xml
+
+RUN mkdir -p /home/myuser/.m2 && \
+    if [ -f "settings.xml" ]; then \
+      cp settings.xml /home/myuser/.m2/settings.xml; \
+    fi
+
+RUN chmod +x ./mvnw && \
+    ./mvnw -q -B -DskipTests dependency:go-offline -Pnative || true
+
 COPY --chown=myuser:myuser . .
 
-# Собираем native-бинарник
 RUN chmod +x ./mvnw && \
-    ./mvnw clean package -Pnative -DskipTests --settings settings.xml
+    ./mvnw clean package -Pnative -DskipTests
 
-# Run stage: запуск без JVM
 FROM alpine:3.21 AS run
 
-# Устанавливаем системные библиотеки
 RUN apk add --no-cache libc6-compat libstdc++
 
-# Создаём системного пользователя и группу
 RUN addgroup -S myuser && adduser -S -G myuser myuser && \
     mkdir -p /app && \
     chown myuser:myuser /app
@@ -30,7 +38,6 @@ RUN addgroup -S myuser && adduser -S -G myuser myuser && \
 USER myuser
 WORKDIR /app
 
-# Копируем native-бинарник
 COPY --from=build --chown=myuser:myuser /usr/src/app/soloist-gateway-service/target/soloist-gateway-service /app/app
 
 EXPOSE 8080

@@ -1,6 +1,5 @@
 package com.soloist.gateway.client
 
-import com.google.protobuf.Empty
 import com.soloist.gateway.graphql.types.Balance
 import com.soloist.gateway.graphql.types.PagingInput
 import com.soloist.gateway.graphql.types.SearchBalanceTransactionsResult
@@ -15,16 +14,18 @@ class BalanceClient(
 	private val protoMapper: ProtoMapper
 ) {
 
-	fun getBalance(): Balance {
-		val response = balanceStub.getBalance(Empty.getDefaultInstance())
+	fun getBalance(playerId: Long): Balance {
+		val request = GetBalanceRequest.newBuilder().setPlayerId(playerId).build()
+		val response = balanceStub.getBalance(request)
 		return protoMapper.map(response.balance)
 	}
 
 	fun searchBalanceTransactions(
+		playerId: Long,
 		paging: PagingInput,
 		options: SearchOptionsInput?
 	): SearchBalanceTransactionsResult {
-		val request = protoMapper.map(paging, options)
+		val request = protoMapper.mapTransactions(playerId, paging, options)
 		val response = balanceStub.searchBalanceTransactions(request)
 		return protoMapper.map(response)
 	}

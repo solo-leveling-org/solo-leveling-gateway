@@ -1,5 +1,6 @@
 package com.soloist.gateway.extensions
 
+import com.google.type.Decimal
 import com.google.type.Money
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -27,3 +28,6 @@ fun Money.toBigDecimal(): BigDecimal {
 	// Округляем до 2 знаков после запятой
 	return finalResult.setScale(2, RoundingMode.HALF_UP)
 }
+
+fun Decimal.toBigDecimal(): BigDecimal =
+	if (this.value.isNullOrBlank()) BigDecimal.ZERO else BigDecimal(this.value)

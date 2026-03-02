@@ -1,12 +1,3 @@
-extend type Query {
-    activeTasks: ActiveTasksResult!
-    dailyTasks: DailyTasksResult!
-    searchPlayerTasks(
-        paging: PagingInput!
-        options: SearchOptionsInput
-    ): SearchPlayerTasksResult!
-}
-
 extend type Mutation {
     generateTasks: Boolean!
     completeTask(id: UUID!): CompleteTaskResult!
@@ -40,8 +31,8 @@ type PlayerTask {
 type PlayerDailyTask {
     id: UUID!
     title: String!
-    progress: Float!
-    goal: Float!
+    progress: BigDecimal!
+    goal: BigDecimal!
     isCompleted: Boolean!
 }
 
@@ -49,7 +40,6 @@ type PlayerDailyTask {
 
 type ActiveTasksResult {
     tasks: [PlayerTask!]!
-    stamina: Stamina!
     isFirstTime: Boolean!
 }
 
@@ -58,25 +48,17 @@ type DailyTasksResult {
 }
 
 type CompleteTaskResult {
-    playerBefore: Player!
-    playerAfter: Player!
+    playerBefore: CompleteTaskPlayer!
+    playerAfter: CompleteTaskPlayer!
 }
 
-type SearchPlayerTasksResult {
+type ClosedPlayerTasksResult {
     tasks: [PlayerTask!]!
     paging: ResponsePaging!
     options: ResponseQueryOptions
 }
 
 # ── Enums ────────────────────────────────────────────────
-
-enum Rarity {
-    COMMON
-    UNCOMMON
-    RARE
-    EPIC
-    LEGENDARY
-}
 
 enum PlayerTaskStatus {
     PREPARING

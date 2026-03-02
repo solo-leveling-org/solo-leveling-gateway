@@ -1,16 +1,12 @@
 extend type Query {
     me: User!
     user(id: Long!): User!
-    userAdditionalInfo: UserAdditionalInfoResult!
-    usersLeaderboard(
-        paging: PagingInput!
-        filter: LeaderboardFilterInput!
-    ): UsersLeaderboardResult!
+    usersLeaderboard(paging: PagingInput!, filter: LeaderboardFilterInput!): UsersLeaderboardResult!
     userLeaderboard(filter: LeaderboardFilterInput!): LeaderboardUser!
 }
 
 extend type Mutation {
-    updateUserLocale(locale: String!): Boolean!
+    updateUserLocale(locale: UserLocaleInput!): Boolean!
 }
 
 # ── Domain types ─────────────────────────────────────────
@@ -21,15 +17,9 @@ type User {
     firstName: String!
     lastName: String
     photoUrl: String
-    locale: String
-    player: ProfilePlayer!
-}
-
-type UserAdditionalInfoResult {
-    photoUrl: String
-    dayStreak: DayStreak!
-    locale: UserLocale!
+    locale: UserLocale
     roles: [UserRole!]!
+    player: Player!
 }
 
 type UserLocale {
@@ -51,6 +41,11 @@ type LeaderboardUser {
 input LeaderboardFilterInput {
     type: LeaderboardType!
     range: DayRangeInput
+}
+
+input UserLocaleInput {
+    tag: String!
+    isManual: Boolean!
 }
 
 # ── Result types ─────────────────────────────────────────

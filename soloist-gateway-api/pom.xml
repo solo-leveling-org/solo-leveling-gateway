@@ -53,12 +53,11 @@
               <schemaPaths>
                 <param>src/main/resources/graphql</param>
               </schemaPaths>
-              <language>Kotlin</language>
               <packageName>com.soloist.gateway.graphql</packageName>
               <generateDataTypes>true</generateDataTypes>
               <typeMapping>
                 <BigDecimal>java.math.BigDecimal</BigDecimal>
-                <Long>kotlin.Long</Long>
+                <Long>java.lang.Long</Long>
                 <UUID>java.util.UUID</UUID>
                 <DateTime>java.time.OffsetDateTime</DateTime>
                 <LocalDate>java.time.LocalDate</LocalDate>

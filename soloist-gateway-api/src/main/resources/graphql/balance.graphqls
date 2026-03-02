@@ -1,16 +1,14 @@
-extend type Query {
-    balance: Balance!
-    searchBalanceTransactions(
-        paging: PagingInput!
-        options: SearchOptionsInput
-    ): SearchBalanceTransactionsResult!
-}
-
 # ── Domain types ─────────────────────────────────────────
 
 type Balance {
     id: UUID!
-    balance: Money!
+    amount: Money!
+    transactions(paging: PagingInput, !options: SearchOptionsInput): SearchBalanceTransactionsResult!
+}
+
+type CompleteTaskBalance {
+    id: UUID!
+    amount: Money!
 }
 
 type BalanceTransaction {

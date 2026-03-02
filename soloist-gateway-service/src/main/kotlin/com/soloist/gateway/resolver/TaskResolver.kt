@@ -1,34 +1,30 @@
 package com.soloist.gateway.resolver
 
 import com.soloist.gateway.client.TaskClient
-import com.soloist.gateway.graphql.types.ActiveTasksResult
-import com.soloist.gateway.graphql.types.CompleteTaskResult
-import com.soloist.gateway.graphql.types.DailyTasksResult
-import com.soloist.gateway.graphql.types.PagingInput
-import com.soloist.gateway.graphql.types.SearchOptionsInput
-import com.soloist.gateway.graphql.types.SearchPlayerTasksResult
+import com.soloist.gateway.graphql.types.*
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
-import org.springframework.graphql.data.method.annotation.QueryMapping
+import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
-import java.util.UUID
+import java.util.*
 
 @Controller
 class TaskResolver(
 	private val taskClient: TaskClient
 ) {
 
-	@QueryMapping
-	fun activeTasks(): ActiveTasksResult = taskClient.getActiveTasks()
+	@SchemaMapping
+	fun activeTasks(player: Player): ActiveTasksResult = taskClient.getActiveTasks(player.id)
 
-	@QueryMapping
-	fun dailyTasks(): DailyTasksResult = taskClient.getDailyTasks()
+	@SchemaMapping
+	fun dailyTasks(player: Player): DailyTasksResult = taskClient.getDailyTasks(player.id)
 
-	@QueryMapping
+	@SchemaMapping
 	fun searchPlayerTasks(
+		player: Player,
 		@Argument paging: PagingInput,
 		@Argument options: SearchOptionsInput?
-	): SearchPlayerTasksResult = taskClient.searchPlayerTasks(paging, options)
+	): ClosedPlayerTasksResult = taskClient.searchClosedPlayerTasks(player.id, paging, options)
 
 	@MutationMapping
 	fun generateTasks(): Boolean {

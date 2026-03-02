@@ -2,13 +2,12 @@ package com.soloist.gateway.client
 
 import com.google.protobuf.Empty
 import com.soloist.gateway.graphql.types.ActiveTasksResult
+import com.soloist.gateway.graphql.types.ClosedPlayerTasksResult
 import com.soloist.gateway.graphql.types.CompleteTaskResult
 import com.soloist.gateway.graphql.types.DailyTasksResult
 import com.soloist.gateway.graphql.types.PagingInput
 import com.soloist.gateway.graphql.types.SearchOptionsInput
-import com.soloist.gateway.graphql.types.SearchPlayerTasksResult
 import com.soloist.gateway.mapper.ProtoMapper
-import com.soloist.proto.common.SearchEntitiesRequest
 import com.soloist.proto.task.*
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -19,8 +18,9 @@ class TaskClient(
 	private val protoMapper: ProtoMapper
 ) {
 
-	fun getActiveTasks(): ActiveTasksResult {
-		val response = taskStub.getActiveTasks(Empty.getDefaultInstance())
+	fun getActiveTasks(playerId: Long): ActiveTasksResult {
+		val request = GetActiveTasksRequest.newBuilder().setPlayerId(playerId).build()
+		val response = taskStub.getActiveTasks(request)
 		return protoMapper.map(response)
 	}
 
@@ -39,17 +39,19 @@ class TaskClient(
 		taskStub.skipTask(request)
 	}
 
-	fun searchPlayerTasks(
+	fun searchClosedPlayerTasks(
+		playerId: Long,
 		paging: PagingInput,
 		options: SearchOptionsInput?
-	): SearchPlayerTasksResult {
-		val request = protoMapper.map(paging, options)
-		val response = taskStub.searchPlayerTasks(request)
+	): ClosedPlayerTasksResult {
+		val request = protoMapper.mapTasks(playerId, paging, options)
+		val response = taskStub.searchClosedPlayerTasks(request)
 		return protoMapper.map(response)
 	}
 
-	fun getDailyTasks(): DailyTasksResult {
-		val response = taskStub.getDailyTasks(Empty.getDefaultInstance())
+	fun getDailyTasks(playerId: Long): DailyTasksResult {
+		val request = GetDailyTasksRequest.newBuilder().setPlayerId(playerId).build()
+		val response = taskStub.getDailyTasks(request)
 		return protoMapper.map(response)
 	}
 }
