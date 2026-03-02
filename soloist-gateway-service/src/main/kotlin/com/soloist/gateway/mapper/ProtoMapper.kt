@@ -15,8 +15,8 @@ import com.soloist.proto.common.RequestQueryOptions
 import com.soloist.proto.player.GetMonthlyActivityResponse
 import com.soloist.proto.player.GetPlayerTopicsResponse
 import com.soloist.proto.player.LevelView
-import com.soloist.proto.player.PlayerDayStreakView
-import com.soloist.proto.player.PlayerStaminaView
+import com.soloist.proto.player.DayStreakView
+import com.soloist.proto.player.StaminaView
 import com.soloist.proto.player.PlayerView
 import com.soloist.proto.task.*
 import com.soloist.proto.user.GetUserLeaderboardRequest
@@ -62,6 +62,7 @@ abstract class ProtoMapper {
 	@Mapping(target = "username", source = "tag")
 	abstract fun map(input: UserData): UserInput
 
+	@Mapping(target = "roles", source = "rolesList")
 	abstract fun map(input: UserView): User
 
 	abstract fun map(input: PlayerView): Player
@@ -102,7 +103,7 @@ abstract class ProtoMapper {
 		playerId: Long,
 		paging: PagingInput,
 		options: SearchOptionsInput?
-	): SearchClosedPlayerTasksRequest
+	): SearchClosedTasksRequest
 
 	@Mapping(target = "filter.enumFiltersList", source = "options.filter.enumFilters")
 	@Mapping(target = "filter.dateFiltersList", source = "options.filter.dateFilters")
@@ -120,7 +121,7 @@ abstract class ProtoMapper {
 	@Mapping(target = "tasks", source = "tasksList")
 	@Mapping(target = "options.filters", source = "options.filtersList")
 	@Mapping(target = "options.sorts", source = "options.sortsList")
-	abstract fun map(input: SearchClosedPlayerTasksResponse): ClosedPlayerTasksResult
+	abstract fun map(input: SearchClosedTasksResponse): ClosedPlayerTasksResult
 
 	@Mapping(target = "tasks", source = "tasksList")
 	abstract fun map(input: GetDailyTasksResponse): DailyTasksResult
@@ -150,7 +151,7 @@ abstract class ProtoMapper {
 
 	abstract fun map(input: UserLocaleInput): UserLocale
 
-	abstract fun map(input: PlayerDayStreakView): DayStreak
+	abstract fun map(input: DayStreakView): DayStreak
 
-	abstract fun map(input: PlayerStaminaView): Stamina
+	abstract fun map(input: StaminaView): Stamina
 }

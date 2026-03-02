@@ -47,20 +47,20 @@ class PlayerClient(
 	}
 
 	fun getDayStreak(playerId: Long): DayStreak {
-		val request = GetPlayerDayStreakRequest.newBuilder().setPlayerId(playerId).build()
-		val response = playerStub.getPlayerDayStreak(request)
+		val request = GetDayStreakRequest.newBuilder().setPlayerId(playerId).build()
+		val response = playerStub.getDayStreak(request)
 		return protoMapper.map(response.dayStreak)
 	}
 
 	fun getStamina(playerId: Long): Stamina {
-		val request = GetPlayerStaminaRequest.newBuilder().setPlayerId(playerId).build()
-		val response = playerStub.getPlayerStamina(request)
+		val request = GetStaminaRequest.newBuilder().setPlayerId(playerId).build()
+		val response = playerStub.getStamina(request)
 		return protoMapper.map(response.stamina)
 	}
 
 	fun getLevel(playerId: Long): Level {
-		val request = GetPlayerLevelRequest.newBuilder().setPlayerId(playerId).build()
-		val response = playerStub.getPlayerLevel(request)
+		val request = GetLevelRequest.newBuilder().setPlayerId(playerId).build()
+		val response = playerStub.getLevel(request)
 		return protoMapper.map(response.level)
 	}
 }

@@ -48,7 +48,7 @@ class PlayerResolver(
 	}
 
 	@SchemaMapping
-	fun playerTopics(player: Player): PlayerTopicsResult =
+	fun taskTopics(player: Player): PlayerTopicsResult =
 		playerClient.getPlayerTopics(player.id)
 
 	@SchemaMapping

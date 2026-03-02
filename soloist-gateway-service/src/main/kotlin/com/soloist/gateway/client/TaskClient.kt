@@ -45,7 +45,7 @@ class TaskClient(
 		options: SearchOptionsInput?
 	): ClosedPlayerTasksResult {
 		val request = protoMapper.mapTasks(playerId, paging, options)
-		val response = taskStub.searchClosedPlayerTasks(request)
+		val response = taskStub.searchClosedTasks(request)
 		return protoMapper.map(response)
 	}
 

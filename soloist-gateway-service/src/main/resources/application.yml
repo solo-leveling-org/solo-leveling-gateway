@@ -29,7 +29,7 @@ spring:
           max-wait: 2000ms
           time-between-eviction-runs: 30s
   autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+    exclude: org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration
   threads:
     virtual:
       enabled: true

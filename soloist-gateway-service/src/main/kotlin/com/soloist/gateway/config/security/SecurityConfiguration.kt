@@ -38,7 +38,7 @@ class SecurityConfiguration(
 				// metrics
 				.requestMatchers("/actuator/**").permitAll()
 				// auth
-				.requestMatchers("/api/v1/auth/**").permitAll()
+				.requestMatchers("/api/auth/**").permitAll()
 				// swagger
 				.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
 				// websocket

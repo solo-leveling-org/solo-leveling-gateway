@@ -31,7 +31,7 @@ class BalanceResolver(
 	}
 
 	@SchemaMapping(typeName = "Balance")
-	fun searchBalanceTransactions(
+	fun transactions(
 		@ContextValue(PLAYER_ID) playerId: Long,
 		@Argument paging: PagingInput,
 		@Argument options: SearchOptionsInput?

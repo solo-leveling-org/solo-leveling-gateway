@@ -20,7 +20,7 @@ class TaskResolver(
 	fun dailyTasks(player: Player): DailyTasksResult = taskClient.getDailyTasks(player.id)
 
 	@SchemaMapping
-	fun searchPlayerTasks(
+	fun closedTasks(
 		player: Player,
 		@Argument paging: PagingInput,
 		@Argument options: SearchOptionsInput?
