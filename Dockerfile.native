@@ -14,10 +14,8 @@ COPY --chown=myuser:myuser pom.xml pom.xml
 COPY --chown=myuser:myuser soloist-gateway-api/pom.xml soloist-gateway-api/pom.xml
 COPY --chown=myuser:myuser soloist-gateway-service/pom.xml soloist-gateway-service/pom.xml
 
-RUN mkdir -p /home/myuser/.m2 && \
-    if [ -f "settings.xml" ]; then \
-      cp settings.xml /home/myuser/.m2/settings.xml; \
-    fi
+RUN mkdir -p /home/myuser/.m2
+COPY --chown=myuser:myuser settings.xml /home/myuser/.m2/settings.xml
 
 RUN chmod +x ./mvnw && \
     ./mvnw -q -B -DskipTests dependency:go-offline -Pnative || true
