@@ -6,15 +6,18 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.soloist.gateway.mapper.UnixTimestampToOffsetDateTimeDeserializer
 import com.soloist.rest.config.interceptor.UserRestInterceptor
+import graphql.scalars.ExtendedScalars
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.graphql.execution.RuntimeWiringConfigurer
 import org.springframework.web.servlet.LocaleResolver
 import org.springframework.web.servlet.config.annotation.ApiVersionConfigurer
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver
 import java.time.OffsetDateTime
-import java.util.Locale
+import java.util.*
+
 
 @Configuration
 class WebConfig(
@@ -48,5 +51,14 @@ class WebConfig(
 			Locale.forLanguageTag("ru")
 		)
 		setDefaultLocale(Locale.ENGLISH)
+	}
+
+	@Bean
+	fun runtimeWiringConfigurer(): RuntimeWiringConfigurer = RuntimeWiringConfigurer {
+		it.scalar(ExtendedScalars.GraphQLLong)
+			.scalar(ExtendedScalars.GraphQLBigDecimal)
+			.scalar(ExtendedScalars.DateTime)
+			.scalar(ExtendedScalars.UUID)
+			.scalar(ExtendedScalars.Date)
 	}
 }

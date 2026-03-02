@@ -2,7 +2,7 @@ scalar Long
 scalar BigDecimal
 scalar DateTime
 scalar UUID
-scalar LocalDate
+scalar Date
 
 type Query
 
@@ -71,8 +71,8 @@ input SortInput {
 }
 
 input DayRangeInput {
-    from: LocalDate!
-    to: LocalDate!
+    from: Date!
+    to: Date!
 }
 
 # ── Common enums ──────────────────────────────────────────
