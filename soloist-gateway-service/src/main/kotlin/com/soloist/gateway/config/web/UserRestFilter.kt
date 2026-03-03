@@ -28,7 +28,7 @@ class UserRestFilter : OncePerRequestFilter() {
 			?.let { TimeZone.getTimeZone(it) }
 			?: TimeZone.getTimeZone(ZoneOffset.UTC)
 
-		LocaleContextHolder.setLocaleContext(SimpleTimeZoneAwareLocaleContext(locale, timeZone), true)
+		LocaleContextHolder.setLocaleContext(SimpleTimeZoneAwareLocaleContext(locale, timeZone))
 
 		try {
 			filterChain.doFilter(request, response)

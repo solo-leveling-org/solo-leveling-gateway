@@ -6,6 +6,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.soloist.gateway.mapper.UnixTimestampToOffsetDateTimeDeserializer
 import graphql.scalars.ExtendedScalars
+import io.micrometer.context.ContextRegistry
+import jakarta.annotation.PostConstruct
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.graphql.execution.RuntimeWiringConfigurer
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.LocaleResolver
 import org.springframework.web.servlet.config.annotation.ApiVersionConfigurer
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver
+import reactor.core.publisher.Hooks
 import java.time.OffsetDateTime
 import java.util.*
 
@@ -25,6 +28,15 @@ class WebConfig : WebMvcConfigurer {
 
 	override fun configureApiVersioning(configurer: ApiVersionConfigurer) {
 		configurer.useRequestHeader(API_VERSION_HEADER)
+	}
+
+	@PostConstruct
+	fun registerContextAccessors() {
+		ContextRegistry.getInstance()
+			.registerThreadLocalAccessor(UserContextAccessor())
+			.registerThreadLocalAccessor(LocaleContextAccessor())
+
+		Hooks.enableAutomaticContextPropagation()
 	}
 
 	@Bean
