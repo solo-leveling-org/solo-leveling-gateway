@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service
 
 @Service
 class BalanceClient(
-	private val balanceStub: BalanceServiceGrpc.BalanceServiceBlockingStub,
+	private val balanceStub: BalanceServiceGrpcKt.BalanceServiceCoroutineStub,
 	private val protoMapper: ProtoMapper
 ) {
 
-	fun getBalance(playerId: Long): Balance {
+	suspend fun getBalance(playerId: Long): Balance {
 		val request = GetBalanceRequest.newBuilder().setPlayerId(playerId).build()
 		val response = balanceStub.getBalance(request)
 		return protoMapper.map(response.balance)
 	}
 
-	fun searchBalanceTransactions(
+	suspend fun searchBalanceTransactions(
 		playerId: Long,
 		paging: PagingInput,
 		options: SearchOptionsInput?

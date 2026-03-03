@@ -22,7 +22,7 @@ class AuthController(
 ) {
 
 	@PostMapping("/login", version = "1")
-	fun login(@RequestBody @Valid tgAuthData: TgAuthData): ResponseEntity<LoginResponse> {
+	suspend fun login(@RequestBody @Valid tgAuthData: TgAuthData): ResponseEntity<LoginResponse> {
 		val userData = UserData.fromTgUser(tgAuthData.tgWebAppData.user)
 		val response = authService.login(tgAuthData)
 		userClient.authUser(userData)
@@ -30,7 +30,7 @@ class AuthController(
 	}
 
 	@PostMapping("/refresh", version = "1")
-	fun refresh(@RequestBody @Valid refreshRequest: RefreshRequest): ResponseEntity<RefreshResponse> {
+	suspend fun refresh(@RequestBody @Valid refreshRequest: RefreshRequest): ResponseEntity<RefreshResponse> {
 		val accessToken = authService.refresh(refreshRequest.refreshToken)
 		return ResponseEntity.ok(RefreshResponse(accessToken))
 	}

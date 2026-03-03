@@ -31,7 +31,7 @@ class PlayerResolver(
 	}
 
 	@SchemaMapping
-	fun player(
+	suspend fun player(
 		user: User,
 		environment: DataFetchingEnvironment,
 		graphQlContext: GraphQLContext
@@ -48,27 +48,27 @@ class PlayerResolver(
 	}
 
 	@SchemaMapping
-	fun taskTopics(player: Player): PlayerTopicsResult =
+	suspend fun taskTopics(player: Player): PlayerTopicsResult =
 		playerClient.getPlayerTopics(player.id)
 
 	@SchemaMapping
-	fun monthlyActivity(
+	suspend fun monthlyActivity(
 		player: Player,
 		@Argument year: Int,
 		@Argument month: Int
 	): MonthlyActivityResult = playerClient.getMonthlyActivity(player.id, year, month)
 
 	@SchemaMapping
-	fun dayStreak(player: Player): DayStreak = playerClient.getDayStreak(player.id)
+	suspend fun dayStreak(player: Player): DayStreak = playerClient.getDayStreak(player.id)
 
 	@SchemaMapping
-	fun stamina(player: Player): Stamina = playerClient.getStamina(player.id)
+	suspend fun stamina(player: Player): Stamina = playerClient.getStamina(player.id)
 
 	@SchemaMapping
-	fun level(player: Player): Level = playerClient.getLevel(player.id)
+	suspend fun level(player: Player): Level = playerClient.getLevel(player.id)
 
 	@MutationMapping
-	fun savePlayerTopics(@Argument topics: List<PlayerTaskTopicInput>): Boolean {
+	suspend fun savePlayerTopics(@Argument topics: List<PlayerTaskTopicInput>): Boolean {
 		playerClient.savePlayerTopics(topics)
 		return true
 	}

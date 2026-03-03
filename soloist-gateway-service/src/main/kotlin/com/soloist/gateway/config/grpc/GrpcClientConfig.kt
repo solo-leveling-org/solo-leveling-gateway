@@ -1,12 +1,12 @@
 package com.soloist.gateway.config.grpc
 
 import com.soloist.gateway.config.properties.GrpcPlayerServiceProperties
-import com.soloist.proto.balance.BalanceServiceGrpc
+import com.soloist.proto.balance.BalanceServiceGrpcKt
 import com.soloist.proto.config.DefaultGrpcClientConfig
 import com.soloist.proto.config.interceptor.UserClientInterceptor
-import com.soloist.proto.player.PlayerServiceGrpc
-import com.soloist.proto.task.TaskServiceGrpc
-import com.soloist.proto.user.UserServiceGrpc
+import com.soloist.proto.player.PlayerServiceGrpcKt
+import com.soloist.proto.task.TaskServiceGrpcKt
+import com.soloist.proto.user.UserServiceGrpcKt
 import io.grpc.ManagedChannel
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -22,18 +22,18 @@ class GrpcClientConfig(
 	fun playerManagedChannel(): ManagedChannel = createManagedChannel()
 
 	@Bean
-	fun userServiceBlockingStub(channel: ManagedChannel): UserServiceGrpc.UserServiceBlockingStub =
-		UserServiceGrpc.newBlockingStub(channel).withInterceptors(interceptor)
+	fun userServiceBlockingStub(channel: ManagedChannel): UserServiceGrpcKt.UserServiceCoroutineStub =
+		UserServiceGrpcKt.UserServiceCoroutineStub(channel).withInterceptors(interceptor)
 
 	@Bean
-	fun playerServiceBlockingStub(channel: ManagedChannel): PlayerServiceGrpc.PlayerServiceBlockingStub =
-		PlayerServiceGrpc.newBlockingStub(channel).withInterceptors(interceptor)
+	fun playerServiceBlockingStub(channel: ManagedChannel): PlayerServiceGrpcKt.PlayerServiceCoroutineStub =
+		PlayerServiceGrpcKt.PlayerServiceCoroutineStub(channel).withInterceptors(interceptor)
 
 	@Bean
-	fun taskServiceBlockingStub(channel: ManagedChannel): TaskServiceGrpc.TaskServiceBlockingStub =
-		TaskServiceGrpc.newBlockingStub(channel).withInterceptors(interceptor)
+	fun taskServiceCoroutineStub(channel: ManagedChannel): TaskServiceGrpcKt.TaskServiceCoroutineStub =
+		TaskServiceGrpcKt.TaskServiceCoroutineStub(channel).withInterceptors(interceptor)
 
 	@Bean
-	fun balanceServiceBlockingStub(channel: ManagedChannel): BalanceServiceGrpc.BalanceServiceBlockingStub =
-		BalanceServiceGrpc.newBlockingStub(channel).withInterceptors(interceptor)
+	fun balanceServiceCoroutineStub(channel: ManagedChannel): BalanceServiceGrpcKt.BalanceServiceCoroutineStub =
+		BalanceServiceGrpcKt.BalanceServiceCoroutineStub(channel).withInterceptors(interceptor)
 }

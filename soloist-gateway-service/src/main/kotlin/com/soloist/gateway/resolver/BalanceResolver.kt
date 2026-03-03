@@ -21,7 +21,7 @@ class BalanceResolver(
 	}
 
 	@SchemaMapping
-	fun balance(player: Player, environment: DataFetchingEnvironment): Balance {
+	suspend fun balance(player: Player, environment: DataFetchingEnvironment): Balance {
 		val selectionSet = environment.selectionSet
 		if (BALANCE_SCALAR_FIELDS.any(selectionSet::contains)) {
 			return balanceClient.getBalance(player.id)
@@ -31,7 +31,7 @@ class BalanceResolver(
 	}
 
 	@SchemaMapping(typeName = "Balance")
-	fun transactions(
+	suspend fun transactions(
 		@ContextValue(PLAYER_ID) playerId: Long,
 		@Argument paging: PagingInput,
 		@Argument options: SearchOptionsInput?

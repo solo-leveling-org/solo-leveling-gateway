@@ -9,13 +9,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.context.RequestAttributeSecurityContextRepository
 import org.springframework.web.cors.CorsConfiguration
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfiguration(
 	private val jwtAuthenticationFilter: JwtAuthenticationFilter,
-	private val corsProperties: CorsProperties
+	private val corsProperties: CorsProperties,
+	private val securityContextRepository: RequestAttributeSecurityContextRepository
 ) {
 
 	@Bean
@@ -51,6 +53,7 @@ class SecurityConfiguration(
 				response.status = HttpServletResponse.SC_UNAUTHORIZED
 			}
 		}
+		.securityContext { it.securityContextRepository(securityContextRepository) }
 		.sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
 		.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
 		.build()

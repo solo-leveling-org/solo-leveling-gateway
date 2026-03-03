@@ -37,9 +37,12 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven-compliler.version>3.15.0</maven-compliler.version>
+
+    <!-- kotlin -->
     <kotlin.version>2.3.10</kotlin.version>
     <kotlin.code.style>official</kotlin.code.style>
-    <maven-compliler.version>3.15.0</maven-compliler.version>
+    <kotlinx-coroutines.version>1.10.2</kotlinx-coroutines.version>
 
     <!-- native build -->
     <native-maven-plugin.version>0.11.0</native-maven-plugin.version>
@@ -60,7 +63,7 @@
     <mapstruct.version>1.6.3</mapstruct.version>
 
     <!-- soloist -->
-    <soloist-lib.version>2.1.0.6</soloist-lib.version>
+    <soloist-lib.version>2.1.0.14</soloist-lib.version>
 
     <!-- tests -->
     <test-containers.version>2.0.3</test-containers.version>

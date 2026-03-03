@@ -14,32 +14,32 @@ import java.util.UUID
 
 @Service
 class TaskClient(
-	private val taskStub: TaskServiceGrpc.TaskServiceBlockingStub,
+	private val taskStub: TaskServiceGrpcKt.TaskServiceCoroutineStub,
 	private val protoMapper: ProtoMapper
 ) {
 
-	fun getActiveTasks(playerId: Long): ActiveTasksResult {
+	suspend fun getActiveTasks(playerId: Long): ActiveTasksResult {
 		val request = GetActiveTasksRequest.newBuilder().setPlayerId(playerId).build()
 		val response = taskStub.getActiveTasks(request)
 		return protoMapper.map(response)
 	}
 
-	fun generateTasks() {
+	suspend fun generateTasks() {
 		taskStub.generateTasks(Empty.getDefaultInstance())
 	}
 
-	fun completeTask(id: UUID): CompleteTaskResult {
+	suspend fun completeTask(id: UUID): CompleteTaskResult {
 		val request = CompleteTaskRequest.newBuilder().setPlayerTaskId(id.toString()).build()
 		val response = taskStub.completeTask(request)
 		return protoMapper.map(response)
 	}
 
-	fun skipTask(id: UUID) {
+	suspend fun skipTask(id: UUID) {
 		val request = SkipTaskRequest.newBuilder().setPlayerTaskId(id.toString()).build()
 		taskStub.skipTask(request)
 	}
 
-	fun searchClosedPlayerTasks(
+	suspend fun searchClosedPlayerTasks(
 		playerId: Long,
 		paging: PagingInput,
 		options: SearchOptionsInput?
@@ -49,7 +49,7 @@ class TaskClient(
 		return protoMapper.map(response)
 	}
 
-	fun getDailyTasks(playerId: Long): DailyTasksResult {
+	suspend fun getDailyTasks(playerId: Long): DailyTasksResult {
 		val request = GetDailyTasksRequest.newBuilder().setPlayerId(playerId).build()
 		val response = taskStub.getDailyTasks(request)
 		return protoMapper.map(response)

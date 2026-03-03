@@ -13,6 +13,18 @@
   <artifactId>soloist-gateway-service</artifactId>
 
   <dependencies>
+    <!-- kotlin -->
+    <dependency>
+      <groupId>org.jetbrains.kotlinx</groupId>
+      <artifactId>kotlinx-coroutines-core</artifactId>
+      <version>${kotlinx-coroutines.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlinx</groupId>
+      <artifactId>kotlinx-coroutines-reactor</artifactId>
+      <version>${kotlinx-coroutines.version}</version>
+    </dependency>
+
     <!-- spring boot -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -47,10 +59,14 @@
       <artifactId>spring-boot-starter-graphql</artifactId>
     </dependency>
 
-    <!-- metrics -->
+    <!-- micrometer -->
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>context-propagation</artifactId>
     </dependency>
 
     <!-- redis -->
@@ -76,11 +92,6 @@
     <dependency>
       <groupId>com.soloist</groupId>
       <artifactId>soloist-avro</artifactId>
-      <version>${soloist-lib.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.soloist</groupId>
-      <artifactId>soloist-rest</artifactId>
       <version>${soloist-lib.version}</version>
     </dependency>
     <dependency>

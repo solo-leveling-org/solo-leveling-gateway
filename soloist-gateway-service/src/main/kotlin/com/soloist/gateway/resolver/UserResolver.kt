@@ -27,32 +27,32 @@ class UserResolver(
 	}
 
 	@QueryMapping
-	fun me(environment: DataFetchingEnvironment): User {
+	suspend fun me(environment: DataFetchingEnvironment): User {
 		val currentUser = authService.getCurrentUser()
 		return fetchUser(currentUser.id, environment)
 	}
 
 	@QueryMapping
-	fun user(@Argument id: Long, environment: DataFetchingEnvironment): User =
+	suspend fun user(@Argument id: Long, environment: DataFetchingEnvironment): User =
 		fetchUser(id, environment)
 
 	@MutationMapping
-	fun updateUserLocale(@Argument locale: UserLocaleInput): Boolean {
+	suspend fun updateUserLocale(@Argument locale: UserLocaleInput): Boolean {
 		userClient.updateUserLocale(locale)
 		return true
 	}
 
 	@QueryMapping
-	fun usersLeaderboard(
+	suspend fun usersLeaderboard(
 		@Argument paging: PagingInput,
 		@Argument filter: LeaderboardFilterInput
 	): UsersLeaderboardResult = userClient.getUsersLeaderboard(paging, filter)
 
 	@QueryMapping
-	fun userLeaderboard(@Argument filter: LeaderboardFilterInput): LeaderboardUser =
+	suspend fun userLeaderboard(@Argument filter: LeaderboardFilterInput): LeaderboardUser =
 		userClient.getUserLeaderboard(filter)
 
-	private fun fetchUser(id: Long, environment: DataFetchingEnvironment): User {
+	private suspend fun fetchUser(id: Long, environment: DataFetchingEnvironment): User {
 		val selectionSet = environment.selectionSet
 		if (USER_SCALAR_FIELDS.any(selectionSet::contains)) {
 			return userClient.getUser(id)

@@ -14,29 +14,29 @@ class TaskResolver(
 ) {
 
 	@SchemaMapping
-	fun activeTasks(player: Player): ActiveTasksResult = taskClient.getActiveTasks(player.id)
+	suspend fun activeTasks(player: Player): ActiveTasksResult = taskClient.getActiveTasks(player.id)
 
 	@SchemaMapping
-	fun dailyTasks(player: Player): DailyTasksResult = taskClient.getDailyTasks(player.id)
+	suspend fun dailyTasks(player: Player): DailyTasksResult = taskClient.getDailyTasks(player.id)
 
 	@SchemaMapping
-	fun closedTasks(
+	suspend fun closedTasks(
 		player: Player,
 		@Argument paging: PagingInput,
 		@Argument options: SearchOptionsInput?
 	): ClosedPlayerTasksResult = taskClient.searchClosedPlayerTasks(player.id, paging, options)
 
 	@MutationMapping
-	fun generateTasks(): Boolean {
+	suspend fun generateTasks(): Boolean {
 		taskClient.generateTasks()
 		return true
 	}
 
 	@MutationMapping
-	fun completeTask(@Argument id: UUID): CompleteTaskResult = taskClient.completeTask(id)
+	suspend fun completeTask(@Argument id: UUID): CompleteTaskResult = taskClient.completeTask(id)
 
 	@MutationMapping
-	fun skipTask(@Argument id: UUID): Boolean {
+	suspend fun skipTask(@Argument id: UUID): Boolean {
 		taskClient.skipTask(id)
 		return true
 	}
