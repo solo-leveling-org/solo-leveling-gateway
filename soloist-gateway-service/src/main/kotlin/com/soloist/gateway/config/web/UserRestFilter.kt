@@ -16,7 +16,6 @@ class UserRestFilter : OncePerRequestFilter() {
 
 	private companion object {
 		const val TIME_ZONE_HEADER = "X-TimeZone"
-		const val USER_ID_HEADER = "X-UserId"
 	}
 
 	override fun doFilterInternal(
@@ -30,10 +29,6 @@ class UserRestFilter : OncePerRequestFilter() {
 			?: TimeZone.getTimeZone(ZoneOffset.UTC)
 
 		LocaleContextHolder.setLocaleContext(SimpleTimeZoneAwareLocaleContext(locale, timeZone), true)
-
-		request.getHeader(USER_ID_HEADER)
-			?.takeIf { it.isNotBlank() }
-			?.let { UserContextHolder.setUserId(it.toLong()) }
 
 		try {
 			filterChain.doFilter(request, response)
