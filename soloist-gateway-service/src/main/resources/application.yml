@@ -14,7 +14,6 @@ spring:
       schema.registry.url: http://localhost:8081
     avro:
       group-id: ui-group
-      tx-id-prefix: gateway-tx-
   data:
     redis:
       host: localhost
