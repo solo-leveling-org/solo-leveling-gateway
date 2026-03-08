@@ -1,14 +1,13 @@
 package com.soloist.gateway.service.auth
 
-import com.soloist.gateway.config.security.JwtProperties
-import com.soloist.gateway.dto.RestJwtToken
-import com.soloist.gateway.dto.RestJwtTokenType
-import com.soloist.gateway.dto.RestLoginResponse
-import com.soloist.gateway.dto.RestTgUserData
+import com.soloist.gateway.config.properties.JwtProperties
+import com.soloist.gateway.dto.auth.JwtToken
+import com.soloist.gateway.dto.auth.JwtTokenType
+import com.soloist.gateway.dto.auth.LoginResponse
+import com.soloist.gateway.dto.auth.TgUserData
 import com.soloist.gateway.extensions.toTgUser
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Service
 import java.lang.System.currentTimeMillis
@@ -18,7 +17,6 @@ import java.util.Date
 import javax.crypto.SecretKey
 
 @Service
-@EnableConfigurationProperties(JwtProperties::class)
 class JwtService {
 
 	companion object {
@@ -41,22 +39,22 @@ class JwtService {
 		this.secretKey = Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray())
 	}
 
-	fun generateToken(user: RestTgUserData): RestLoginResponse {
+	fun generateToken(user: TgUserData): LoginResponse {
 		val currentMillis = currentTimeMillis()
-		val accessToken = buildToken(user, currentMillis, RestJwtTokenType.ACCESS)
-		val refreshToken = buildToken(user, currentMillis, RestJwtTokenType.REFRESH)
+		val accessToken = buildToken(user, currentMillis, JwtTokenType.ACCESS)
+		val refreshToken = buildToken(user, currentMillis, JwtTokenType.REFRESH)
 
-		return RestLoginResponse(accessToken, refreshToken)
+		return LoginResponse(accessToken, refreshToken)
 	}
 
 	private fun buildToken(
-		user: RestTgUserData,
+		user: TgUserData,
 		currentMillis: Long,
-		tokenType: RestJwtTokenType
-	): RestJwtToken {
+		tokenType: JwtTokenType
+	): JwtToken {
 		val expirationMillis = currentMillis + when (tokenType) {
-			RestJwtTokenType.ACCESS -> jwtProperties.accessLifetime
-			RestJwtTokenType.REFRESH -> jwtProperties.refreshLifetime
+			JwtTokenType.ACCESS -> jwtProperties.accessLifetime
+			JwtTokenType.REFRESH -> jwtProperties.refreshLifetime
 		}
 
 		val expiresAt = OffsetDateTime.ofInstant(
@@ -80,20 +78,20 @@ class JwtService {
 			.signWith(secretKey)
 			.compact()
 
-		return RestJwtToken(token, expiresAt, tokenType)
+		return JwtToken(token, expiresAt, tokenType)
 	}
 
-	fun extractTgUser(token: String): RestTgUserData = Jwts.parser()
+	fun extractTgUser(token: String): TgUserData = Jwts.parser()
 		.verifyWith(secretKey)
 		.build()
 		.parseSignedClaims(token)
 		.payload
 		.toTgUser()
 
-	fun generateAccessTokenFromRefreshToken(refreshToken: String): RestJwtToken =
+	fun generateAccessTokenFromRefreshToken(refreshToken: String): JwtToken =
 		buildToken(
 			extractTgUser(refreshToken),
 			currentTimeMillis(),
-			RestJwtTokenType.ACCESS
+			JwtTokenType.ACCESS
 		)
 }

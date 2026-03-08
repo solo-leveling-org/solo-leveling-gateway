@@ -1,6 +1,6 @@
 package com.soloist.gateway.model
 
-import com.soloist.gateway.dto.RestTgUserData
+import com.soloist.gateway.dto.auth.TgUserData
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.Locale
 
@@ -24,7 +24,7 @@ class UserData(
 		private const val RU_LANGUAGE_TAG = "ru"
 		private val SUPPORTED_LANGUAGE_TAGS = setOf(RU_LANGUAGE_TAG)
 
-		fun fromTgUser(tgUser: RestTgUserData): UserData {
+		fun fromTgUser(tgUser: TgUserData): UserData {
 			return UserData(
 				tgUser.id,
 				tgUser.username,

@@ -1,7 +1,7 @@
 package com.soloist.gateway.mapper
 
 import com.soloist.avro.notification.Notification
-import com.soloist.gateway.dto.WsNotification
+import com.soloist.gateway.dto.ws.WsNotification
 import org.mapstruct.CollectionMappingStrategy
 import org.mapstruct.Mapper
 import org.mapstruct.NullValueCheckStrategy

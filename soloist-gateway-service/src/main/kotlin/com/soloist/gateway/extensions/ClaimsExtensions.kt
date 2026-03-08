@@ -1,6 +1,6 @@
 package com.soloist.gateway.extensions
 
-import com.soloist.gateway.dto.RestTgUserData
+import com.soloist.gateway.dto.auth.TgUserData
 import com.soloist.gateway.service.auth.JwtService
 import io.jsonwebtoken.Claims
 
@@ -26,15 +26,15 @@ fun Claims.extractIsBot(): Boolean? =
 fun Claims.extractIsPremium(): Boolean? =
 	get(JwtService.IS_PREMIUM_CLAIM, Boolean::class.javaObjectType)
 
-fun Claims.toTgUser(): RestTgUserData = RestTgUserData(subject.toLong())
-	.apply {
-		username = extractUsername()
-		firstName = extractFirstName()
-		lastName = extractLastName()
-		photoUrl = extractPhotoUrl()
-		languageCode = extractLanguageCode()
-		addedToAttachmentMenu = extractAddedToAttachmentMenu()
-		allowsWriteToPm = extractAllowsWriteToPm()
-		isBot = extractIsBot()
-		isPremium = extractIsPremium()
-	}
+fun Claims.toTgUser(): TgUserData = TgUserData(
+	id = subject.toLong(),
+	username = extractUsername(),
+	firstName = extractFirstName(),
+	lastName = extractLastName(),
+	photoUrl = extractPhotoUrl(),
+	languageCode = extractLanguageCode(),
+	addedToAttachmentMenu = extractAddedToAttachmentMenu(),
+	allowsWriteToPm = extractAllowsWriteToPm(),
+	isBot = extractIsBot(),
+	isPremium = extractIsPremium()
+)

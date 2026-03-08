@@ -1,0 +1,47 @@
+# Git и VCS
+.git
+.github
+.gitignore
+.gitattributes
+
+# IDE
+.idea
+.vscode
+.settings
+.project
+.classpath
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node.js / frontend (у тебя есть Vaadin)
+node_modules/
+pnpmfile.js
+vite.generated.ts
+webpack.generated.js
+src/main/frontend/generated/
+
+# Тестовые артефакты и отчёты
+drivers/
+error-screenshots/
+surefire-reports/
+failsafe-reports/
+
+# Локальные конфиги и секреты
+env/.env
+*.local
+.env.*
+
+# Kubernetes локальные манифесты (если есть rendered версии)
+k8s/
+
+# Документация и лишнее
+README.md
+LICENSE
+*.md
+docs/
+
+# Логи
+*.log

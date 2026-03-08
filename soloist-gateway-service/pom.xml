@@ -7,12 +7,24 @@
   <parent>
     <groupId>com.soloist</groupId>
     <artifactId>soloist-gateway</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
   </parent>
 
   <artifactId>soloist-gateway-service</artifactId>
 
   <dependencies>
+    <!-- kotlin -->
+    <dependency>
+      <groupId>org.jetbrains.kotlinx</groupId>
+      <artifactId>kotlinx-coroutines-core</artifactId>
+      <version>${kotlinx-coroutines.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlinx</groupId>
+      <artifactId>kotlinx-coroutines-reactor</artifactId>
+      <version>${kotlinx-coroutines.version}</version>
+    </dependency>
+
     <!-- spring boot -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -42,11 +54,19 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-websocket</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-graphql</artifactId>
+    </dependency>
 
-    <!-- metrics -->
+    <!-- micrometer -->
     <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>context-propagation</artifactId>
     </dependency>
 
     <!-- redis -->
@@ -72,11 +92,6 @@
     <dependency>
       <groupId>com.soloist</groupId>
       <artifactId>soloist-avro</artifactId>
-      <version>${soloist-lib.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.soloist</groupId>
-      <artifactId>soloist-rest</artifactId>
       <version>${soloist-lib.version}</version>
     </dependency>
     <dependency>
@@ -137,13 +152,6 @@
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
       <version>${mapstruct.version}</version>
-    </dependency>
-
-    <!-- swagger -->
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>${springdoc-openapi.version}</version>
     </dependency>
 
     <!-- tests -->

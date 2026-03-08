@@ -1,4 +1,4 @@
-package com.soloist.gateway.config.security
+package com.soloist.gateway.config.properties
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

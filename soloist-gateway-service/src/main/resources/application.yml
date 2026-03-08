@@ -29,7 +29,7 @@ spring:
           max-wait: 2000ms
           time-between-eviction-runs: 30s
   autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+    exclude: org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration
   threads:
     virtual:
       enabled: true
@@ -84,8 +84,5 @@ server:
   port: 10002
 logging:
   level:
-    org.atmosphere: WARN
-    org.apache.kafka.clients.consumer.ConsumerConfig: WARN
-    org.apache.kafka.clients.producer.ProducerConfig: WARN
-    io.confluent.kafka.serializers.KafkaAvroDeserializerConfig: WARN
-    io.confluent.kafka.serializers.KafkaAvroSerializerConfig: WARN
+    org.apache.kafka: WARN
+    io.confluent.kafka: WARN

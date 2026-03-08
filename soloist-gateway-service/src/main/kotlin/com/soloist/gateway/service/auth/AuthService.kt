@@ -1,8 +1,8 @@
 package com.soloist.gateway.service.auth
 
-import com.soloist.gateway.dto.RestJwtToken
-import com.soloist.gateway.dto.RestLoginResponse
-import com.soloist.gateway.dto.RestTgAuthData
+import com.soloist.gateway.dto.auth.JwtToken
+import com.soloist.gateway.dto.auth.LoginResponse
+import com.soloist.gateway.dto.auth.TgAuthData
 import com.soloist.gateway.localization.LocalizationException
 import com.soloist.gateway.localization.LocalizationMessage
 import com.soloist.gateway.model.UserData
@@ -15,7 +15,7 @@ class AuthService(
 	private val tgHashService: TgHashService
 ) {
 
-	fun login(tgAuthData: RestTgAuthData): RestLoginResponse {
+	fun login(tgAuthData: TgAuthData): LoginResponse {
 		if (!tgHashService.checkHash(tgAuthData)) {
 			throw LocalizationException(LocalizationMessage.ERROR_AUTH_HASH)
 		}
@@ -23,7 +23,7 @@ class AuthService(
 		return jwtService.generateToken(tgAuthData.tgWebAppData.user)
 	}
 
-	fun refresh(refreshToken: String): RestJwtToken =
+	fun refresh(refreshToken: String): JwtToken =
 		jwtService.generateAccessTokenFromRefreshToken(refreshToken)
 
 	fun getCurrentUser(): UserData =

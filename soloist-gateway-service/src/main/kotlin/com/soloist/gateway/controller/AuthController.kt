@@ -1,34 +1,37 @@
 package com.soloist.gateway.controller
 
-import com.soloist.gateway.api.AuthRestApi
-import com.soloist.gateway.dto.RestLoginResponse
-import com.soloist.gateway.dto.RestRefreshRequest
-import com.soloist.gateway.dto.RestRefreshResponse
-import com.soloist.gateway.dto.RestTgAuthData
-import com.soloist.gateway.grpc.client.UserApi
-import com.soloist.gateway.mapper.ProtoMapper
+import com.soloist.gateway.dto.auth.TgAuthData
+import com.soloist.gateway.dto.auth.LoginResponse
+import com.soloist.gateway.dto.auth.RefreshRequest
+import com.soloist.gateway.dto.auth.RefreshResponse
+import com.soloist.gateway.client.UserClient
 import com.soloist.gateway.model.UserData
 import com.soloist.gateway.service.auth.AuthService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@RequestMapping("/api/auth")
 class AuthController(
 	private val authService: AuthService,
-	private val userApi: UserApi,
-	private val protoMapper: ProtoMapper
-) : AuthRestApi {
+	private val userClient: UserClient
+) {
 
-	override fun login(tgAuthData: @Valid RestTgAuthData): ResponseEntity<RestLoginResponse> {
+	@PostMapping("/login", version = "1")
+	suspend fun login(@RequestBody @Valid tgAuthData: TgAuthData): ResponseEntity<LoginResponse> {
 		val userData = UserData.fromTgUser(tgAuthData.tgWebAppData.user)
 		val response = authService.login(tgAuthData)
-		userApi.authUser(protoMapper.map(userData))
+		userClient.authUser(userData)
 		return ResponseEntity.ok(response)
 	}
 
-	override fun refresh(refreshRequest: @Valid RestRefreshRequest): ResponseEntity<RestRefreshResponse> {
+	@PostMapping("/refresh", version = "1")
+	suspend fun refresh(@RequestBody @Valid refreshRequest: RefreshRequest): ResponseEntity<RefreshResponse> {
 		val accessToken = authService.refresh(refreshRequest.refreshToken)
-		return ResponseEntity.ok(RestRefreshResponse(accessToken))
+		return ResponseEntity.ok(RefreshResponse(accessToken))
 	}
 }

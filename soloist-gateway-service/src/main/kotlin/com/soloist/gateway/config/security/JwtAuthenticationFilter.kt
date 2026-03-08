@@ -15,6 +15,7 @@ import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
+import org.springframework.security.web.context.RequestAttributeSecurityContextRepository
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 import org.springframework.web.filter.OncePerRequestFilter
@@ -24,7 +25,8 @@ import java.util.Enumeration
 
 @Component
 class JwtAuthenticationFilter(
-	private val jwtService: JwtService
+	private val jwtService: JwtService,
+	private val securityContextRepository: RequestAttributeSecurityContextRepository
 ) : OncePerRequestFilter() {
 
 	private companion object {
@@ -54,7 +56,12 @@ class JwtAuthenticationFilter(
 			if (SecurityContextHolder.getContext().authentication == null) {
 				val authentication = UsernamePasswordAuthenticationToken(user, jwt, listOf())
 				authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
-				SecurityContextHolder.getContext().authentication = authentication
+
+				val context = SecurityContextHolder.createEmptyContext()
+				context.authentication = authentication
+				SecurityContextHolder.setContext(context)
+				securityContextRepository.saveContext(context, request, response)
+
 				UserContextHolder.setUserId(user.id)
 
 				val wrappedRequest = HeaderInjectionRequestWrapper(request, user.id)

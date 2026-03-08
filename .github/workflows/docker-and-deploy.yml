@@ -74,6 +74,8 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/soloist-gateway:${{ env.IMAGE_TAG }}
             ghcr.io/${{ github.repository_owner }}/soloist-gateway:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v4
