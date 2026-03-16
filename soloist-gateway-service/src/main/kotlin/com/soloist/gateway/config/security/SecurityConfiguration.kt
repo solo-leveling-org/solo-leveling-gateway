@@ -37,12 +37,8 @@ class SecurityConfiguration(
 		.authorizeHttpRequests {
 
 			it
-				// metrics
-				.requestMatchers("/actuator/**").permitAll()
 				// auth
 				.requestMatchers("/api/auth/**").permitAll()
-				// swagger
-				.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
 				// websocket
 				.requestMatchers("/ws/**", "/app/**", "/user/**", "/topic/**").permitAll()
 				// other
