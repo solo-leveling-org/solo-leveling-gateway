@@ -1,11 +1,9 @@
 spring:
-  kafka:
-    bootstrap-servers: kafka-service:9092
-    properties:
-      schema.registry.url: http://schema-registry-service:8081
   data:
     redis:
       host: redis
+  rabbitmq:
+    host: rabbitmq
 app:
   grpc:
     services:

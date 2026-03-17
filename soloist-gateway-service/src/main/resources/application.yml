@@ -1,6 +1,11 @@
 spring:
   application:
     name: soloist-gateway
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${RABBITMQ_DEFAULT_USER:guest}
+    password: ${RABBITMQ_DEFAULT_PASS:guest}
   mustache:
     check-template-location: false
   messages:
@@ -8,12 +13,6 @@ spring:
     encoding: UTF-8
     cache-duration: -1
     fallback-to-system-locale: false
-  kafka:
-    bootstrap-servers: localhost:29092
-    properties:
-      schema.registry.url: http://localhost:8081
-    avro:
-      group-id: ui-group
   data:
     redis:
       host: localhost
@@ -85,7 +84,3 @@ management:
       application: ${spring.application.name}
 server:
   port: 10002
-logging:
-  level:
-    org.apache.kafka: WARN
-    io.confluent.kafka: WARN

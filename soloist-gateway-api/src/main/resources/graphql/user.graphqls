@@ -67,5 +67,4 @@ enum UserRole {
 enum LeaderboardType {
     TASKS
     BALANCE
-    LEVEL
 }

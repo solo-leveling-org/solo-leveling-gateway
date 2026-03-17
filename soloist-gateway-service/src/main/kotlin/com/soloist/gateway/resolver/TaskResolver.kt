@@ -1,12 +1,15 @@
 package com.soloist.gateway.resolver
 
 import com.soloist.gateway.client.TaskClient
-import com.soloist.gateway.graphql.types.*
+import com.soloist.gateway.graphql.types.CreateCustomTaskResult
+import com.soloist.gateway.graphql.types.PagingInput
+import com.soloist.gateway.graphql.types.Player
+import com.soloist.gateway.graphql.types.TaskHistoryResult
+import com.soloist.gateway.graphql.types.TasksResult
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
-import java.util.*
 
 @Controller
 class TaskResolver(
@@ -14,30 +17,16 @@ class TaskResolver(
 ) {
 
 	@SchemaMapping
-	suspend fun activeTasks(player: Player): ActiveTasksResult = taskClient.getActiveTasks(player.id)
+	suspend fun tasks(player: Player): TasksResult = taskClient.getTasks(player.id)
 
 	@SchemaMapping
-	suspend fun dailyTasks(player: Player): DailyTasksResult = taskClient.getDailyTasks(player.id)
-
-	@SchemaMapping
-	suspend fun closedTasks(
+	suspend fun taskHistory(
 		player: Player,
-		@Argument paging: PagingInput,
-		@Argument options: SearchOptionsInput?
-	): ClosedPlayerTasksResult = taskClient.searchClosedPlayerTasks(player.id, paging, options)
+		@Argument paging: PagingInput
+	): TaskHistoryResult = taskClient.getTaskHistory(player.id, paging)
 
 	@MutationMapping
-	suspend fun generateTasks(): Boolean {
-		taskClient.generateTasks()
-		return true
-	}
-
-	@MutationMapping
-	suspend fun completeTask(@Argument id: UUID): CompleteTaskResult = taskClient.completeTask(id)
-
-	@MutationMapping
-	suspend fun skipTask(@Argument id: UUID): Boolean {
-		taskClient.skipTask(id)
-		return true
-	}
+	suspend fun createCustomTask(
+		@Argument name: String
+	): CreateCustomTaskResult = taskClient.createCustomTask(name)
 }
